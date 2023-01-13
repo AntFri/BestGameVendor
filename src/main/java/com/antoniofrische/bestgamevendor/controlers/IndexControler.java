@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 public class IndexControler {
     @GetMapping({"/","index.html","index"})
     public String goToIndex(Model model){
-        model.addAttribute("message", "Hello Kevin!");
+        model.addAttribute("message", "Hello Antonio!");
         return "index";
     }
 }

@@ -1,0 +1,22 @@
+.hd1{
+
+}
+.nv1{
+    display:flex;
+    justify-content: left;
+    background-color: #e03e36;
+}
+.btn{
+    display: inline;
+    padding: 1%;
+}
+.btn:hover{
+    background-color: #730662;
+}
+
+
+.color1 { color: #eeccbb }
+.color2 { color:#f1731f }
+.color3 { color:#e03e36 }
+.color4 { color:#bd0d59 }
+.color5 { color:#730662 }

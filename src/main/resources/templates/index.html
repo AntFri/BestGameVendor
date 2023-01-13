@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{head/head}">
     <meta charset="UTF-8">
     <title>INdex</title>
 </head>
 <body>
+    <header th:replace="~{header/headerOne :: headerOne}"></header>
 <h1>HOLA</h1>
 </body>
 </html>
