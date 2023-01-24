@@ -17,10 +17,14 @@
         <div class="imgbox">
             <img class="img" src="/img/Dying_Light_2_cover_art.jpg" alt="Dyinglight">
             <p>precio</p>
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Sign Out"/>
+            </form>
         </div>
         <div class="imgbox">
             <img class="img" src="/img/Dying_Light_2_cover_art.jpg" alt="Dyinglight">
             <p>precio</p>
+
         </div>
         <div class="imgbox">
             <img class="img" src="/img/Dying_Light_2_cover_art.jpg" alt="Dyinglight">
@@ -49,5 +53,13 @@
         </div>
 
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
 </body>
+<footer th:replace="~{footer/footerOne}"></footer>
 </html>
