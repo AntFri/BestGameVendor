@@ -3,7 +3,8 @@
 <head th:replace="~{/head/head}">
   <title>Login</title>
 </head>
-<body>
+<header th:replace="~{header/headerOne}"></header>
+<body class="topspace">
 <div th:if="${param.error}">
   Invalid username and password.
 </div>

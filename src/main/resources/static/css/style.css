@@ -26,6 +26,7 @@
     font-size: 16px;
     color: white;
     cursor:pointer;
+    text-decoration: none;
 }
 .search{
     border-radius: 50px;
@@ -98,6 +99,7 @@
     transition: all 0.3s ease; /* Add transition for hover effects */
     color: black; /* White text color */
     font-size: 24px; /* Increased font-size */
+    text-decoration: none;
 }
 
 .dropdown-content a:hover {
