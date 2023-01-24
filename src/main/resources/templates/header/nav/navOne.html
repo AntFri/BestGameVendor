@@ -1,11 +1,11 @@
 <nav th:fragment="navOne" class="nv1">
   <a th:href="@{/}" class="btn">Logo</a>
-  <input type="text" placeholder="Search" class="search"></input>
+  <div class="searchDiv"><input type="text" placeholder="Search" class="search" /></div>
   <div class="dropdown">
     <button class="dropbtn"><i class="fa-sharp fa-solid fa-ellipsis"></i></button>
     <div class="dropdown-content">
-      <a th:href="@{/login}" ><i class="fa-sharp fa-solid fa-user"></i></a>
-      <a th:href="@{/user}">User</a>
+      <a th:href="@{/user}" ><i class="fa-sharp fa-solid fa-user"></i></a>
+      <a href="#"></a>
       <a href="#"></a>
     </div>
   </div>
