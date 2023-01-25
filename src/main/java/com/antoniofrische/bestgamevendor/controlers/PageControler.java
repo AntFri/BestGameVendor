@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
         import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class IndexControler {
+public class PageControler {
     @GetMapping({"","/","/inicio","/index"})
     public String goToIndex(Model model){
         model.addAttribute("message", "Hello Antonio!");
