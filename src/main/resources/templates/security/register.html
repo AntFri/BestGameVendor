@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{head/head}">
+    <title>Register</title>
+</head>
+<header th:replace="~{header/headerOne}"></header>
+<body class="topspace">
+<div class="loginScreenBox">
+  <div class="loginScreen">
+      <form th:action="@{/register/save}" method="post">
+          <h1>register</h1>
+          <br>
+          <div><label>First Name</label></div>
+          <input type="text" name="firstname"/>
+          <div><label>Last Name</label></div>
+          <input type="text" name="lastname"/>
+          <div><label>E-Mail</label></div>
+          <input type="email" name="email"/>
+          <div><label>Birth date</label></div>
+          <input type="date" name="birthday"/>
+          <div><label>Password</label></div>
+          <input type="password" name="password"/>
+
+          <div><br><input type="submit" value="Register"/></div>
+      </form>
+  </div>
+</div>
+</body>
+<footer th:replace="~{footer/footerOne}"></footer>
+</html>

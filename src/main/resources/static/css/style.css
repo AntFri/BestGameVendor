@@ -3,12 +3,14 @@
 *{
     font-family: 'Nunito', sans-serif;
 }
-.hd1{
-    margin: 0;
-}
 .topspace{
     margin-top: 6vh;
     margin-left: 0;
+}
+
+/* Everything of the Header and navbar */
+.hd1{
+    margin: 0;
 }
 .nv1{
     display:flex;
@@ -18,10 +20,15 @@
     width: 100%;
     background-color: #240047;
 }
+
+/* everything of the Footer */
 .foot1{
     background-color: #240047;
-    width: 100%;
+    width: 100vw;
+
 }
+
+/* general Button */
 .btn{
     display: inline;
     padding: 16px;
@@ -30,6 +37,12 @@
     cursor:pointer;
     text-decoration: none;
 }
+.btn:hover{
+    background-color: #bd0d59;
+    user-focus-pointer: true;
+}
+
+/* search element in NavBar */
 .search{
     border-radius: 50px;
     width: 80%;
@@ -47,23 +60,17 @@
     height: auto;
 }
 
-.btn:hover{
-    background-color: #bd0d59;
-    user-focus-pointer: true;
-}
-
+/* Index picture boxes/cards */
 .imgBoxs{
-    display: flex;
+    display:flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: center;
     gap: 1vh;
-
     width: 100%;
     top: 0;
 }
 .imgbox{
-
     width: fit-content;
     padding: 1vh;
     background-color: #00a9d4;
@@ -76,51 +83,48 @@
     width: auto;
 }
 
+/* everything for the Dropdown Menu in the Nav bar */
 .dropbtn {
     background-color: #240047;
+    width: 50px;
     color: white;
     padding: 16px;
     font-size: 16px;
     border: none;
     cursor: pointer;
 }
-
-/* The container <div> - needed to position the dropdown content */
 .dropdown {
     position: relative;
     display: block;
 }
-
-/* Dropdown Content (Hidden by Default) */
 .dropdown-content {
     display: none;
     overflow: auto;
     position: absolute;
     width: 50px;
-    background-color: #f9f9f9;
+    background-color: #efefef;
     padding: 1%;
     z-index: 1;
     right: 0;
 }
-
-.dropdown-content a {
+.btnDropDown {
     display: block; /* Make the links appear below each other instead of side-by-side */
     text-align: center; /* Center-align text */
     padding: 16px; /* Add some padding */
     transition: all 0.3s ease; /* Add transition for hover effects */
     color: black; /* White text color */
-    font-size: 24px; /* Increased font-size */
+    font-size: 20px; /* Increased font-size */
     text-decoration: none;
+    cursor: pointer;
+    border: none;
 }
 
-.dropdown-content a:hover {
+.btnDropDown:hover {
     background-color: white; /* Add a hover color */
 }
 .dropdown:hover .dropdown-content {
     display: block;
 }
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {
     background-color: #bd0d59;
 }
@@ -129,6 +133,8 @@
 .loginScreenBox{
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
     width: 100%;
     top: 0;
 }
@@ -142,8 +148,7 @@
     border-radius: 24px;
 }
 
-/* Button for Favorite add */
-
+/* Button to add to favorit list */
 .btnFav{
     font-size: 32px;
     padding: 4px;
@@ -154,15 +159,48 @@
     cursor:pointer;
 
 }
+.btnFav:hover{
+    background-color: #028faf;
+}
 
+/* Logout and error message Div */
+.message{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+.notiDiv{
+    z-index: 1;
+    width: fit-content;
+    background-color: red;
+    padding: 16px;
+    border: 2px solid black;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    animation-duration: 5s;
+    animation-fill-mode: forwards;
+    animation-name: notiDivAnim;
+}
 
+/* change direction of the imgBoxs */
 @media (max-width: 35em){
-    .indexImgBox{
-        flex-direction: column;
+    .imgBoxs{
+        padding-top: 2vh;
     }
+}
+@keyframes notiDivAnim {
+    0%{opacity: 1;}
+    50%{opacity: 1; z-index: 1;}
+    75%{z-index: 1;}
+    100% {opacity: 0; z-index: -1;}
 }
 
 
+
+/* Colors for the page */
 .color6 { color: #bd0d59}
 .color1 { color: #40ffdc }
 .color2 { color:#00a9d4 }

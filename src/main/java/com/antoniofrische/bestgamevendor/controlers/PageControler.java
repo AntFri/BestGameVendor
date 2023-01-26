@@ -17,6 +17,11 @@ public class PageControler {
         model.addAttribute("message", "Hello Antonio!");
         return "security/login";
     }
+    @GetMapping({"/register"})
+    public String goToregister(Model model){
+        model.addAttribute("message", "Hello Antonio!");
+        return "security/register";
+    }
 
     @GetMapping({"/user"})
     public String goToUser(Model model){

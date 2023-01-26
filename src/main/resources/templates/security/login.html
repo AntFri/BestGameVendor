@@ -5,11 +5,13 @@
 </head>
 <header th:replace="~{header/headerOne}"></header>
 <body class="topspace">
-<div th:if="${param.error}">
-  Invalid username and password.
-</div>
-<div th:if="${param.logout}">
-  You have been logged out.
+<div class="message">
+  <div th:if="${param.error}" class="notiDiv">
+    <b>Invalid username and password!</b>
+  </div>
+  <div th:if="${param.logout}" class="notiDiv">
+    <b>You have been logged out!</b>
+  </div>
 </div>
 <div class="loginScreenBox">
   <div class="loginScreen">
@@ -22,8 +24,11 @@
       <input type="password" name="password"/>
 
       <div><br><input type="submit" value="Sign In"/></div>
+      <p>Don't have an account?<a th:href="@{/register}">Just do it Here!</a></p>
     </form>
+
   </div>
 </div>
 </body>
+<footer th:replace="~{footer/footerOne}"></footer>
 </html>
