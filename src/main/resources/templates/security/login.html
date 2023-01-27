@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head th:replace="~{/head/head}">
-  <title>Login</title>
 </head>
 <header th:replace="~{header/headerOne}"></header>
 <body class="topspace">
@@ -13,8 +12,8 @@
     <b>You have been logged out!</b>
   </div>
 </div>
-<div class="loginScreenBox">
-  <div class="loginScreen">
+<div class="screenBox">
+  <div class="loginBox">
     <form th:action="@{/login}" method="post">
       <h1>Wellcome</h1>
       <br>

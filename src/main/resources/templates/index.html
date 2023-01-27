@@ -3,13 +3,12 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org" >
 <head th:replace="~{head/head}">
-    <title>Index</title>
 </head>
 <header th:replace="~{header/headerOne}"></header>
 <body class="topspace">
     <div class="imgBoxs">
         <div class="imgbox">
-            <img class="img" src="/img/Dying_Light_2_cover_art.jpg" alt="Dyinglight">
+            <a th:href="@{/game}"><img class="img" src="/img/Dying_Light_2_cover_art.jpg" alt="Dyinglight"></a>
             <p>Dying light 2 </p>
             precio<div class="btnFav"><i class="fa-sharp fa-solid fa-heart-circle-plus"></i></div>
         </div>
