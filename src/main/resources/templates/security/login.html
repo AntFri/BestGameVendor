@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="~{/head/head}">
+<head th:replace="~{/fragments/head/head}">
 </head>
-<header th:replace="~{header/headerOne}"></header>
+<header th:replace="~{/fragments/header/headerOne}"></header>
 <body class="topspace">
 <div class="message">
   <div th:if="${param.error}" class="notiDiv">
@@ -29,5 +29,5 @@
   </div>
 </div>
 </body>
-<footer th:replace="~{footer/footerOne}"></footer>
+<footer th:replace="~{/fragments/footer/footerOne}"></footer>
 </html>
