@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-<head th:replace="~{head/head}">
+<html lang="en" xmlns:background-color="http://www.w3.org/1999/xhtml">
+<head th:replace="~{/fragments/head/head}">
 </head>
-<header th:replace="~{header/headerOne}"></header>
+<header th:replace="~{/fragments/header/headerOne}"></header>
 <body class="topspace">
-<h1>User</h1>
+<h1 th:text="${user.nombre}"></h1>
+<p>hole</p>
+<p th:text="${user.email}"></p>
+<p th:text="${user.fechaNacimiento}"></p>
 </body>
 </html>
