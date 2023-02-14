@@ -30,15 +30,16 @@ public class ProductosEntity {
     @Basic
     @Column(name = "precioSalida", nullable = true, precision = 0)
     private Double precioSalida;
-    @Basic
-    @Column(name = "fk_Publisher", nullable = false)
-    private int fkPublisher;
-    @Basic
+
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @Column(name = "fk_publisher", nullable = false)
+    private PublisherEntity publisher;
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @Column(name = "fk_Genre", nullable = false)
-    private int fkGenre;
-    @Basic
+    private GenreEntity genre;
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @Column(name = "fk_Region", nullable = false)
-    private int fkRegion;
+    private RegionEntity region;
 
     public int getIdProductos() {
         return idProductos;
@@ -96,28 +97,28 @@ public class ProductosEntity {
         this.precioSalida = precioSalida;
     }
 
-    public int getFkPublisher() {
-        return fkPublisher;
+    public PublisherEntity getpublisher() {
+        return publisher;
     }
 
-    public void setFkPublisher(int fkPublisher) {
-        this.fkPublisher = fkPublisher;
+    public void setpublisher(PublisherEntity publisher) {
+        this.publisher = publisher;
     }
 
-    public int getFkGenre() {
-        return fkGenre;
+    public GenreEntity getGenre() {
+        return genre;
     }
 
-    public void setFkGenre(int fkGenre) {
-        this.fkGenre = fkGenre;
+    public void setGenre(GenreEntity fkGenre) {
+        this.genre = fkGenre;
     }
 
-    public int getFkRegion() {
-        return fkRegion;
+    public RegionEntity getRegion() {
+        return region;
     }
 
-    public void setFkRegion(int fkRegion) {
-        this.fkRegion = fkRegion;
+    public void setRegion(RegionEntity fkRegion) {
+        this.region = fkRegion;
     }
 
     @Override
@@ -125,11 +126,11 @@ public class ProductosEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductosEntity that = (ProductosEntity) o;
-        return idProductos == that.idProductos && edadMinima == that.edadMinima && fkPublisher == that.fkPublisher && fkGenre == that.fkGenre && fkRegion == that.fkRegion && Objects.equals(nombre, that.nombre) && Objects.equals(photoProducto, that.photoProducto) && Objects.equals(descripcion, that.descripcion) && Objects.equals(fechaSalida, that.fechaSalida) && Objects.equals(precioSalida, that.precioSalida);
+        return idProductos == that.idProductos && edadMinima == that.edadMinima && publisher == that.publisher && genre == that.genre && region == that.region && Objects.equals(nombre, that.nombre) && Objects.equals(photoProducto, that.photoProducto) && Objects.equals(descripcion, that.descripcion) && Objects.equals(fechaSalida, that.fechaSalida) && Objects.equals(precioSalida, that.precioSalida);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idProductos, nombre, edadMinima, photoProducto, descripcion, fechaSalida, precioSalida, fkPublisher, fkGenre, fkRegion);
+        return Objects.hash(idProductos, nombre, edadMinima, photoProducto, descripcion, fechaSalida, precioSalida, publisher, genre, region);
     }
 }

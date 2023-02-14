@@ -17,12 +17,12 @@ public class ListaRebajasproductosEntity {
     @Basic
     @Column(name = "PrecioRebajas", nullable = true, precision = 0)
     private Double precioRebajas;
-    @Basic
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @Column(name = "fk_Website", nullable = false)
-    private int fkWebsite;
-    @Basic
+    private CellingWebsiteEntity website;
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @Column(name = "fk_Product", nullable = false)
-    private int fkProduct;
+    private ProductosEntity product;
 
     public int getIdListaPreciosBajos() {
         return idListaPreciosBajos;
@@ -48,20 +48,20 @@ public class ListaRebajasproductosEntity {
         this.precioRebajas = precioRebajas;
     }
 
-    public int getFkWebsite() {
-        return fkWebsite;
+    public CellingWebsiteEntity getWebsite() {
+        return website;
     }
 
-    public void setFkWebsite(int fkWebsite) {
-        this.fkWebsite = fkWebsite;
+    public void setWebsite(CellingWebsiteEntity fkWebsite) {
+        this.website = fkWebsite;
     }
 
-    public int getFkProduct() {
-        return fkProduct;
+    public ProductosEntity getProduct() {
+        return product;
     }
 
-    public void setFkProduct(int fkProduct) {
-        this.fkProduct = fkProduct;
+    public void setProduct(ProductosEntity fkProduct) {
+        this.product = fkProduct;
     }
 
     @Override
@@ -69,11 +69,11 @@ public class ListaRebajasproductosEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ListaRebajasproductosEntity that = (ListaRebajasproductosEntity) o;
-        return idListaPreciosBajos == that.idListaPreciosBajos && fkWebsite == that.fkWebsite && fkProduct == that.fkProduct && Objects.equals(fechaCambio, that.fechaCambio) && Objects.equals(precioRebajas, that.precioRebajas);
+        return idListaPreciosBajos == that.idListaPreciosBajos && website == that.website && product == that.product && Objects.equals(fechaCambio, that.fechaCambio) && Objects.equals(precioRebajas, that.precioRebajas);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idListaPreciosBajos, fechaCambio, precioRebajas, fkWebsite, fkProduct);
+        return Objects.hash(idListaPreciosBajos, fechaCambio, precioRebajas, website, product);
     }
 }

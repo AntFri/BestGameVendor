@@ -1,6 +1,10 @@
 package com.antoniofrische.bestgamevendor.controlers;
 
+import com.antoniofrische.bestgamevendor.models.ProductosEntity;
+import com.antoniofrische.bestgamevendor.models.PublisherEntity;
 import com.antoniofrische.bestgamevendor.models.UsuarioEntity;
+import com.antoniofrische.bestgamevendor.repositorios.IProductRepository;
+import com.antoniofrische.bestgamevendor.repositorios.IPublisherRepository;
 import com.antoniofrische.bestgamevendor.repositorios.IUserRepository;
 import com.antoniofrische.bestgamevendor.security.models.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,18 +17,22 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.MalformedURLException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class PageControler {
-
-
-
     @Autowired
     private IUserRepository iUserRepository;
+    @Autowired
+    private IProductRepository iProductRepository;
+    @Autowired
+    private IPublisherRepository iPublisherRepository;
 
     @GetMapping({"","/","/inicio","/index"})
     public String goToIndex(Model model) throws MalformedURLException {
         model.addAttribute("dominio","Inicio");
+        List<ProductosEntity> products = iProductRepository.findAll();
+        model.addAttribute("products", products);
         return "index";
     }
 
@@ -47,36 +55,21 @@ public class PageControler {
         return "index";
     }
 
-    @GetMapping({"/game"})
-    public String goToGame(Model model){
-        model.addAttribute("message", "Hello Antonio!");
-        model.addAttribute("dominio","Game");
-        return "products/game";
+    @GetMapping("/product/{id}")
+    public String getProductPage(@PathVariable("id") Long id, Model model) {
+        ProductosEntity product = iProductRepository.findById(id).orElse(null);
+        model.addAttribute("product", product);
+        return "products/product";
     }
 
-    @GetMapping("/user")
+    @GetMapping("/profile")
     public String getUser( Model model) {
+        //se saca el usuario que se ha aniciado.
         CustomUserDetails currentUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UsuarioEntity user = iUserRepository.findByEmail(currentUser.getUsername());
         model.addAttribute("user", user);
         return "security/user";
     }
-    @GetMapping({"/users"})
-    public String goToUser(Model model){
-        model.addAttribute("dominio","user");
-        return "security/users";
-    }
 
-    @PostMapping("/add") // Map ONLY POST Requests
-    public @ResponseBody String addNewUser (@RequestParam String name
-            , @RequestParam String email) {
 
-        return "Saved";
-    }
-
-    @GetMapping(path = "/all")
-    public @ResponseBody List<UsuarioEntity> getAllUsers() {
-        // This returns a JSON or XML with the users
-        return iUserRepository.findAll();
-    }
 }

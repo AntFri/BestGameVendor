@@ -14,12 +14,12 @@ public class ListaFavoritosEntity {
     @Basic
     @Column(name = "nombre", nullable = true, length = 45)
     private String nombre;
-    @Basic
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @Column(name = "fk_User", nullable = false)
-    private int fkUser;
-    @Basic
+    private UsuarioEntity user;
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @Column(name = "fk_Product", nullable = false)
-    private int fkProduct;
+    private ProductosEntity product;
 
     public int getIdCarritoFavoritos() {
         return idCarritoFavoritos;
@@ -37,20 +37,20 @@ public class ListaFavoritosEntity {
         this.nombre = nombre;
     }
 
-    public int getFkUser() {
-        return fkUser;
+    public UsuarioEntity getUser() {
+        return user;
     }
 
-    public void setFkUser(int fkUser) {
-        this.fkUser = fkUser;
+    public void setUser(UsuarioEntity fkUser) {
+        this.user = fkUser;
     }
 
-    public int getFkProduct() {
-        return fkProduct;
+    public ProductosEntity getProduct() {
+        return product;
     }
 
-    public void setFkProduct(int fkProduct) {
-        this.fkProduct = fkProduct;
+    public void setProduct(ProductosEntity fkProduct) {
+        this.product = fkProduct;
     }
 
     @Override
@@ -58,11 +58,11 @@ public class ListaFavoritosEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ListaFavoritosEntity that = (ListaFavoritosEntity) o;
-        return idCarritoFavoritos == that.idCarritoFavoritos && fkUser == that.fkUser && fkProduct == that.fkProduct && Objects.equals(nombre, that.nombre);
+        return idCarritoFavoritos == that.idCarritoFavoritos && user == that.user && product == that.product && Objects.equals(nombre, that.nombre);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idCarritoFavoritos, nombre, fkUser, fkProduct);
+        return Objects.hash(idCarritoFavoritos, nombre, user, product);
     }
 }
