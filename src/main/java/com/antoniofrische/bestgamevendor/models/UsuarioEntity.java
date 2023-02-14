@@ -1,11 +1,8 @@
 package com.antoniofrische.bestgamevendor.models;
 
 import jakarta.persistence.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Date;
-import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -29,9 +26,9 @@ public class UsuarioEntity {
     @Basic
     @Column(name = "Password", nullable = true, length = 45)
     private String password;
-    @Basic
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @Column(name = "fk_region", nullable = false)
-    private int fkRegion;
+    private RegionEntity region;
 
     public int getIdUsuario() {
         return idUsuario;
@@ -81,12 +78,12 @@ public class UsuarioEntity {
         this.password = password;
     }
 
-    public int getFkRegion() {
-        return fkRegion;
+    public RegionEntity getRegion() {
+        return region;
     }
 
-    public void setFkRegion(int fkRegion) {
-        this.fkRegion = fkRegion;
+    public void setRegion(RegionEntity fkRegion) {
+        this.region = fkRegion;
     }
 
     @Override
@@ -94,11 +91,11 @@ public class UsuarioEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UsuarioEntity that = (UsuarioEntity) o;
-        return idUsuario == that.idUsuario && fkRegion == that.fkRegion && Objects.equals(nombre, that.nombre) && Objects.equals(apellido, that.apellido) && Objects.equals(email, that.email) && Objects.equals(fechaNacimiento, that.fechaNacimiento) && Objects.equals(password, that.password);
+        return idUsuario == that.idUsuario && region == that.region && Objects.equals(nombre, that.nombre) && Objects.equals(apellido, that.apellido) && Objects.equals(email, that.email) && Objects.equals(fechaNacimiento, that.fechaNacimiento) && Objects.equals(password, that.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idUsuario, nombre, apellido, email, fechaNacimiento, password, fkRegion);
+        return Objects.hash(idUsuario, nombre, apellido, email, fechaNacimiento, password, region);
     }
 }

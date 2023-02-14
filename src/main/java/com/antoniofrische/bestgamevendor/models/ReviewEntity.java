@@ -17,12 +17,12 @@ public class ReviewEntity {
     @Basic
     @Column(name = "Review_rating", nullable = true, precision = 0)
     private Double reviewRating;
-    @Basic
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @Column(name = "fk_User", nullable = false)
-    private int fkUser;
-    @Basic
+    private UsuarioEntity user;
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @Column(name = "fk_Products", nullable = false)
-    private int fkProducts;
+    private ProductosEntity product;
 
     public int getIdReview() {
         return idReview;
@@ -48,20 +48,20 @@ public class ReviewEntity {
         this.reviewRating = reviewRating;
     }
 
-    public int getFkUser() {
-        return fkUser;
+    public UsuarioEntity getUser() {
+        return user;
     }
 
-    public void setFkUser(int fkUser) {
-        this.fkUser = fkUser;
+    public void setUser(UsuarioEntity fkUser) {
+        this.user = fkUser;
     }
 
-    public int getFkProducts() {
-        return fkProducts;
+    public ProductosEntity getProduct() {
+        return product;
     }
 
-    public void setFkProducts(int fkProducts) {
-        this.fkProducts = fkProducts;
+    public void setProduct(ProductosEntity fkProducts) {
+        this.product = fkProducts;
     }
 
     @Override
@@ -69,11 +69,11 @@ public class ReviewEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ReviewEntity that = (ReviewEntity) o;
-        return idReview == that.idReview && fkUser == that.fkUser && fkProducts == that.fkProducts && Objects.equals(reviewText, that.reviewText) && Objects.equals(reviewRating, that.reviewRating);
+        return idReview == that.idReview && user == that.user && product == that.product && Objects.equals(reviewText, that.reviewText) && Objects.equals(reviewRating, that.reviewRating);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idReview, reviewText, reviewRating, fkUser, fkProducts);
+        return Objects.hash(idReview, reviewText, reviewRating, user, product);
     }
 }
