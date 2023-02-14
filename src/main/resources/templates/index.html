@@ -7,36 +7,13 @@
 <header th:replace="~{/fragments/header/headerOne}"></header>
 <body class="topspace">
     <div class="imgBoxs">
-        <div class="imgbox">
-            <a th:href="@{/game}"><img class="img" src="/img/Dying_Light_2_cover_art.jpg" alt="Dyinglight"></a>
-            <p>Dying light 2 </p>
+        <div class="imgbox" th:each="product : ${products}">
+            <a th:href="@{/product/{id}(id=${product.idProductos})}"><img class="img" th:src="${product.photoProducto}" th:alt="${product.nombre}"></a>
+            <p th:text="${product.nombre}"></p>
             precio<div class="btnFav"><i class="fa-sharp fa-solid fa-heart-circle-plus"></i></div>
         </div>
-        <div class="imgbox">
-            <img class="img" src="/img/Dying_Light_2_cover_art.jpg" alt="Dyinglight">
-            <p>precio</p>
-        </div>
-        <div class="imgbox">
-            <img class="img" src="/img/Dying_Light_2_cover_art.jpg" alt="Dyinglight">
-            <p>precio</p>
-        </div>
-        <div class="imgbox">
-            <img class="img" src="/img/Dying_Light_2_cover_art.jpg" alt="Dyinglight">
-            <p>precio</p>
-        </div>
-        <div class="imgbox">
-            <img class="img" src="/img/Dying_Light_2_cover_art.jpg" alt="Dyinglight">
-            <p>precio</p>
-        </div>
-
 
     </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
 
 </body>
 <footer th:replace="~{/fragments/footer/footerOne}"></footer>
