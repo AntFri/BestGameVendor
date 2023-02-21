@@ -10,8 +10,8 @@ import java.util.Objects;
 public class PublisherEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idPublisher(Desenvolupador)", nullable = false)
-    private int idPublisherDesenvolupador;
+    @Column(name = "idPublisher", nullable = false)
+    private int idPublisher;
     @Basic
     @Column(name = "nombre", nullable = true, length = 45)
     private String nombre;
@@ -25,12 +25,12 @@ public class PublisherEntity {
     @Column(name = "Origen_Contry", nullable = true, length = 45)
     private String origenContry;
 
-    public int getIdPublisherDesenvolupador() {
-        return idPublisherDesenvolupador;
+    public int getIdPublisher() {
+        return idPublisher;
     }
 
-    public void setIdPublisherDesenvolupador(int idPublisherDesenvolupador) {
-        this.idPublisherDesenvolupador = idPublisherDesenvolupador;
+    public void setIdPublisher(int idPublisherDesenvolupador) {
+        this.idPublisher = idPublisherDesenvolupador;
     }
 
     public String getNombre() {
@@ -70,11 +70,11 @@ public class PublisherEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PublisherEntity that = (PublisherEntity) o;
-        return idPublisherDesenvolupador == that.idPublisherDesenvolupador && Objects.equals(nombre, that.nombre) && Objects.equals(fechaInauguracion, that.fechaInauguracion) && Objects.equals(descripcion, that.descripcion) && Objects.equals(origenContry, that.origenContry);
+        return idPublisher == that.idPublisher && Objects.equals(nombre, that.nombre) && Objects.equals(fechaInauguracion, that.fechaInauguracion) && Objects.equals(descripcion, that.descripcion) && Objects.equals(origenContry, that.origenContry);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idPublisherDesenvolupador, nombre, fechaInauguracion, descripcion, origenContry);
+        return Objects.hash(idPublisher, nombre, fechaInauguracion, descripcion, origenContry);
     }
 }

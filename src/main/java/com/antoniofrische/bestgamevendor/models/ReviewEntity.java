@@ -18,10 +18,8 @@ public class ReviewEntity {
     @Column(name = "Review_rating", nullable = true, precision = 0)
     private Double reviewRating;
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @Column(name = "fk_User", nullable = false)
     private UsuarioEntity user;
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @Column(name = "fk_Products", nullable = false)
     private ProductosEntity product;
 
     public int getIdReview() {

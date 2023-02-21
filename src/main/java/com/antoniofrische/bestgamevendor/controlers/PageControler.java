@@ -1,8 +1,10 @@
 package com.antoniofrische.bestgamevendor.controlers;
 
+import com.antoniofrische.bestgamevendor.models.ListaRebajasproductosEntity;
 import com.antoniofrische.bestgamevendor.models.ProductosEntity;
 import com.antoniofrische.bestgamevendor.models.PublisherEntity;
 import com.antoniofrische.bestgamevendor.models.UsuarioEntity;
+import com.antoniofrische.bestgamevendor.repositorios.IListaRebajasRepository;
 import com.antoniofrische.bestgamevendor.repositorios.IProductRepository;
 import com.antoniofrische.bestgamevendor.repositorios.IPublisherRepository;
 import com.antoniofrische.bestgamevendor.repositorios.IUserRepository;
@@ -26,7 +28,7 @@ public class PageControler {
     @Autowired
     private IProductRepository iProductRepository;
     @Autowired
-    private IPublisherRepository iPublisherRepository;
+    private IListaRebajasRepository iListaRebajasRepository;
 
     @GetMapping({"","/","/inicio","/index"})
     public String goToIndex(Model model) throws MalformedURLException {
@@ -59,6 +61,7 @@ public class PageControler {
     public String getProductPage(@PathVariable("id") Long id, Model model) {
         ProductosEntity product = iProductRepository.findById(id).orElse(null);
         model.addAttribute("product", product);
+
         return "products/product";
     }
 

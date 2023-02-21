@@ -27,7 +27,6 @@ public class UsuarioEntity {
     @Column(name = "Password", nullable = true, length = 45)
     private String password;
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @Column(name = "fk_region", nullable = false)
     private RegionEntity region;
 
     public int getIdUsuario() {

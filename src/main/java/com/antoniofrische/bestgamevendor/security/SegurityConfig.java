@@ -60,13 +60,13 @@ public class SegurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests()
-                        .requestMatchers("/user").authenticated()
+                        .requestMatchers("/profile").authenticated()
                         .anyRequest().permitAll()
                 .and()
                 .formLogin()
                         .usernameParameter("email")
                         .loginPage("/login")
-                        .defaultSuccessUrl("/user")
+                        .defaultSuccessUrl("/profile")
                         .permitAll()
                 .and()
                 .logout(LogoutConfigurer::permitAll);

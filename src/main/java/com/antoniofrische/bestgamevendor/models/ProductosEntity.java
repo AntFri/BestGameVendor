@@ -32,13 +32,10 @@ public class ProductosEntity {
     private Double precioSalida;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @Column(name = "fk_publisher", nullable = false)
     private PublisherEntity publisher;
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @Column(name = "fk_Genre", nullable = false)
     private GenreEntity genre;
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @Column(name = "fk_Region", nullable = false)
     private RegionEntity region;
 
     public int getIdProductos() {
@@ -97,11 +94,11 @@ public class ProductosEntity {
         this.precioSalida = precioSalida;
     }
 
-    public PublisherEntity getpublisher() {
+    public PublisherEntity getPublisher() {
         return publisher;
     }
 
-    public void setpublisher(PublisherEntity publisher) {
+    public void setPublisher(PublisherEntity publisher) {
         this.publisher = publisher;
     }
 
