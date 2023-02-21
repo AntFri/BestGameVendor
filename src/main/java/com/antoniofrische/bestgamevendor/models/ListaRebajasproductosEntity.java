@@ -9,7 +9,7 @@ import java.util.Objects;
 public class ListaRebajasproductosEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idLista_preciosBajos", nullable = false)
+    @Column(name = "idListaRebajas", nullable = false)
     private int idListaPreciosBajos;
     @Basic
     @Column(name = "Fecha_Cambio", nullable = true, length = 45)
@@ -18,10 +18,8 @@ public class ListaRebajasproductosEntity {
     @Column(name = "PrecioRebajas", nullable = true, precision = 0)
     private Double precioRebajas;
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @Column(name = "fk_Website", nullable = false)
     private CellingWebsiteEntity website;
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @Column(name = "fk_Product", nullable = false)
     private ProductosEntity product;
 
     public int getIdListaPreciosBajos() {

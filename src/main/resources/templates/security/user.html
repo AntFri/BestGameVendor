@@ -4,10 +4,12 @@
 </head>
 <header th:replace="~{/fragments/header/headerOne}"></header>
 <body class="topspace">
-<div class="gameList">
-    <h1 th:text="${user.nombre}"></h1>
-    <p th:text="${user.email}"></p>
-    <p th:text="${user.fechaNacimiento}"></p>
+<div class="gameScreenBox">
+    <div class="gameList">
+        <h1 th:text="${user.nombre}"></h1>
+        <p th:text="${user.email}"></p>
+        <p th:text="${user.fechaNacimiento}"></p>
+    </div>
 </div>
 </body>
 </html>

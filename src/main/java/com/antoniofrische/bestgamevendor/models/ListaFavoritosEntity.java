@@ -15,10 +15,9 @@ public class ListaFavoritosEntity {
     @Column(name = "nombre", nullable = true, length = 45)
     private String nombre;
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @Column(name = "fk_User", nullable = false)
+
     private UsuarioEntity user;
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @Column(name = "fk_Product", nullable = false)
     private ProductosEntity product;
 
     public int getIdCarritoFavoritos() {
