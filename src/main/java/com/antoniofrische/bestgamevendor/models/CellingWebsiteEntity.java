@@ -5,11 +5,11 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "celling_website", schema = "gamevendor", catalog = "")
+@Table(name = "cellingwebsite", schema = "gamevendor", catalog = "")
 public class CellingWebsiteEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idcelling_Website", nullable = false)
+    @Column(name = "idWebsite", nullable = false)
     private int idcellingWebsite;
     @Basic
     @Column(name = "nombre", nullable = true, length = 45)

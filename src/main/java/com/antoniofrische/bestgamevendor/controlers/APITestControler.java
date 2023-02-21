@@ -6,10 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/api")
 public class APITestControler {
     @Autowired
@@ -64,7 +65,7 @@ public class APITestControler {
     public List<ListaRebajasproductosEntity> allListarebajas (){
         return iListaRebajasRepository.findAll();
     }
-    @GetMapping("/gerne_All")
+    @GetMapping("/review_All")
     public List<ReviewEntity> allReview (){
         return iReviewRepository.findAll();
     }
