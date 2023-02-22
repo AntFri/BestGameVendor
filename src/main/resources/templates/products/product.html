@@ -21,32 +21,11 @@
         <div th:text="${product.precioSalida}"></div>
         <div th:text="${product.edadMinima}"></div>
     </div>
-    <div class="gameList">
-        <div>website name(link)</div>
-        <div>cahnge date</div>
-        <div>precio de rebajas</div>
+    <div th:each="website : ${websites}" class="gameList">
+        <a target="_blank" th:href="${website.cellingwebsite.link}"><div th:text="${website.cellingwebsite.nombre}"></div></a>
+        <div th:text="${website.fechaCambio}"></div>
+        <div th:text="${website.precioRebajas}"></div>
     </div>
-    <div class="gameList">
-        <div>website name(link)</div>
-        <div>cahnge date</div>
-        <div>precio de rebajas</div>
-    </div>
-    <div class="gameList">
-        <div>website name(link)</div>
-        <div>cahnge date</div>
-        <div>precio de rebajas</div>
-    </div>
-    <div class="gameList">
-        <div>website name(link)</div>
-        <div>cahnge date</div>
-        <div>precio de rebajas</div>
-    </div>
-    <div class="gameList">
-        <div>website name(link)</div>
-        <div>cahnge date</div>
-        <div>precio de rebajas</div>
-    </div>
-
 
 </div>
 </body>

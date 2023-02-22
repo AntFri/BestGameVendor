@@ -10,22 +10,23 @@ public class ListaFavoritosEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "idCarrito_favoritos", nullable = false)
-    private int idCarritoFavoritos;
+    private int idFavoritos;
     @Basic
     @Column(name = "nombre", nullable = true, length = 45)
     private String nombre;
     @ManyToOne(cascade = CascadeType.REFRESH)
-
+    @JoinColumn(name = "Usua")
     private UsuarioEntity user;
     @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "productos_idProductos")
     private ProductosEntity product;
 
-    public int getIdCarritoFavoritos() {
-        return idCarritoFavoritos;
+    public int getIdFavoritos() {
+        return idFavoritos;
     }
 
-    public void setIdCarritoFavoritos(int idCarritoFavoritos) {
-        this.idCarritoFavoritos = idCarritoFavoritos;
+    public void setIdFavoritos(int idCarritoFavoritos) {
+        this.idFavoritos = idCarritoFavoritos;
     }
 
     public String getNombre() {
@@ -57,11 +58,11 @@ public class ListaFavoritosEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ListaFavoritosEntity that = (ListaFavoritosEntity) o;
-        return idCarritoFavoritos == that.idCarritoFavoritos && user == that.user && product == that.product && Objects.equals(nombre, that.nombre);
+        return idFavoritos == that.idFavoritos && user == that.user && product == that.product && Objects.equals(nombre, that.nombre);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idCarritoFavoritos, nombre, user, product);
+        return Objects.hash(idFavoritos, nombre, user, product);
     }
 }

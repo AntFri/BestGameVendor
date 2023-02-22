@@ -1,13 +1,7 @@
 package com.antoniofrische.bestgamevendor.controlers;
 
-import com.antoniofrische.bestgamevendor.models.ListaRebajasproductosEntity;
-import com.antoniofrische.bestgamevendor.models.ProductosEntity;
-import com.antoniofrische.bestgamevendor.models.PublisherEntity;
-import com.antoniofrische.bestgamevendor.models.UsuarioEntity;
-import com.antoniofrische.bestgamevendor.repositorios.IListaRebajasRepository;
-import com.antoniofrische.bestgamevendor.repositorios.IProductRepository;
-import com.antoniofrische.bestgamevendor.repositorios.IPublisherRepository;
-import com.antoniofrische.bestgamevendor.repositorios.IUserRepository;
+import com.antoniofrische.bestgamevendor.models.*;
+import com.antoniofrische.bestgamevendor.repositorios.*;
 import com.antoniofrische.bestgamevendor.security.models.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,6 +23,8 @@ public class PageControler {
     private IProductRepository iProductRepository;
     @Autowired
     private IListaRebajasRepository iListaRebajasRepository;
+    @Autowired
+    private IListaFavoritos iListaFavoritos;
 
     @GetMapping({"","/","/inicio","/index"})
     public String goToIndex(Model model) throws MalformedURLException {
@@ -60,8 +56,9 @@ public class PageControler {
     @GetMapping("/product/{id}")
     public String getProductPage(@PathVariable("id") Long id, Model model) {
         ProductosEntity product = iProductRepository.findById(id).orElse(null);
+        List<ListaRebajasproductosEntity> lres = iListaRebajasRepository.findByProductID(product);
+        model.addAttribute("websites",lres);
         model.addAttribute("product", product);
-
         return "products/product";
     }
 
@@ -70,7 +67,9 @@ public class PageControler {
         //se saca el usuario que se ha aniciado.
         CustomUserDetails currentUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UsuarioEntity user = iUserRepository.findByEmail(currentUser.getUsername());
+        List<ListaFavoritosEntity> listFav = iListaFavoritos.findByUser(user);
         model.addAttribute("user", user);
+        model.addAttribute("ListaFav", listFav);
         return "security/user";
     }
 

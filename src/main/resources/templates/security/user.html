@@ -11,5 +11,13 @@
         <p th:text="${user.fechaNacimiento}"></p>
     </div>
 </div>
+<hr class="userPerfilHR">
+<div class="userFavBoxs">
+    <div class="userFavCard" th:each="favoritos : ${ListaFav}">
+        <h1 th:text="${favoritos.nombre}">NOmbre Fav</h1>
+        <hr class="userPerfilHR">
+
+    </div>
+</div>
 </body>
 </html>
