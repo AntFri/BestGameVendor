@@ -72,6 +72,7 @@ body{
     gap: 1vh;
     width: 100%;
     top: 0;
+    border-radius: 5px;
 }
 .imgbox{
     width: fit-content;
@@ -81,7 +82,7 @@ body{
     text-align: center;
 }
 .imgbox:hover{
-
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 .img{
     height: 65%;
@@ -159,11 +160,14 @@ body{
     top: 0;
 }
 .userFavCard{
-    width: fit-content;
+    width: 20%;
     padding: 1vh;
     background-color: var(--primary-turques);
     border: 1px solid black;
     text-align: center;
+}
+.userFavSubCard{
+    text-align: left;
 }
 .loginBox{
     background-color: var(--primary-turques);
@@ -269,6 +273,17 @@ body{
     justify-content: space-evenly;
     align-items: center;
     flex-direction: row;
+}
+.gameReviewList{
+    background-color: var(--primary-turques);
+    border: 1px solid black;
+    width: 65vw;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
 }
 .imgLogo{
     width: auto;
