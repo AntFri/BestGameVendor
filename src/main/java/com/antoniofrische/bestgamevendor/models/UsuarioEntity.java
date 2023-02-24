@@ -2,12 +2,13 @@ package com.antoniofrische.bestgamevendor.models;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "usuario", schema = "gamevendor", catalog = "")
-public class UsuarioEntity {
+public class UsuarioEntity implements Serializable {
     @Id
     @Column(name = "idUsuario", nullable = false)
     private int idUsuario;

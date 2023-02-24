@@ -16,10 +16,12 @@ public class ReviewEntity {
     private String reviewText;
     @Basic
     @Column(name = "Review_rating", nullable = true, precision = 0)
-    private Double reviewRating;
+    private String reviewRating;
     @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "Usuario_idUsuario")
     private UsuarioEntity user;
     @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "productos_idProductos")
     private ProductosEntity product;
 
     public int getIdReview() {
@@ -38,11 +40,11 @@ public class ReviewEntity {
         this.reviewText = reviewText;
     }
 
-    public Double getReviewRating() {
+    public String getReviewRating() {
         return reviewRating;
     }
 
-    public void setReviewRating(Double reviewRating) {
+    public void setReviewRating(String reviewRating) {
         this.reviewRating = reviewRating;
     }
 

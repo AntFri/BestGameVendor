@@ -15,7 +15,7 @@ public class ListaFavoritosEntity {
     @Column(name = "nombre", nullable = true, length = 45)
     private String nombre;
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "Usua")
+    @JoinColumn(name = "Usuario_idUsuario")
     private UsuarioEntity user;
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "productos_idProductos")
