@@ -11,4 +11,6 @@ import java.util.List;
 public interface IListaRebajasRepository extends JpaRepository<ListaRebajasproductosEntity, Long> {
     @Query("SELECT lrp FROM ListaRebajasproductosEntity lrp WHERE lrp.productos = ?1")
     public List<ListaRebajasproductosEntity> findByProductID(ProductosEntity idProducto);
+
+
 }
