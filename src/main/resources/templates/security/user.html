@@ -10,13 +10,26 @@
         <p th:text="${user.email}"></p>
         <p th:text="${user.fechaNacimiento}"></p>
     </div>
+    <div class="gameList">
+        <form th:action="@{/addListaFav}" method="post" th:object="${listaFav}">
+            <input type="text" name="nombre" />
+            <button type="submit">Add new Fav list</button>
+        </form>
+    </div>
 </div>
 <hr class="userPerfilHR">
-<div class="userFavBoxs">
-    <div class="userFavCard" th:each="favoritos : ${ListaFav}">
-        <h1 th:text="${favoritos.nombre}">NOmbre Fav</h1>
-        <hr class="userPerfilHR">
 
+<div class="userFavBoxs">
+    <div class="userFavCard">
+        <h1 th:text="${fav.nombre}">Nombre Fav</h1>
+        <hr class="userPerfilHR">
+        <div class="userFavSubCard" th:each="product : ${ListaProd}">
+            <div th:text="${product.nombre}">product</div>
+            <form th:action="@{/removeFav}" method="post">
+                <input type="hidden" name="idP" th:value="${product.idProductos}">
+                <button class="btnDropDown" type="submit"><i class="fa-sharp fa-solid fa-xmark"></i></button>
+            </form>
+        </div>
     </div>
 </div>
 </body>

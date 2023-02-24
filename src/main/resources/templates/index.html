@@ -10,7 +10,11 @@
         <div class="imgbox" th:each="product : ${products}">
             <a th:href="@{/product/{id}(id=${product.idProductos})}"><img class="img" th:src="${product.photoProducto}" th:alt="${product.nombre}"></a>
             <p th:text="${product.nombre}"></p>
-            <p th:text="${product.precioSalida}"></p><div class="btnFav"><i class="fa-sharp fa-solid fa-heart-circle-plus"></i></div>
+            <p th:text="${product.precioSalida}"></p>
+            <form th:action="@{/addFav}" method="post">
+                <input type="hidden" th:value="${product.idProductos}" name="idP">
+                <button class="btnFav" type="submit"><i class="fa-sharp fa-solid fa-heart-circle-plus"></i></button>
+            </form>
         </div>
 
     </div>

@@ -26,6 +26,27 @@
         <div th:text="${website.fechaCambio}"></div>
         <div th:text="${website.precioRebajas}"></div>
     </div>
+    <div class="gameList">
+        <form th:action="@{/addReview}" method="post" th:object="${review}">
+            <input type="text" name="reviewText" />
+            <input type="hidden" name="product" th:value="${product.idProductos}">
+            <select name="reviewRating">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <button type="submit">Send Review</button>
+        </form>
+    </div>
+
+    <div th:each="rew :${reviews}" class="gameReviewList">
+        <h1 th:text="${rew.user.nombre}"></h1>
+        <hr class="userPerfilHR">
+        <div th:text="${rew.reviewText}"></div>
+        <div th:text="${rew.reviewRating}"></div>
+    </div>
 
 </div>
 </body>

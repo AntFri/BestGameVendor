@@ -20,12 +20,13 @@
           <div><label>Password</label></div>
           <input type="password" name="password"/>
           <div><label>region</label></div>
-          <input type="text" name="fkRegion"/>
+          <select name="region">
+              <option th:each="region : ${regiones}" th:value="${region.idRegion}" th:text="${region.nombre}"></option>
+          </select>
 
           <div><br><input type="submit" value="Register"/></div>
       </form>
   </div>
 </div>
 </body>
-<footer th:replace="~{/fragments/footer/footerOne}"></footer>
 </html>
