@@ -12,6 +12,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
@@ -35,6 +36,7 @@ import java.util.regex.Pattern;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalAuthentication
 public class SegurityConfig {
     @Bean
     public CustomUserDetailService userDetailsService(){
@@ -69,7 +71,7 @@ public class SegurityConfig {
                         .defaultSuccessUrl("/profile")
                         .permitAll()
                 .and()
-                .logout(LogoutConfigurer::permitAll);
+                .logout().permitAll();
 
         return http.build();
     }

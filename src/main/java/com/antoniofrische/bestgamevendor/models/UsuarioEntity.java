@@ -1,9 +1,12 @@
 package com.antoniofrische.bestgamevendor.models;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
+import java.lang.constant.Constable;
 import java.sql.Date;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -27,6 +30,9 @@ public class UsuarioEntity implements Serializable {
     @Basic
     @Column(name = "Password", nullable = true, length = 45)
     private String password;
+    @Basic
+    @Column(name = "role", length = 10)
+    private String role;
     @ManyToOne(cascade = CascadeType.REFRESH)
     private RegionEntity region;
 
@@ -76,6 +82,14 @@ public class UsuarioEntity implements Serializable {
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public RegionEntity getRegion() {
