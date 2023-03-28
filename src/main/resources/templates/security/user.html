@@ -2,13 +2,14 @@
 <html lang="en" xmlns:background-color="http://www.w3.org/1999/xhtml">
 <head th:replace="~{/fragments/head/head}">
 </head>
-<header th:replace="~{/fragments/header/headerOne}"></header>
-<body class="topspace">
-<div class="gameScreenBox">
+<body>
+<nav th:replace="~{/fragments/header/nav/navUser}"></nav>
+<div class="gameScreenBox topspace">
     <div class="gameList">
         <h1 th:text="${user.nombre}"></h1>
         <p th:text="${user.email}"></p>
         <p th:text="${user.fechaNacimiento}"></p>
+        <p th:text="${user.role}"></p>
     </div>
     <div class="gameList">
         <form th:action="@{/addListaFav}" method="post" th:object="${listaFav}">

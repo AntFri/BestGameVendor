@@ -4,9 +4,9 @@
       xmlns:th="http://www.thymeleaf.org" >
 <head th:replace="~{/fragments/head/head}">
 </head>
-<header th:replace="~{/fragments/header/headerOne}"></header>
-<body class="topspace">
-<div class="gameScreenBox">
+<body>
+<nav th:replace="~{/fragments/header/nav/navOne}"></nav>
+<div class="gameScreenBox topspace">
     <div class="gameBox">
         <img class="img" th:src="${product.photoProducto}" alt="dying light">
         <div class="gameText" th:text="${product.descripcion}">Nach längerer freiwilliger Aktion wurde das Fahren mit eingeschaltetem Licht am Tag in Österreich am 15. November 2005 verpflichtend eingeführt und 2007 auch per Strafe

@@ -1,27 +1,22 @@
-<nav th:fragment="navOne" class="navbar navbar-expand-lg sticky-top bg-secondary">
+<nav th:fragment="navUser" class="navbar navbar-expand-lg sticky-top bg-secondary">
   <div class="container-fluid">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse " id="navbarSupportedContent">
       <a th:href="@{/index}" class="navbar-brand mt-2 mt-lg-0">
         <img src="/img/Logo_Letter.png" alt="Logo Lila de Game Vendor" width="30" height="24">
       </a>
       <ul class="navbar-nav mb-2 mb-lg-0">
         <li class="nav-item">
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-dark" type="submit"><i class="fas fa-search"></i></button>
-          </form>
+          <a th:href="@{/adminPanel}" class="nav-link btb btn-outline-dark" th:if="${user.role == 'admin'}">Admin Panel</a>
         </li>
       </ul>
     </div>
     <div class="d-flex align-items-center">
-      <a th:href="@{/profile}" class="btn btn-outline-dark"><i class="fa-sharp fa-solid fa-user"></i></a></li>
-      <form th:action="@{/logout}" method="post">
+      <form th:action="@{/logout}" method="post" >
         <button class="btn btn-outline-dark" type="submit"><i class="fa-sharp fa-solid fa-xmark"></i></button>
       </form>
     </div>
-
   </div>
 </nav>

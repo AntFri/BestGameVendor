@@ -3,6 +3,8 @@ package com.antoniofrische.bestgamevendor.controlers;
 import com.antoniofrische.bestgamevendor.models.*;
 import com.antoniofrische.bestgamevendor.repositorios.*;
 import com.antoniofrische.bestgamevendor.security.models.CustomUserDetails;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -29,11 +31,13 @@ public class PageControler {
     private IListaFavoritos iListaFavoritos;
     @Autowired
     private IReviewRepository iReviewRepository;
+
+    Logger logger = LoggerFactory.getLogger(PageControler.class);
     private UsuarioEntity currentUser = null;
 
     @GetMapping({"","/","/inicio","/index"})
     public String goToIndex(Model model) throws MalformedURLException {
-        model.addAttribute("dominio","Inicio");
+        model.addAttribute("title","Inicio");
         List<ProductosEntity> products = iProductRepository.findAll();
         model.addAttribute("products", products);
         model.addAttribute("fav", new ListaFavoritosEntity());
@@ -56,6 +60,7 @@ public class PageControler {
         model.addAttribute("product", product);
         model.addAttribute("reviews",reviews);
         model.addAttribute("review", new ReviewEntity());
+        model.addAttribute("title", "Game, "+product.getNombre());
         return "products/product";
     }
     @PostMapping("/addReview")
@@ -73,8 +78,9 @@ public class PageControler {
 
     @GetMapping("/profile")
     public String getUser( Model model) {
-        //se saca el usuario que se ha aniciado.
+        //se saca el usuario que se ha Iniciado.
         CustomUserDetails detailUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        logger.warn(detailUser.getAuthorities().toString());
         currentUser = iUserRepository.findByEmail(detailUser.getUsername());
         List<ProductosEntity> listProd  = iListaFavoritos.findByUser(currentUser);
         ListaFavoritosEntity fav = iListaFavoritos.findNameByUser(currentUser);
@@ -83,9 +89,11 @@ public class PageControler {
             fav = new ListaFavoritosEntity();
             fav.setNombre("no tienes Lista de fav");
         }
+        logger.info("Logged In!");
         model.addAttribute("fav", fav);
         model.addAttribute("ListaProd", listProd);
         model.addAttribute("listaFav", new ListaFavoritosEntity());
+        model.addAttribute("title", currentUser.getNombre()+" Profile");
         return "security/user";
     }
     @PostMapping("/addFav")
@@ -109,15 +117,19 @@ public class PageControler {
     @PostMapping("/addListaFav")
     public String addListaFav(ListaFavoritosEntity listaFav){
         listaFav.setUser(currentUser);
-        iListaFavoritos.save(listaFav);
-        return "redirect:/profile";
+        ListaFavoritosEntity searchifexist = iListaFavoritos.findListByProd(listaFav.getProduct(),currentUser);
+        if(searchifexist == null){
+            iListaFavoritos.save(listaFav);
+            return "redirect:/profile";
+        }
+        return "redirect:/error";
     }
     @PostMapping("/removeFav")
     public String removeFav(@RequestParam("idP") Long idP){
         ProductosEntity product = iProductRepository.findById(idP).orElse(null);
         ListaFavoritosEntity favoritosEntity = iListaFavoritos.findListByProd(product,currentUser);
         if(favoritosEntity == null){
-
+            return "redirect:/";
         }
         iListaFavoritos.delete(favoritosEntity);
         return "redirect:/profile";
@@ -126,7 +138,8 @@ public class PageControler {
     //LOgin y Register para usuarios.
     @GetMapping({"/login"})
     public String goToLogin(Model model){
-        model.addAttribute("dominio","Login");
+        currentUser=null;
+        model.addAttribute("title","Login");
         return "security/login";
     }
     @GetMapping({"/register"})
@@ -134,6 +147,7 @@ public class PageControler {
         model.addAttribute("user", new UsuarioEntity());
         List<RegionEntity> regiones = iRegionRepository.findAll();
         model.addAttribute("regiones", regiones);
+        model.addAttribute("title", "User register");
         return "security/register";
     }
     @PostMapping("/process_register")
@@ -141,9 +155,8 @@ public class PageControler {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
+        user.setRole("user");
         iUserRepository.save(user);
         return "redirect:/index";
     }
-
-
 }

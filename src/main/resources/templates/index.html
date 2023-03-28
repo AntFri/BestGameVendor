@@ -2,22 +2,25 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org" >
-<head th:replace="~{/fragments/head/head}">
-</head>
-<header th:replace="~{/fragments/header/headerOne}"></header>
-<body class="topspace">
-    <div class="imgBoxs">
-        <div class="imgbox" th:each="product : ${products}">
-            <a th:href="@{/product/{id}(id=${product.idProductos})}"><img class="img" th:src="${product.photoProducto}" th:alt="${product.nombre}"></a>
-            <p th:text="${product.nombre}"></p>
-            <p th:text="${product.precioSalida}"></p>
-            <form th:action="@{/addFav}" method="post">
-                <input type="hidden" th:value="${product.idProductos}" name="idP">
-                <button class="btnFav" type="submit"><i class="fa-sharp fa-solid fa-heart-circle-plus"></i></button>
-            </form>
+<head th:replace="~{/fragments/head/head}"></head>
+<body>
+    <nav th:replace="~{/fragments/header/nav/navOne}"></nav>
+    <div class="imgBoxs topspace">
+        <div class="card text-center" th:each="product : ${products}">
+            <div class="bg-image hover-overlay ripple " data-mdb-ripple-color="light">
+                <a th:href="@{/product/{id}(id=${product.idProductos})}"><img class="img img-fluid" th:src="${product.photoProducto}" th:alt="${product.nombre}"  src="" /></a>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title" th:text="${product.nombre}">Product Name</h5>
+                <p class="card-text" th:text="${product.precioSalida}"></p>
+                <form th:action="@{/addFav}" method="post">
+                    <input type="hidden" th:value="${product.idProductos}" name="idP">
+                    <button class="btnFav" type="submit"><i class="fa-sharp fa-solid fa-heart-circle-plus"></i></button>
+                </form>
+            </div>
         </div>
-
     </div>
+
 
 </body>
 <footer th:replace="~{/fragments/footer/footerOne}"></footer>
