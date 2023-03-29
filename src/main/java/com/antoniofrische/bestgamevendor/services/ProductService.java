@@ -10,5 +10,5 @@ public interface ProductService {
     public boolean editProd(ProductosEntity prod);
     public List<ProductosEntity> allProd();
     public ProductosEntity findByProdID(Long id);
-    public List<ProductosEntity> findXProd(int offset);
+    public List<ProductosEntity> findByProdLimit(int offset);
 }

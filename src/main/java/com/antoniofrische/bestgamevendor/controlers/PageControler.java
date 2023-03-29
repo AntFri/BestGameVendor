@@ -1,21 +1,24 @@
 package com.antoniofrische.bestgamevendor.controlers;
 
+import com.antoniofrische.bestgamevendor.exceptions.UserAgeToLow;
+import com.antoniofrische.bestgamevendor.exceptions.UserAlreadyExists;
 import com.antoniofrische.bestgamevendor.models.*;
 import com.antoniofrische.bestgamevendor.repositorios.*;
 import com.antoniofrische.bestgamevendor.security.models.CustomUserDetails;
+import com.antoniofrische.bestgamevendor.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class PageControler {
@@ -31,6 +34,8 @@ public class PageControler {
     private IListaFavoritos iListaFavoritos;
     @Autowired
     private IReviewRepository iReviewRepository;
+    @Autowired
+    private UserService userInter;
 
     Logger logger = LoggerFactory.getLogger(PageControler.class);
     private UsuarioEntity currentUser = null;
@@ -40,6 +45,7 @@ public class PageControler {
         model.addAttribute("title","Inicio");
         List<ProductosEntity> products = iProductRepository.findAll();
         model.addAttribute("products", products);
+        model.addAttribute("currentUser", currentUser);
         model.addAttribute("fav", new ListaFavoritosEntity());
         return "index";
     }
@@ -79,59 +85,63 @@ public class PageControler {
     @GetMapping("/profile")
     public String getUser( Model model) {
         //se saca el usuario que se ha Iniciado.
-        CustomUserDetails detailUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        logger.warn(detailUser.getAuthorities().toString());
-        currentUser = iUserRepository.findByEmail(detailUser.getUsername());
-        List<ProductosEntity> listProd  = iListaFavoritos.findByUser(currentUser);
-        ListaFavoritosEntity fav = iListaFavoritos.findNameByUser(currentUser);
-        model.addAttribute("user", currentUser);
-        if(fav==null){
-            fav = new ListaFavoritosEntity();
-            fav.setNombre("no tienes Lista de fav");
+        if(currentUser==null){
+            CustomUserDetails detailUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            currentUser = iUserRepository.findByEmail(detailUser.getUsername());
         }
-        logger.info("Logged In!");
-        model.addAttribute("fav", fav);
-        model.addAttribute("ListaProd", listProd);
+
+        ListaFavoritosEntity favList = iListaFavoritos.findNameByUser(currentUser);
+
+        model.addAttribute("user", currentUser);
+        model.addAttribute("favList", favList);
         model.addAttribute("listaFav", new ListaFavoritosEntity());
         model.addAttribute("title", currentUser.getNombre()+" Profile");
         return "security/user";
     }
     @PostMapping("/addFav")
-    public String addFav(@RequestParam("idP") Long idP){
-        ListaFavoritosEntity fav = new ListaFavoritosEntity();
+    public String addFav(@RequestParam("idP") Long idP, RedirectAttributes redirectAttributes){
         ProductosEntity productosEntity = iProductRepository.findById(idP).orElse(null);
         if(currentUser == null){
-            return "security/login";
+            redirectAttributes.addFlashAttribute("regSuccess", "Login to add a fav!");
+            return "redirect:/login";
         } else{
             ListaFavoritosEntity listaFavorito = iListaFavoritos.findNameByUser(currentUser);
             if(listaFavorito==null){
+                redirectAttributes.addFlashAttribute("Message", "Creat a Favorit list first!");
                 return "redirect:/profile";
             }
-            fav.setNombre(listaFavorito.getNombre());
-            fav.setProduct(productosEntity);
-            fav.setUser(currentUser);
-            iListaFavoritos.save(fav);
+            boolean isExist = listaFavorito.getProductlist().equals(productosEntity);
+            if(isExist){
+                redirectAttributes.addFlashAttribute("Message", "is allready added to list!");
+                return "redirect:/profile";
+            }
+            listaFavorito.setProductlist(productosEntity);
+            iListaFavoritos.save(listaFavorito);
             return  "redirect:/index";
         }
     }
     @PostMapping("/addListaFav")
-    public String addListaFav(ListaFavoritosEntity listaFav){
+    public String addListaFav(ListaFavoritosEntity listaFav, RedirectAttributes redirectAttributes){
         listaFav.setUser(currentUser);
-        ListaFavoritosEntity searchifexist = iListaFavoritos.findListByProd(listaFav.getProduct(),currentUser);
+        ListaFavoritosEntity searchifexist = iListaFavoritos.findNameByUser(currentUser);
         if(searchifexist == null){
             iListaFavoritos.save(listaFav);
+            redirectAttributes.addFlashAttribute("Message", "Favorit List created!");
             return "redirect:/profile";
         }
-        return "redirect:/error";
+        redirectAttributes.addFlashAttribute("Message", "You have already a list, 1 List is enought!");
+        return "redirect:/profile";
     }
     @PostMapping("/removeFav")
-    public String removeFav(@RequestParam("idP") Long idP){
+    public String removeFav(@RequestParam("idP") Long idP, RedirectAttributes redirectAttributes){
         ProductosEntity product = iProductRepository.findById(idP).orElse(null);
-        ListaFavoritosEntity favoritosEntity = iListaFavoritos.findListByProd(product,currentUser);
-        if(favoritosEntity == null){
-            return "redirect:/";
+        ListaFavoritosEntity listaFav = iListaFavoritos.findNameByUser(currentUser);
+        if(listaFav == null){
+            redirectAttributes.addFlashAttribute("Message", "No tienes lista de Favoritos!");
+            return "redirect:/profile";
         }
-        iListaFavoritos.delete(favoritosEntity);
+        listaFav.deleteProduct(product);
+        iListaFavoritos.save(listaFav);
         return "redirect:/profile";
     }
 
@@ -142,7 +152,7 @@ public class PageControler {
         model.addAttribute("title","Login");
         return "security/login";
     }
-    @GetMapping({"/register"})
+    @GetMapping("/register")
     public String goToregister(Model model){
         model.addAttribute("user", new UsuarioEntity());
         List<RegionEntity> regiones = iRegionRepository.findAll();
@@ -151,12 +161,26 @@ public class PageControler {
         return "security/register";
     }
     @PostMapping("/process_register")
-    public String processRegister(UsuarioEntity user) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-        user.setRole("user");
-        iUserRepository.save(user);
-        return "redirect:/index";
+    public String processRegister(UsuarioEntity user,RedirectAttributes redirectAttributes) {
+        try {
+            userInter.processReg(user);
+            redirectAttributes.addFlashAttribute("regSuccess", "Sucessfully created!");
+            return "redirect:/login";
+        }catch (UserAlreadyExists | UserAgeToLow uae){
+            redirectAttributes.addFlashAttribute("errorForm", uae.getMessage());
+            return "redirect:/register";
+        }
     }
+
+
+
+    //AdminPart:
+    @Secured("admin")
+    @GetMapping("/adminPanel")
+    public String adminPanel(Model model){
+        model.addAttribute("title", "AdminPanel of user:" + currentUser.getNombre());
+        model.addAttribute("user", currentUser);
+        return "security/admin/adminPanel";
+    }
+
 }

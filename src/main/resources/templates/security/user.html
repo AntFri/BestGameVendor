@@ -1,9 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:background-color="http://www.w3.org/1999/xhtml">
-<head th:replace="~{/fragments/head/head}">
-</head>
+<html lang="en" xmlns:background-color="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{/fragments/head/head}" />
 <body>
 <nav th:replace="~{/fragments/header/nav/navUser}"></nav>
+
+<div th:if="${Message != null || param.error != null}" class="toast-container position-fixed bottom-0 end-0 p-3 notiDiv">
+    <div class="container-fluid bg-primary rounded">
+        <div class="toast-header">
+            <strong class="me-auto">Server Message!</strong>
+        </div>
+        <div class="toast-body" th:text="${Message}">
+            Check if all fiels are correct!
+        </div>
+    </div>
+</div>
+
 <div class="gameScreenBox topspace">
     <div class="gameList">
         <h1 th:text="${user.nombre}"></h1>
@@ -14,17 +26,19 @@
     <div class="gameList">
         <form th:action="@{/addListaFav}" method="post" th:object="${listaFav}">
             <input type="text" name="nombre" />
-            <button type="submit">Add new Fav list</button>
+            <button type="submit" class="btn btn-outline-dark">Add new Fav list</button>
         </form>
     </div>
 </div>
 <hr class="userPerfilHR">
 
 <div class="userFavBoxs">
-    <div class="userFavCard">
-        <h1 th:text="${fav.nombre}">Nombre Fav</h1>
+    <div th:if="${favList ==null}"><h1>No tienes ninguna Lista de Favoritos!</h1></div>
+
+    <div class="userFavCard" th:if="${favList!=null}">
+        <h1 th:text="${favList.nombre}">Nombre Fav</h1>
         <hr class="userPerfilHR">
-        <div class="userFavSubCard" th:each="product : ${ListaProd}">
+        <div class="userFavSubCard" th:each="product : ${favList.getProductlist().stream().toList()}">
             <div th:text="${product.nombre}">product</div>
             <form th:action="@{/removeFav}" method="post">
                 <input type="hidden" name="idP" th:value="${product.idProductos}">

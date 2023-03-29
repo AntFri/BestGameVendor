@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" >
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{/fragments/head/head}"></head>
 <body>
     <nav th:replace="~{/fragments/header/nav/navOne}"></nav>
@@ -12,10 +13,10 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title" th:text="${product.nombre}">Product Name</h5>
-                <p class="card-text" th:text="${product.precioSalida}"></p>
-                <form th:action="@{/addFav}" method="post">
+                <p class="card-text" th:text="${product.precioSalida}" sec:authorize="isAuthenticated()"></p>
+                <form th:action="@{/addFav}" method="post" th:if="${currentUser!=null}">
                     <input type="hidden" th:value="${product.idProductos}" name="idP">
-                    <button class="btnFav" type="submit"><i class="fa-sharp fa-solid fa-heart-circle-plus"></i></button>
+                    <button class="btn btn-outline-dark py-lg-3 px-lg-3" type="submit"><i class="fa-sharp fa-solid fa-heart-circle-plus"></i></button>
                 </form>
             </div>
         </div>

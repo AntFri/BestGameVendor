@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "plataformas", schema = "gamevendor", catalog = "")
@@ -21,6 +22,8 @@ public class PlataformasEntity {
     @Basic
     @Column(name = "Descripcion", nullable = true, length = 45)
     private String descripcion;
+    @ManyToMany(mappedBy = "platformList")
+    private Set<ProductosEntity> prodlist;
 
     public int getIdPlataformas() {
         return idPlataformas;
@@ -52,6 +55,14 @@ public class PlataformasEntity {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Set<ProductosEntity> getProdlist() {
+        return prodlist;
+    }
+
+    public void setProdlist(Set<ProductosEntity> prodlist) {
+        this.prodlist = prodlist;
     }
 
     @Override

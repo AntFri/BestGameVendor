@@ -168,14 +168,10 @@ body{
     margin: 0px;
 }
 .notiDiv{
-    z-index: 1;
-    width: fit-content;
-    background-color: red;
-    padding: 16px;
-    border: 2px solid black;
-    border-radius: 6px;
+    margin: 0;
+    padding: 0;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    animation-duration: 5s;
+    animation-duration: 10s;
     animation-fill-mode: forwards;
     animation-name: notiDivAnim;
 }

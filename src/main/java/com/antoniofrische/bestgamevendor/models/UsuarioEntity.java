@@ -33,6 +33,9 @@ public class UsuarioEntity implements Serializable {
     @Basic
     @Column(name = "role", length = 10)
     private String role;
+    @Basic
+    @Column(name = "accountActive", nullable = false)
+    private boolean accountActive;
     @ManyToOne(cascade = CascadeType.REFRESH)
     private RegionEntity region;
 
@@ -98,6 +101,14 @@ public class UsuarioEntity implements Serializable {
 
     public void setRegion(RegionEntity fkRegion) {
         this.region = fkRegion;
+    }
+
+    public boolean isAccountActive() {
+        return accountActive;
+    }
+
+    public void setAccountActive(boolean accountActive) {
+        this.accountActive = accountActive;
     }
 
     @Override

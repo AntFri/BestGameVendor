@@ -5,6 +5,20 @@
 
 <body>
 <nav th:replace="~{/fragments/header/nav/navOne}"></nav>
+
+<div th:if="${errorForm != null}" class="toast-container position-fixed bottom-0 end-0 p-3 notiDiv">
+    <div class="container-fluid bg-primary rounded">
+        <div class="toast-header">
+            <strong class="me-auto">Error!</strong>
+            <small>11</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" th:text="${errorForm}">
+            Error Message!
+        </div>
+    </div>
+</div>
+
 <div class="container mt-5">
     <div class="row d-flex justify-content-center">
         <div class="col-md-6">

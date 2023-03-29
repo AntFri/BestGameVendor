@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "productos", schema = "gamevendor", catalog = "")
@@ -30,13 +31,20 @@ public class ProductosEntity {
     @Basic
     @Column(name = "precioSalida", nullable = true, precision = 0)
     private Double precioSalida;
-
     @ManyToOne(cascade = CascadeType.REFRESH)
     private PublisherEntity publisher;
     @ManyToOne(cascade = CascadeType.REFRESH)
     private GenreEntity genre;
     @ManyToOne(cascade = CascadeType.REFRESH)
     private RegionEntity region;
+    @ManyToMany(mappedBy = "productlist")
+    private Set<ListaFavoritosEntity> listaFav;
+    @ManyToMany
+    @JoinTable(
+            name = "prod_list_platform",
+            joinColumns = @JoinColumn(name = "productos_idProductos"),
+            inverseJoinColumns = @JoinColumn(name = "plataformas_idPlataformas"))
+    private Set<PlataformasEntity> platformList;
 
     public int getIdProductos() {
         return idProductos;
@@ -116,6 +124,22 @@ public class ProductosEntity {
 
     public void setRegion(RegionEntity fkRegion) {
         this.region = fkRegion;
+    }
+
+    public Set<ListaFavoritosEntity> getListaFav() {
+        return listaFav;
+    }
+
+    public void setListaFav(Set<ListaFavoritosEntity> listaFav) {
+        this.listaFav = listaFav;
+    }
+
+    public Set<PlataformasEntity> getPlatformList() {
+        return platformList;
+    }
+
+    public void setPlatformList(Set<PlataformasEntity> platformList) {
+        this.platformList = platformList;
     }
 
     @Override
