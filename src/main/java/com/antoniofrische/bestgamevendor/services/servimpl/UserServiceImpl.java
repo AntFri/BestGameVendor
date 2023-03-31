@@ -109,16 +109,13 @@ public class UserServiceImpl implements UserService {
             logger.info("Password");
             userDB.setPassword(user.getPassword());
         }
-        if(user.getAccountActive()){
-            userDB.setAccountActive(user.getAccountActive());
-        }
         if(user.getRegion() != null){
             userDB.setRegion(user.getRegion());
         }
         if(user.getRole().length() > 0){
             userDB.setRole(user.getRole());
         }
-
+        userDB.setAccountActive(user.getAccountActive());
 
         userRepo.save(userDB);
         return true;
