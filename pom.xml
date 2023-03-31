@@ -28,8 +28,8 @@
     </properties>
     <dependencies>
         <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -62,12 +62,18 @@
             <artifactId>spring-security-config</artifactId>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity5 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity6 -->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+            <artifactId>thymeleaf-extras-springsecurity6</artifactId>
             <version>3.1.1.RELEASE</version>
         </dependency>
+
 
 
         <!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core -->
@@ -110,26 +116,6 @@
             <version>6.2.0</version>
         </dependency>
 
-
-        <!-- https://mvnrepository.com/artifact/org.webjars/jquery -->
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>jquery</artifactId>
-            <version>3.6.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>bootstrap</artifactId>
-            <version>5.2.3</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.webjars/popper.js -->
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>popper.js</artifactId>
-            <version>2.9.3</version>
-        </dependency>
 
 
     </dependencies>

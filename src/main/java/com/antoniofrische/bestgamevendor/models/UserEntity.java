@@ -1,17 +1,14 @@
 package com.antoniofrische.bestgamevendor.models;
 
 import jakarta.persistence.*;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
-import java.lang.constant.Constable;
 import java.sql.Date;
-import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 @Table(name = "usuario", schema = "gamevendor", catalog = "")
-public class UsuarioEntity implements Serializable {
+public class UserEntity implements Serializable {
     @Id
     @Column(name = "idUsuario", nullable = false)
     private int idUsuario;
@@ -103,7 +100,7 @@ public class UsuarioEntity implements Serializable {
         this.region = fkRegion;
     }
 
-    public boolean isAccountActive() {
+    public boolean getAccountActive() {
         return accountActive;
     }
 
@@ -115,7 +112,7 @@ public class UsuarioEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UsuarioEntity that = (UsuarioEntity) o;
+        UserEntity that = (UserEntity) o;
         return idUsuario == that.idUsuario && region == that.region && Objects.equals(nombre, that.nombre) && Objects.equals(apellido, that.apellido) && Objects.equals(email, that.email) && Objects.equals(fechaNacimiento, that.fechaNacimiento) && Objects.equals(password, that.password);
     }
 

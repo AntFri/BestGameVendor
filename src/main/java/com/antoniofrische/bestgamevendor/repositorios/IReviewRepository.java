@@ -2,7 +2,6 @@ package com.antoniofrische.bestgamevendor.repositorios;
 
 import com.antoniofrische.bestgamevendor.models.ProductosEntity;
 import com.antoniofrische.bestgamevendor.models.ReviewEntity;
-import com.antoniofrische.bestgamevendor.models.UsuarioEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

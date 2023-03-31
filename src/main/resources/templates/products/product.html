@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" >
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{/fragments/head/head}">
 </head>
 <body>
@@ -27,7 +27,8 @@
         <div th:text="${website.precioRebajas}"></div>
     </div>
     <div class="gameList">
-        <form th:action="@{/addReview}" method="post" th:object="${review}">
+        <h3 sec:authorize="!isAuthenticated()"> Login to add a review!</h3>
+        <form th:action="@{/addReview}" method="post" th:object="${review}" sec:authorize="isAuthenticated()">
             <input type="text" name="reviewText" />
             <input type="hidden" name="product" th:value="${product.idProductos}">
             <select name="reviewRating">

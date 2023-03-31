@@ -1,7 +1,6 @@
 package com.antoniofrische.bestgamevendor.models;
 
 import jakarta.persistence.*;
-import org.hibernate.mapping.List;
 
 import java.util.Objects;
 import java.util.Set;
@@ -18,7 +17,7 @@ public class ListaFavoritosEntity {
     private String nombre;
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "Usuario_idUsuario")
-    private UsuarioEntity user;
+    private UserEntity user;
     @ManyToMany
     @JoinTable(
             name = "prod_listafav",
@@ -42,11 +41,11 @@ public class ListaFavoritosEntity {
         this.nombre = nombre;
     }
 
-    public UsuarioEntity getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(UsuarioEntity fkUser) {
+    public void setUser(UserEntity fkUser) {
         this.user = fkUser;
     }
 

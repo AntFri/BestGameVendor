@@ -2,11 +2,9 @@ package com.antoniofrische.bestgamevendor.controlers;
 
 import com.antoniofrische.bestgamevendor.models.ProductosEntity;
 import com.antoniofrische.bestgamevendor.models.RegionEntity;
-import com.antoniofrische.bestgamevendor.models.UsuarioEntity;
-import com.antoniofrische.bestgamevendor.repositorios.IProductRepository;
+import com.antoniofrische.bestgamevendor.models.UserEntity;
 
 import com.antoniofrische.bestgamevendor.repositorios.IRegionRepository;
-import com.antoniofrische.bestgamevendor.repositorios.IUserRepository;
 import com.antoniofrische.bestgamevendor.services.ProductService;
 import com.antoniofrische.bestgamevendor.services.UserService;
 import org.slf4j.Logger;
@@ -54,13 +52,13 @@ public class AppControler {
     }
 
     @GetMapping(value = "/user/{id}")
-    public Optional<UsuarioEntity> getUser(@PathVariable("id") Long id) {
+    public Optional<UserEntity> getUser(@PathVariable("id") Long id) {
         logger.info("Sending user with id: " + id);
         return Optional.ofNullable(userServ.userFindById(id));
     }
     @PostMapping("/add")
-    public boolean addUser(@RequestBody UsuarioEntity user) {
-        UsuarioEntity currentUser = userServ.userFindByEmail(user.getEmail());
+    public boolean addUser(@RequestBody UserEntity user) {
+        UserEntity currentUser = userServ.userFindByEmail(user.getEmail());
         if(currentUser != null){
             return false;
         }

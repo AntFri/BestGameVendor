@@ -1,4 +1,4 @@
-<nav th:fragment="navUser" class="navbar navbar-expand-lg sticky-top bg-secondary">
+<nav th:fragment="navUser" class="navbar navbar-expand-lg sticky-top bg-secondary" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <div class="container-fluid">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -9,11 +9,12 @@
       </a>
       <ul class="navbar-nav mb-2 mb-lg-0">
         <li class="nav-item">
-          <a th:href="@{/adminPanel}" class="nav-link btb btn-outline-dark" th:if="${user.role == 'admin'}">Admin Panel</a>
+          <a th:href="@{/intranet/adminPanel}" class="nav-link link-light" sec:authorize="hasAnyAuthority('admin')">Admin Panel</a>
         </li>
       </ul>
     </div>
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center gap-2">
+      <a th:href="@{/profile}" class="btn btn-outline-dark"><i class="fa-sharp fa-solid fa-user"></i></a>
       <form th:action="@{/logout}" method="post" >
         <button class="btn btn-outline-dark" type="submit"><i class="fa-sharp fa-solid fa-xmark"></i></button>
       </form>

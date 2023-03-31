@@ -19,7 +19,7 @@ public class ReviewEntity {
     private String reviewRating;
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "Usuario_idUsuario")
-    private UsuarioEntity user;
+    private UserEntity user;
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "productos_idProductos")
     private ProductosEntity product;
@@ -48,11 +48,11 @@ public class ReviewEntity {
         this.reviewRating = reviewRating;
     }
 
-    public UsuarioEntity getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(UsuarioEntity fkUser) {
+    public void setUser(UserEntity fkUser) {
         this.user = fkUser;
     }
 

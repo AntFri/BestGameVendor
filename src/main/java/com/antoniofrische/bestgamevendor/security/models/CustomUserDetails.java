@@ -1,20 +1,20 @@
 package com.antoniofrische.bestgamevendor.security.models;
 
-import com.antoniofrische.bestgamevendor.models.UsuarioEntity;
+import com.antoniofrische.bestgamevendor.models.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public class CustomUserDetails implements UserDetails {
+public class CustomUserDetails implements UserDetails, Serializable {
 
-    private UsuarioEntity user;
+    private UserEntity user;
 
-    public CustomUserDetails(UsuarioEntity user) {
+    public CustomUserDetails(UserEntity user) {
         this.user = user;
     }
 
@@ -37,22 +37,22 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return user.isAccountActive();
+        return user.getAccountActive();
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return user.isAccountActive();
+        return user.getAccountActive();
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return user.isAccountActive();
+        return user.getAccountActive();
     }
 
     @Override
     public boolean isEnabled() {
-        return user.isAccountActive();
+        return user.getAccountActive();
     }
 
     public String getFullName() {

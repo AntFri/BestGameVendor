@@ -9,7 +9,6 @@ import com.antoniofrische.bestgamevendor.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -38,14 +36,13 @@ public class PageControler {
     private UserService userInter;
 
     Logger logger = LoggerFactory.getLogger(PageControler.class);
-    private UsuarioEntity currentUser = null;
 
     @GetMapping({"","/","/inicio","/index"})
     public String goToIndex(Model model) throws MalformedURLException {
         model.addAttribute("title","Inicio");
         List<ProductosEntity> products = iProductRepository.findAll();
         model.addAttribute("products", products);
-        model.addAttribute("currentUser", currentUser);
+
         model.addAttribute("fav", new ListaFavoritosEntity());
         return "index";
     }
@@ -71,10 +68,13 @@ public class PageControler {
     }
     @PostMapping("/addReview")
     public String addReview(ReviewEntity review){
-        System.out.println(review.getReviewText());
-        if(currentUser == null){
-            return "security/login";
+        CustomUserDetails detailUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        assert detailUser != null;
+        UserEntity currentUser;
+        if(detailUser == null){
+            return "redirect:/login";
         } else{
+            currentUser = iUserRepository.findByEmail(detailUser.getUsername());
             review.setUser(currentUser);
             iReviewRepository.save(review);
             return  "redirect:/index";
@@ -85,10 +85,8 @@ public class PageControler {
     @GetMapping("/profile")
     public String getUser( Model model) {
         //se saca el usuario que se ha Iniciado.
-        if(currentUser==null){
-            CustomUserDetails detailUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            currentUser = iUserRepository.findByEmail(detailUser.getUsername());
-        }
+        CustomUserDetails detailUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserEntity currentUser = iUserRepository.findByEmail(detailUser.getUsername());
 
         ListaFavoritosEntity favList = iListaFavoritos.findNameByUser(currentUser);
 
@@ -101,10 +99,12 @@ public class PageControler {
     @PostMapping("/addFav")
     public String addFav(@RequestParam("idP") Long idP, RedirectAttributes redirectAttributes){
         ProductosEntity productosEntity = iProductRepository.findById(idP).orElse(null);
-        if(currentUser == null){
+        CustomUserDetails detailUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(detailUser == null){
             redirectAttributes.addFlashAttribute("regSuccess", "Login to add a fav!");
             return "redirect:/login";
         } else{
+            UserEntity currentUser = iUserRepository.findByEmail(detailUser.getUsername());
             ListaFavoritosEntity listaFavorito = iListaFavoritos.findNameByUser(currentUser);
             if(listaFavorito==null){
                 redirectAttributes.addFlashAttribute("Message", "Creat a Favorit list first!");
@@ -122,6 +122,8 @@ public class PageControler {
     }
     @PostMapping("/addListaFav")
     public String addListaFav(ListaFavoritosEntity listaFav, RedirectAttributes redirectAttributes){
+        CustomUserDetails detailUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserEntity currentUser = iUserRepository.findByEmail(detailUser.getUsername());
         listaFav.setUser(currentUser);
         ListaFavoritosEntity searchifexist = iListaFavoritos.findNameByUser(currentUser);
         if(searchifexist == null){
@@ -135,6 +137,8 @@ public class PageControler {
     @PostMapping("/removeFav")
     public String removeFav(@RequestParam("idP") Long idP, RedirectAttributes redirectAttributes){
         ProductosEntity product = iProductRepository.findById(idP).orElse(null);
+        CustomUserDetails detailUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserEntity currentUser = iUserRepository.findByEmail(detailUser.getUsername());
         ListaFavoritosEntity listaFav = iListaFavoritos.findNameByUser(currentUser);
         if(listaFav == null){
             redirectAttributes.addFlashAttribute("Message", "No tienes lista de Favoritos!");
@@ -148,20 +152,19 @@ public class PageControler {
     //LOgin y Register para usuarios.
     @GetMapping({"/login"})
     public String goToLogin(Model model){
-        currentUser=null;
         model.addAttribute("title","Login");
         return "security/login";
     }
     @GetMapping("/register")
     public String goToregister(Model model){
-        model.addAttribute("user", new UsuarioEntity());
+        model.addAttribute("user", new UserEntity());
         List<RegionEntity> regiones = iRegionRepository.findAll();
         model.addAttribute("regiones", regiones);
         model.addAttribute("title", "User register");
         return "security/register";
     }
     @PostMapping("/process_register")
-    public String processRegister(UsuarioEntity user,RedirectAttributes redirectAttributes) {
+    public String processRegister(UserEntity user, RedirectAttributes redirectAttributes) {
         try {
             userInter.processReg(user);
             redirectAttributes.addFlashAttribute("regSuccess", "Sucessfully created!");
@@ -171,16 +174,4 @@ public class PageControler {
             return "redirect:/register";
         }
     }
-
-
-
-    //AdminPart:
-    @Secured("admin")
-    @GetMapping("/adminPanel")
-    public String adminPanel(Model model){
-        model.addAttribute("title", "AdminPanel of user:" + currentUser.getNombre());
-        model.addAttribute("user", currentUser);
-        return "security/admin/adminPanel";
-    }
-
 }

@@ -5,7 +5,7 @@
 <body>
 <nav th:replace="~{/fragments/header/nav/navUser}"></nav>
 
-<div th:if="${Message != null || param.error != null}" class="toast-container position-fixed bottom-0 end-0 p-3 notiDiv">
+<div th:if="${Message != null}" class="toast-container position-fixed bottom-0 end-0 p-3 notiDiv">
     <div class="container-fluid bg-primary rounded">
         <div class="toast-header">
             <strong class="me-auto">Server Message!</strong>
@@ -23,7 +23,7 @@
         <p th:text="${user.fechaNacimiento}"></p>
         <p th:text="${user.role}"></p>
     </div>
-    <div class="gameList">
+    <div class="gameList" th:if="${favList==null}">
         <form th:action="@{/addListaFav}" method="post" th:object="${listaFav}">
             <input type="text" name="nombre" />
             <button type="submit" class="btn btn-outline-dark">Add new Fav list</button>
@@ -32,18 +32,21 @@
 </div>
 <hr class="userPerfilHR">
 
-<div class="userFavBoxs">
+<div class="d-flex flex-row justify-content-center gap-3 flex-wrap ">
     <div th:if="${favList ==null}"><h1>No tienes ninguna Lista de Favoritos!</h1></div>
 
-    <div class="userFavCard" th:if="${favList!=null}">
-        <h1 th:text="${favList.nombre}">Nombre Fav</h1>
-        <hr class="userPerfilHR">
-        <div class="userFavSubCard" th:each="product : ${favList.getProductlist().stream().toList()}">
-            <div th:text="${product.nombre}">product</div>
-            <form th:action="@{/removeFav}" method="post">
-                <input type="hidden" name="idP" th:value="${product.idProductos}">
-                <button class="btnDropDown" type="submit"><i class="fa-sharp fa-solid fa-xmark"></i></button>
-            </form>
+    <div class="card" th:if="${favList!=null}">
+        <div class="card-header">
+            <h1 th:text="${favList.nombre}">Nombre Fav</h1>
+        </div>
+        <div class="card-body">
+            <div class="d-flex flex-row justify-content-between mb-4" th:each="product : ${favList.getProductlist().stream().toList()}">
+                <p th:text="${product.nombre}">product</p>
+                <form th:action="@{/removeFav}" method="post" class="">
+                    <input type="hidden" name="idP" th:value="${product.idProductos}">
+                    <button class="btn btn-outline-dark" type="submit"><i class="fa-sharp fa-solid fa-xmark"></i></button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

@@ -1,15 +1,15 @@
 package com.antoniofrische.bestgamevendor.services.servimpl;
 
-import com.antoniofrische.bestgamevendor.controlers.PageControler;
 import com.antoniofrische.bestgamevendor.exceptions.UserAgeToLow;
 import com.antoniofrische.bestgamevendor.exceptions.UserAlreadyExists;
 import com.antoniofrische.bestgamevendor.exceptions.UserNotFound;
-import com.antoniofrische.bestgamevendor.models.UsuarioEntity;
+import com.antoniofrische.bestgamevendor.models.UserEntity;
 import com.antoniofrische.bestgamevendor.repositorios.IUserRepository;
 import com.antoniofrische.bestgamevendor.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +17,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -27,17 +28,17 @@ public class UserServiceImpl implements UserService {
     private IUserRepository userRepo;
 
     @Override
-    public UsuarioEntity userFindById(Long id) {
+    public UserEntity userFindById(Long id) {
         return userRepo.findById(id).orElse(null);
     }
 
     @Override
-    public UsuarioEntity userFindByEmail(String email) {
+    public UserEntity userFindByEmail(String email) {
         return userRepo.findByEmail(email);
     }
 
     @Override
-    public Boolean userAdd(UsuarioEntity user) {
+    public Boolean userAdd(UserEntity user) {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         user.setRole("user");
@@ -47,12 +48,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void processReg(UsuarioEntity user) throws UserAlreadyExists, UserAgeToLow {
+    public List<UserEntity> findAllUsers() {
+        return userRepo.findAll();
+    }
+
+    @Override
+    public void processReg(UserEntity user) throws UserAlreadyExists, UserAgeToLow {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         user.setRole("user");
         user.setAccountActive(true);
-        UsuarioEntity serUser = userRepo.findByEmail(user.getEmail());
+        UserEntity serUser = userRepo.findByEmail(user.getEmail());
 
         if(serUser!=null)
             throw new UserAlreadyExists("User allready exists!");
@@ -65,13 +71,57 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean userDelete(UsuarioEntity user) throws UserNotFound {
-        return false;
+    public boolean userDelete(Long userID) throws UserNotFound {
+        UserEntity user = userRepo.findById(userID).orElse(null);
+        if(user == null){
+            logger.error("User not exist!");
+            throw  new UserNotFound("Usuario no existe!");
+        }
+        userRepo.delete(user);
+        return true;
     }
 
     @Override
-    public boolean userEdit(UsuarioEntity user) throws UserNotFound {
-        return false;
+    public boolean userEdit(UserEntity user, Long idU) throws UserNotFound, UserAlreadyExists{
+        UserEntity userDB = userRepo.findById(idU).orElse(null);
+        if(userDB == null){
+            logger.error("User not exist!");
+            throw new UserNotFound("Usuario no Existe!");
+        }
+        if(user.getNombre().length() > 0){
+            userDB.setNombre(user.getNombre());
+        }
+        if(user.getApellido().length() > 0){
+            logger.info("apellido");
+            userDB.setApellido(user.getApellido());
+        }
+        if(user.getEmail().length() > 0){
+            UserEntity emailUser = userRepo.findByEmail(user.getEmail());
+            if(emailUser != null){
+                throw  new UserAlreadyExists("El email ya esta utilizado!");
+            }
+            logger.info("Email");
+            userDB.setEmail(user.getEmail());
+        }
+        if(user.getPassword().length() > 0){
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encodedPassword);
+            logger.info("Password");
+            userDB.setPassword(user.getPassword());
+        }
+        if(user.getAccountActive()){
+            userDB.setAccountActive(user.getAccountActive());
+        }
+        if(user.getRegion() != null){
+            userDB.setRegion(user.getRegion());
+        }
+        if(user.getRole().length() > 0){
+            userDB.setRole(user.getRole());
+        }
+
+
+        userRepo.save(userDB);
+        return true;
     }
 
     private int calcAge(Date fechanac){
