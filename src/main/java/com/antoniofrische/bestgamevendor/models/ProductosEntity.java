@@ -2,7 +2,8 @@ package com.antoniofrische.bestgamevendor.models;
 
 import jakarta.persistence.*;
 
-import java.sql.Timestamp;
+
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 
@@ -27,7 +28,7 @@ public class ProductosEntity {
     private String descripcion;
     @Basic
     @Column(name = "FechaSalida", nullable = true)
-    private Timestamp fechaSalida;
+    private LocalDate fechaSalida;
     @Basic
     @Column(name = "precioSalida", nullable = true, precision = 0)
     private Double precioSalida;
@@ -86,11 +87,11 @@ public class ProductosEntity {
         this.descripcion = descripcion;
     }
 
-    public Timestamp getFechaSalida() {
+    public LocalDate getFechaSalida() {
         return fechaSalida;
     }
 
-    public void setFechaSalida(Timestamp fechaSalida) {
+    public void setFechaSalida(LocalDate fechaSalida) {
         this.fechaSalida = fechaSalida;
     }
 

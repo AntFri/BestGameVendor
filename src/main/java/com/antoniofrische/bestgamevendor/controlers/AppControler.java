@@ -30,19 +30,19 @@ public class AppControler {
 
     @GetMapping("/all_product")
     public List<ProductosEntity> getProductos() {
-        return prodServ.allProd();
+        return prodServ.prodAll();
     }
 
     @GetMapping("/all_product/{offset}")
     public List<ProductosEntity> getProductLimit(@PathVariable("offset") Integer offset){
         logger.info("Sending list of products size: " + offset);
-        return prodServ.findByProdLimit(offset);
+        return prodServ.prodFindByLimit(offset);
     }
 
     @GetMapping(value = "/product/{id}")
     public Optional<ProductosEntity> getFraseById(@PathVariable("id") Long id) {
         logger.info("Sending Product with id: "+ id);
-        return Optional.ofNullable(prodServ.findByProdID(id));
+        return Optional.ofNullable(prodServ.prodFindByID(id));
     }
 
     @GetMapping("/all_region")
@@ -66,8 +66,7 @@ public class AppControler {
         user.setRole("user");
 
         try {
-            userServ.userAdd(user);
-            return true;
+            return userServ.userAdd(user);
         } catch (Exception e) {
             logger.error("New user could not be saved!" + user.getEmail());
             e.printStackTrace();

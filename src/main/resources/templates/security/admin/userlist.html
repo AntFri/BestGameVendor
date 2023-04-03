@@ -18,8 +18,7 @@
 <div class="d-flex flex-row justify-content-center gap-5 mt-5 px-5">
     <!-- Trigger the modal with a button -->
     <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#ModalUserAdd">Add User</button>
-    <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#ModalUserEdit">Edit User</button>
-    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#ModalUserDelete">Delete User</button>
+
 </div>
 
 <div class="d-flex justify-content-center table-responsive mt-5 px-lg-5">
@@ -30,11 +29,12 @@
                 <th scope="col">First Name</th>
                 <th scope="col">Last Name</th>
                 <th scope="col">Email</th>
-                <th scope="col">Password</th>
                 <th scope="col">Birthday</th>
                 <th scope="col">Region</th>
                 <th scope="col">Role</th>
                 <th scope="col">Active</th>
+                <th scope="col">Edit User</th>
+                <th scope="col">Delete User</th>
             </tr>
         </thead>
         <tbody>
@@ -43,12 +43,13 @@
                 <td th:text="${user.nombre}">nombre</td>
                 <td th:text="${user.apellido}">apellido</td>
                 <td th:text="${user.email}">Correo</td>
-                <td >********</td>
                 <td th:text="${user.fechaNacimiento}">Cumple</td>
                 <td th:text="${user.region.nombre}">region</td>
                 <td th:text="${user.role}">Rol</td>
                 <td class="text-center" th:if="${user.accountActive == true}"><i class="fa-solid fa-check"></i></td>
                 <td class="text-center" th:if="${user.accountActive == false}"><i class="fa-solid fa-xmark"></i></td>
+                <td><button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" th:data-bs-target="'#'+${user.idUsuario} + 'ME'">Edit User</button></td>
+                <td><button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#'+${user.idUsuario}+'MD'">Delete User</button></td>
             </tr>
         </tbody>
     </table>
@@ -108,7 +109,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal  fade" tabindex="-1" id="ModalUserEdit" role="dialog">
+<div th:each="userME : ${userList}" class="modal fade" tabindex="-1" th:id="${userME.idUsuario}+'ME'" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <!-- Modal content-->
         <div class="modal-content">
@@ -118,54 +119,57 @@
             <div class="modal-body">
                 <form th:action="@{/intranet/userlist/edit}" method="post" th:object="${userObj}" class="form-data">
                     <div class="mb-3">
-                        <span>Select User</span>
-                        <select name="idU" class="form-select">
-                            <option th:each="user : ${userList}"  th:value="${user.idUsuario}" th:text="${user.email}"></option>
-                        </select>
+                            <input type="hidden" th:value="${userME.idUsuario}" name="idUsuario">
                         <div class="mb-3">
                             <span>Firstname</span>
-                            <input type="text" name="nombre" class="form-control"/>
+                            <input type="text" name="nombre" class="form-control" th:value="${userME.nombre}"/>
                         </div>
                         <div class="mb-3">
                             <span>Lastname</span>
-                            <input type="text" name="apellido" class="form-control"/>
+                            <input type="text" name="apellido" class="form-control" th:value="${userME.apellido}"/>
                         </div>
                         <div class="mb-3">
                             <span>E-mail</span>
-                            <input type="email" name="email" class="form-control"/>
+                            <input type="email" name="email" class="form-control" th:value="${userME.email}"/>
                         </div>
                         <div class="mb-3">
                             <span>Password</span>
-                            <input type="password" name="password" class="form-control"/>
+                            <input type="password" name="password" class="form-control" th:value="${userME.password}" />
+                        </div>
+
+                        <div class="mb-3">
+                            <span>Birthday</span>
+                            <input type="date" name="fechaNacimiento" class="form-control" th:value="${userME.fechaNacimiento}" />
                         </div>
 
                         <div class="mb-3">
                             <span>Region</span>
                             <select name="region" class="form-select">
-                                <option value="" ></option>
-                                <option th:each="regione : ${regiones}" th:value="${regione.idRegion}" th:text="${regione.nombre}"></option>
+                                <option th:value="${userME.region.idRegion}" th:text="${userME.region.nombre}"></option>
+                                <option th:each="regione : ${regiones}" th:if="${userME.region.idRegion != regione.idRegion}" th:value="${regione.idRegion}" th:text="${regione.nombre}"></option>
                             </select>
                         </div>
 
                         <div class="mb-3">
                             <span>Role</span>
                             <select name="role" class="form-select">
-                                <option value="" ></option>
-                                <option value="admin">ADMIN</option>
-                                <option value="user">user</option>
+                                <option th:value="${userME.role}" th:text="${userME.role}"></option>
+                                <option th:if="${userME.role == 'user'}" th:value="admin">ADMIN</option>
+                                <option th:if="${userME.role == 'admin'}" th:value="user">USER</option>
                             </select>
                         </div>
 
                         <div class="mb-3">
                             <span>Active Account</span>
                             <select name="accountActive" class="form-select">
-                                <option th:value="true">true</option>
-                                <option th:value="false">false</option>
+                                <option th:value="${userME.accountActive}" th:text="${userME.accountActive}"></option>
+                                <option th:if="${userME.accountActive == false}" th:value="true">true</option>
+                                <option th:if="${userME.accountActive == true}" th:value="false">false</option>
                             </select>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <button type="submit" value="edit" class="btn btn-dark w-100 mt-5">Edit</button>
+                        <button type="submit" value="edit" class="btn btn-dark w-100 mt-5">Save</button>
                     </div>
                 </form>
             </div>
@@ -176,8 +180,8 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal  fade" tabindex="-1" id="ModalUserDelete" role="dialog">
+<!-- Modal  Delete-->
+<div th:each="userMD : ${userList}" class="modal  fade" tabindex="-1" th:id="${userMD.idUsuario}+'MD'" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <!-- Modal content-->
         <div class="modal-content">
@@ -187,10 +191,9 @@
             <div class="modal-body">
                 <form th:action="@{/intranet/userlist/delete}" method="post" class="form-data">
                     <div class="mb-3">
-                        <span>Select User</span>
-                        <select name="idU" class="form-select">
-                            <option th:each="user : ${userList}" th:value="${user.idUsuario}" th:text="${user.email}"></option>
-                        </select>
+                        <span>Do you really wanto to Delete this User?!</span>
+                        <span th:text="${userMD.email}"></span>
+                        <input type="hidden" name="idU" th:value="${userMD.idUsuario}">
                     </div>
                     <div class="mb-3">
                         <button type="submit" value="Delete" class="btn btn-dark w-100 mt-5" >Delete</button>

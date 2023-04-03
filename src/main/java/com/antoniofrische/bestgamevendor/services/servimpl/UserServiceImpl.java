@@ -9,7 +9,6 @@ import com.antoniofrische.bestgamevendor.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +47,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserEntity> findAllUsers() {
+    public List<UserEntity> userFindAll() {
         return userRepo.findAll();
     }
 
@@ -95,7 +94,7 @@ public class UserServiceImpl implements UserService {
             logger.info("apellido");
             userDB.setApellido(user.getApellido());
         }
-        if(user.getEmail().length() > 0){
+        if(!user.getEmail().equals(userDB.getEmail())){
             UserEntity emailUser = userRepo.findByEmail(user.getEmail());
             if(emailUser != null){
                 throw  new UserAlreadyExists("El email ya esta utilizado!");
@@ -117,7 +116,7 @@ public class UserServiceImpl implements UserService {
         }
         userDB.setAccountActive(user.getAccountActive());
 
-        userRepo.save(userDB);
+        userRepo.save(user);
         return true;
     }
 

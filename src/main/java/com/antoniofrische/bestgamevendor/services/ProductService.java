@@ -1,14 +1,18 @@
 package com.antoniofrische.bestgamevendor.services;
 
 import com.antoniofrische.bestgamevendor.models.ProductosEntity;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface ProductService {
-    public boolean saveProd(ProductosEntity prod);
-    public boolean deletProd(Long prodID);
-    public boolean editProd(ProductosEntity prod);
-    public List<ProductosEntity> allProd();
-    public ProductosEntity findByProdID(Long id);
-    public List<ProductosEntity> findByProdLimit(int offset);
+    boolean prodSave(ProductosEntity prod);
+    boolean prodDelet(Long prodID);
+    boolean prodEdit(ProductosEntity prod);
+    List<ProductosEntity> prodAll();
+    ProductosEntity prodFindByID(Long id);
+    List<ProductosEntity> prodFindByLimit(int offset);
+    List<ProductosEntity> searchByKey(String key);
+
+    List<ProductosEntity> prodFindAllPage(Pageable pageable);
 }

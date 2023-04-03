@@ -8,13 +8,13 @@ import com.antoniofrische.bestgamevendor.models.UserEntity;
 import java.util.List;
 
 public interface UserService {
-    public UserEntity userFindById(Long id);
-    public UserEntity userFindByEmail(String email);
-    public Boolean userAdd(UserEntity user);
-    public List<UserEntity> findAllUsers();
-    public void processReg(UserEntity user) throws UserAlreadyExists, UserAgeToLow;
-    public boolean userDelete(Long userID) throws UserNotFound;
-    public boolean userEdit(UserEntity user, Long idU) throws UserNotFound, UserAlreadyExists;
+    UserEntity userFindById(Long id);
+    UserEntity userFindByEmail(String email);
+    Boolean userAdd(UserEntity user);
+    List<UserEntity> userFindAll();
+    void processReg(UserEntity user) throws UserAlreadyExists, UserAgeToLow;
+    boolean userDelete(Long userID) throws UserNotFound;
+    boolean userEdit(UserEntity user, Long idU) throws UserNotFound, UserAlreadyExists;
 
 
 }

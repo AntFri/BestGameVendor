@@ -5,9 +5,9 @@ import com.antoniofrische.bestgamevendor.exceptions.UserAlreadyExists;
 import com.antoniofrische.bestgamevendor.exceptions.UserNotFound;
 import com.antoniofrische.bestgamevendor.models.RegionEntity;
 import com.antoniofrische.bestgamevendor.models.UserEntity;
-import com.antoniofrische.bestgamevendor.repositorios.IRegionRepository;
 import com.antoniofrische.bestgamevendor.security.models.CustomUserDetails;
 import com.antoniofrische.bestgamevendor.services.ProductService;
+import com.antoniofrische.bestgamevendor.services.RegionService;
 import com.antoniofrische.bestgamevendor.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Controller
@@ -33,7 +32,7 @@ public class IntranetControler {
     private UserService userServ;
 
     @Autowired
-    private IRegionRepository iRegionRepository;
+    private RegionService regionServ;
 
     Logger logger = LoggerFactory.getLogger(PageControler.class);
 
@@ -49,8 +48,8 @@ public class IntranetControler {
 
     @GetMapping("/userlist")
     public String userlist(Model model){
-        List<UserEntity> users = userServ.findAllUsers();
-        List<RegionEntity> regiones = iRegionRepository.findAll();
+        List<UserEntity> users = userServ.userFindAll();
+        List<RegionEntity> regiones = regionServ.regionFindAll();
         UserEntity userObj = new UserEntity();
         model.addAttribute("regiones", regiones);
         model.addAttribute("userList", users);
@@ -73,15 +72,16 @@ public class IntranetControler {
     }
 
     @PostMapping("/userlist/edit")
-    public String userEdit(@RequestParam("idU") Long idU, UserEntity userObj , RedirectAttributes redirectAttributes){
+    public String userEdit(UserEntity userObj , RedirectAttributes redirectAttributes){
         try {
             logger.info("go to serv!");
-            userServ.userEdit(userObj, idU);
+            userServ.userEdit(userObj, (long) userObj.getIdUsuario());
         } catch (UserNotFound | UserAlreadyExists e) {
             logger.error("not worked!");
             redirectAttributes.addFlashAttribute("Message", e.getMessage());
             return "redirect:/intranet/userlist";
         }
+
 
         logger.info("edited!");
         return "redirect:/intranet/userlist";
