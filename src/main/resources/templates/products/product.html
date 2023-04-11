@@ -12,69 +12,100 @@
             <div class="card-header" th:text="${product.nombre}">
             </div>
             <div class="card-img d-flex flex-row">
-                <img class="img-fluid border border-dark border-2 rounded mt-2 mx-2" th:src="${product.photoProducto}" alt="dying light">
-                <div class="container-fluid pt-2">
-                    <div class="header"><h5>Video Game Data</h5></div>
-                    <div class="d-flex flex-row gap-2">
-                        <div class="title">Publicher Name:</div>
-                        <div th:text="${product.publisher.nombre}"></div>
-                    </div>
-                    <div class="d-flex flex-row gap-2">
-                        <div>Gerne Name</div>
-                        <div th:text="${product.genre.nombre}"></div>
-                    </div>
-                    <div class="d-flex flex-row gap-2">
-                        <div>Available in Region</div>
-                        <div th:text="${product.region.nombre}"></div>
-                    </div>
-                    <div class="d-flex flex-row gap-2">
-                        <div>Release Date</div>
-                        <div th:text="${product.fechaSalida}"></div>
-                    </div>
-                    <div class="d-flex flex-row gap-2">
-                        <div>Release price</div>
-                        <div th:text="${product.precioSalida}"></div>
-                    </div>
-                    <div class="d-flex flex-row gap-2">
-                        <div>Minimum Age</div>
-                        <div th:text="${product.edadMinima}"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
+                <img class="imge-prod border border-dark border-2 rounded mt-2 mx-2" th:src="${product.photoProducto}" alt="dying light">
                 <div class="text-wrap" th:text="${product.descripcion}">
                     PRODUCT TEXT!
                 </div>
             </div>
+            <div class="card-body">
+                <table class="table ">
+                    <tbody>
+                    <tr>
+                        <th scope="row">Publicher Name</th>
+                        <td th:text="${product.publisher.nombre}">nombre</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Gerne Name</th>
+                        <td th:text="${product.genre.nombre}">nombre</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Available in Region</th>
+                        <td th:text="${product.region.nombre}">nombre</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Release Date</th>
+                        <td th:text="${product.fechaSalida}">nombre</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Release price</th>
+                        <td th:text="${product.precioSalida}">nombre</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Minimum Age</th>
+                        <td th:text="${product.edadMinima}">nombre</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div th:each="website : ${websites}" class="gameList">
-            <a target="_blank" th:href="${website.cellingwebsite.link}"><div th:text="${website.cellingwebsite.nombre}"></div></a>
-            <div th:text="${website.fechaCambio}"></div>
-            <div th:text="${website.precioRebajas}"></div>
+        <div th:each="website : ${websites}" class="card">
+            <div class="card-header" th:text="${website.cellingwebsite.nombre}">
+            </div>
+            <div class="card-body d-flex flex-row justify-content-between">
+                <div>
+                    <span>Fecha Cambio</span>
+                    <div th:text="${website.fechaCambio.getDayOfMonth() + '/' + website.fechaCambio.getMonth().getValue() + '/' + website.fechaCambio.getYear()}"></div>
+                </div>
+                <div>
+                    <span>Precio de Rebajas</span>
+                    <div th:text="${website.precioRebajas} + ' €'"></div>
+                </div>
+                <div class="d-flex flex-row justify-content-end">
+                    <a class="btn btn-outline-dark" target="_blank" th:href="${website.cellingwebsite.link}">Al descuento</a>
+                </div>
+            </div>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" th:text="'- '+${website.percentageRebajas}+' %'"></span>
         </div>
-        <div class="gameList">
+        <div class="card">
+            <div class="card-header text-center">add Reviews</div>
             <h3 sec:authorize="!isAuthenticated()"> Login to add a review!</h3>
             <form th:action="@{/addReview}" method="post" th:object="${review}" sec:authorize="isAuthenticated()">
-                <input type="text" name="reviewText" />
-                <input type="hidden" name="product" th:value="${product.idProductos}">
-                <select name="reviewRating">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-                <button type="submit">Send Review</button>
+                <span>Review Text</span>
+                <div class="d-flex flex-row justify-content-between align-items-center">
+                    <textarea rows="5" cols="100" type="text" name="reviewText" class="form-text"></textarea>
+                    <input type="hidden" name="product" th:value="${product.idProductos}">
+                    <div class="d-flex justify-content-end  w-100 h-50">
+                        <select name="reviewRating" class="form-select w-25 text-center">
+                            <option value="1">&#xf005;</option>
+                            <option value="2">&#xf005; &#xf005;</option>
+                            <option value="3">&#xf005;&#xf005;&#xf005;</option>
+                            <option value="4">&#xf005;&#xf005;&#xf005;&#xf005;</option>
+                            <option value="5">&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;</option>
+                        </select>
+                        <button type="submit" class="btn btn-outline-dark ">Send Review</button>
+                    </div>
+                </div>
             </form>
         </div>
 
-        <div th:each="rew :${reviews}" class="gameReviewList">
-            <h1 th:text="${rew.user.nombre}"></h1>
-            <hr class="userPerfilHR">
-            <div th:text="${rew.reviewText}"></div>
-            <div th:text="${rew.reviewRating}"></div>
+        <div class="card">
+            <div class="card-header">Reviews</div>
+            <div th:each="rew :${reviews}" class="card-body border ">
+                <div class="card-title">
+                    <span>Nombre:</span>
+                    <div th:text="${rew.user.nombre}"></div>
+                </div>
+                <hr class="userPerfilHR">
+                <div th:text="${rew.reviewText}"></div>
+                <div th:text="${rew.reviewRating}"></div>
+                <div class="d-flex justify-content-end" th:if="${rew.user.email} == ${#authentication.name}">
+                    <form th:action="@{/removereview}" method="post">
+                        <input type="hidden" th:value="${rew.idReview}" name="idR">
+                        <button type="submit" class="btn btn-outline-dark"><i class="fa-solid fa-xmark"></i></button>
+                    </form>
+                </div>
+            </div>
         </div>
-
     </div>
 </div>
 </body>

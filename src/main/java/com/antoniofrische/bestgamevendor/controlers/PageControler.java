@@ -1,12 +1,13 @@
 package com.antoniofrische.bestgamevendor.controlers;
 
 import com.antoniofrische.bestgamevendor.exceptions.UserAgeToLow;
-import com.antoniofrische.bestgamevendor.exceptions.UserAlreadyExists;
+import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
 import com.antoniofrische.bestgamevendor.models.*;
 import com.antoniofrische.bestgamevendor.repositorios.*;
 import com.antoniofrische.bestgamevendor.security.models.CustomUserDetails;
 import com.antoniofrische.bestgamevendor.services.ProductService;
 import com.antoniofrische.bestgamevendor.services.RegionService;
+import com.antoniofrische.bestgamevendor.services.ReviewService;
 import com.antoniofrische.bestgamevendor.services.UserService;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
@@ -32,6 +33,9 @@ public class PageControler {
     private IListaFavoritos iListaFavoritos;
     @Autowired
     private IReviewRepository iReviewRepository;
+
+    @Autowired
+    private ReviewService reviewServ;
     @Autowired
     private UserService userServ;
     @Autowired
@@ -72,10 +76,25 @@ public class PageControler {
             redirectAttributes.addFlashAttribute("Message", "You have to be login to do this!");
             return "redirect:/login";
         } else{
-            review.setUser(currentUser);
-            iReviewRepository.save(review);
-            return  "redirect:/index";
+            reviewServ.reviewSave(review, currentUser);
+            redirectAttributes.addAttribute("id", review.getProduct().getIdProductos());
+            return  "redirect:/product/{id}";
         }
+    }
+    @PostMapping("/removereview")
+    public String removeReview(@RequestParam("idR") Long idR, RedirectAttributes redirectAttributes){
+        ReviewEntity review = reviewServ.reviewFindByID(idR);
+        UserEntity currentUser = getCurrentUser();
+
+        if(currentUser == null){
+            redirectAttributes.addFlashAttribute("Message", "Tienes que iniciar Session");
+            return "redirect:/login";
+        } else{
+            review.setUser(currentUser);
+            reviewServ.reviewDelete(review);
+        }
+        redirectAttributes.addAttribute("id", review.getProduct().getIdProductos());
+        return "redirect:/product/{id}";
     }
 
     @GetMapping("/profile")
@@ -110,24 +129,10 @@ public class PageControler {
                 redirectAttributes.addFlashAttribute("Message", "is allready added to list!");
                 return "redirect:/profile";
             }
-            listaFavorito.setProductlist(productDB);
+            listaFavorito.addProductToList(productDB);
             iListaFavoritos.save(listaFavorito);
             return  "redirect:/index";
         }
-    }
-    @PostMapping("/addListaFav")
-    public String addListaFav(ListaFavoritosEntity listaFav, RedirectAttributes redirectAttributes){
-        UserEntity currentUser = getCurrentUser();
-        listaFav.setUser(currentUser);
-        ListaFavoritosEntity searchifexist = iListaFavoritos.findNameByUser(currentUser);
-
-        if(searchifexist == null){
-            iListaFavoritos.save(listaFav);
-            redirectAttributes.addFlashAttribute("Message", "Favorit List created!");
-            return "redirect:/profile";
-        }
-        redirectAttributes.addFlashAttribute("Message", "You have already a list, 1 List is enought!");
-        return "redirect:/profile";
     }
     @PostMapping("/removeFav")
     public String removeFav(@RequestParam("idP") Long idP, RedirectAttributes redirectAttributes){
@@ -142,6 +147,21 @@ public class PageControler {
 
         listaFav.deleteProduct(product);
         iListaFavoritos.save(listaFav);
+        return "redirect:/profile";
+    }
+
+    @PostMapping("/addListaFav")
+    public String addListaFav(ListaFavoritosEntity listaFav, RedirectAttributes redirectAttributes){
+        UserEntity currentUser = getCurrentUser();
+        listaFav.setUser(currentUser);
+        ListaFavoritosEntity searchifexist = iListaFavoritos.findNameByUser(currentUser);
+
+        if(searchifexist == null){
+            iListaFavoritos.save(listaFav);
+            redirectAttributes.addFlashAttribute("Message", "Favorit List created!");
+            return "redirect:/profile";
+        }
+        redirectAttributes.addFlashAttribute("Message", "You have already a list, 1 List is enought!");
         return "redirect:/profile";
     }
 
@@ -165,7 +185,7 @@ public class PageControler {
             userServ.processReg(user);
             redirectAttributes.addFlashAttribute("regSuccess", "Sucessfully created!");
             return "redirect:/login";
-        }catch (UserAlreadyExists | UserAgeToLow uae){
+        }catch (EntityAlreadyExists | UserAgeToLow uae){
             redirectAttributes.addFlashAttribute("errorForm", uae.getMessage());
             return "redirect:/register";
         }

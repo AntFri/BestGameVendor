@@ -4,7 +4,7 @@
 <body>
 <nav th:replace="~{/fragments/header/nav/navUser}"></nav>
 <div class="d-flex justify-content-center mt-3">
-    <h1>Hola Admin :  <h1 th:text="${user.nombre}"></h1></h1>
+    <h1 th:text="'Hola Admin :  '+${user.nombre}"></h1>
 </div>
 <div class="d-flex flex-column mt-5 gap-2">
     <div class="d-flex flex-row justify-content-center gap-3 flex-wrap ">
@@ -23,7 +23,7 @@
             </div>
             <div class="card-body">
                 <p class="card-text text-wrap">List all Products in the system and can be added, edited as well as eliminated</p>
-                <a class="btn btn-outline-primary" th:href="@{/test}">To the List</a>
+                <a class="btn btn-outline-primary" th:href="@{/intranet/prodlist}">To the List</a>
             </div>
         </div>
         <div class="card">
@@ -32,7 +32,7 @@
             </div>
             <div class="card-body">
                 <p class="card-text text-wrap">List of all Platforms in the system and can be added, edited as well as eliminated</p>
-                <a class="btn btn-outline-primary" th:href="@{/test}">To the List</a>
+                <a class="btn btn-outline-primary" th:href="@{/intranet/platformlist}">To the List</a>
             </div>
         </div>
         <div class="card">
@@ -41,7 +41,7 @@
             </div>
             <div class="card-body">
                 <p class="card-text text-wrap">List of all Publisher in the system and can be added, edited as well as eliminated</p>
-                <a class="btn btn-outline-primary" th:href="@{/test}">To the List</a>
+                <a class="btn btn-outline-primary" th:href="@{/intranet/publisherlist}">To the List</a>
             </div>
         </div>
         <div class="card">
@@ -50,7 +50,7 @@
             </div>
             <div class="card-body">
                 <p class="card-text text-wrap">List of all Website in the system and can be added, edited as well as eliminated</p>
-                <a class="btn btn-outline-primary" th:href="@{/test}">To the List</a>
+                <a class="btn btn-outline-primary" th:href="@{/intranet/salewebsitelist}">To the List</a>
             </div>
         </div>
         <div class="card">
@@ -59,7 +59,34 @@
             </div>
             <div class="card-body">
                 <p class="card-text text-wrap">List of all Gerne in the system and can be added, edited as well as eliminated</p>
-                <a class="btn btn-outline-primary" th:href="@{/test}">To the List</a>
+                <a class="btn btn-outline-primary" th:href="@{/intranet/gernelist}">To the List</a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title text-center">Region List</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text text-wrap">List of all Region in the system and can be added, edited as well as eliminated</p>
+                <a class="btn btn-outline-primary" th:href="@{/intranet/regionlist}">To the List</a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title text-center">Sales List</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text text-wrap">List of all Sales in the system and can be added, edited as well as eliminated</p>
+                <a class="btn btn-outline-primary" th:href="@{/intranet/salechangelist}">To the List</a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title text-center">Review List</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text text-wrap">List of all Sales in the system and can be added, edited as well as eliminated</p>
+                <a class="btn btn-outline-primary" th:href="@{/intranet/reviewlist}">To the List</a>
             </div>
         </div>
     </div>

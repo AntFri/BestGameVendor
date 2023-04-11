@@ -1,9 +1,11 @@
 package com.antoniofrische.bestgamevendor.services;
 
 import com.antoniofrische.bestgamevendor.exceptions.UserAgeToLow;
-import com.antoniofrische.bestgamevendor.exceptions.UserAlreadyExists;
-import com.antoniofrische.bestgamevendor.exceptions.UserNotFound;
+import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
+import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
 import com.antoniofrische.bestgamevendor.models.UserEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -12,9 +14,10 @@ public interface UserService {
     UserEntity userFindByEmail(String email);
     Boolean userAdd(UserEntity user);
     List<UserEntity> userFindAll();
-    void processReg(UserEntity user) throws UserAlreadyExists, UserAgeToLow;
-    boolean userDelete(Long userID) throws UserNotFound;
-    boolean userEdit(UserEntity user, Long idU) throws UserNotFound, UserAlreadyExists;
+    void processReg(UserEntity user) throws EntityAlreadyExists, UserAgeToLow;
+    boolean userDelete(Long userID) throws EntityNotFound;
+    boolean userEdit(UserEntity user, Long idU) throws EntityNotFound, EntityAlreadyExists;
 
+    Page<UserEntity> userFindAllPage(Pageable pageable);
 
 }

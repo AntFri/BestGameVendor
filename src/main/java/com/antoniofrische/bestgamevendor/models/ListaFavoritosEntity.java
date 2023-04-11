@@ -2,8 +2,11 @@ package com.antoniofrische.bestgamevendor.models;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "lista_favoritos", schema = "gamevendor", catalog = "")
@@ -53,7 +56,11 @@ public class ListaFavoritosEntity {
         return productlist;
     }
 
-    public void setProductlist(ProductosEntity producto) {
+    public void setProductlist(List<ProductosEntity> producto) {
+        this.productlist = new HashSet<>(producto);
+    }
+
+    public void addProductToList(ProductosEntity producto){
         this.productlist.add(producto);
     }
 

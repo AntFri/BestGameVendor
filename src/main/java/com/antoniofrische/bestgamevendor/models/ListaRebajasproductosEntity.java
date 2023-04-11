@@ -2,6 +2,7 @@ package com.antoniofrische.bestgamevendor.models;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -13,10 +14,13 @@ public class ListaRebajasproductosEntity {
     private int idListaRebajas;
     @Basic
     @Column(name = "Fecha_Cambio", nullable = true, length = 45)
-    private String fechaCambio;
+    private LocalDate fechaCambio;
     @Basic
     @Column(name = "PrecioRebajas", nullable = true, precision = 0)
     private Double precioRebajas;
+    @Basic
+    @Column(name = "PercRebajas", nullable = true)
+    private int percentageRebajas;
     @ManyToOne(cascade = CascadeType.REFRESH)
     private CellingWebsiteEntity cellingwebsite;
     @ManyToOne(cascade = CascadeType.REFRESH)
@@ -30,11 +34,11 @@ public class ListaRebajasproductosEntity {
         this.idListaRebajas = idListaPreciosBajos;
     }
 
-    public String getFechaCambio() {
+    public LocalDate getFechaCambio() {
         return fechaCambio;
     }
 
-    public void setFechaCambio(String fechaCambio) {
+    public void setFechaCambio(LocalDate fechaCambio) {
         this.fechaCambio = fechaCambio;
     }
 
@@ -44,6 +48,14 @@ public class ListaRebajasproductosEntity {
 
     public void setPrecioRebajas(Double precioRebajas) {
         this.precioRebajas = precioRebajas;
+    }
+
+    public int getPercentageRebajas() {
+        return percentageRebajas;
+    }
+
+    public void setPercentageRebajas(int percentageRebajas) {
+        this.percentageRebajas = percentageRebajas;
     }
 
     public CellingWebsiteEntity getCellingwebsite() {

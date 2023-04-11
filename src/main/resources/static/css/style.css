@@ -1,61 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;500&display=swap');
 
 *{
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Nunito', "FontAwesome", sans-serif;
 }
-.topspace{
-    margin-top: 7vh;
-    margin-left: 0;
-}
+
+
+
 
 /* Everything of the Header and navbar */
-.nv1{
-    display:flex;
-    justify-content: space-between;
-    position: fixed;
-    top: 0;
-    width: 100vw;
-    background-color: var(--dark-red);
-}
 
-/* everything of the Footer */
-.foot1{
-    background-color: var(--dark-red);
-    width: 100vw;
 
-}
 
-/* general Button */
-.btn{
-    display: inline;
-    padding: 16px;
-    font-size: 16px;
-    color: white;
-    cursor:pointer;
-    text-decoration: none;
-}
-.btn:hover{
-    background-color: var(--red-tone);
-    user-focus-pointer: true;
-}
+
+
 
 /* search element in NavBar */
-.search{
-    border-radius: 50px;
-    width: 80%;
-    border: 2px solid black;
-    background-color: white;
-    display: inline;
-    text-align: center;
-    font-size: 16px;
-    margin: 6px;
-}
-.searchDiv{
-    display: flex;
-    justify-content: left;
-    width: 40%;
-    height: auto;
-}
+
 
 /* Index picture boxes/cards */
 .imgBoxs{
@@ -78,10 +38,7 @@
 .imgbox:hover{
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
-.img{
-    height: 65%;
-    width: 25vh;
-}
+
 
 /* everything for the Dropdown Menu in the Nav bar */
 
@@ -249,27 +206,29 @@
 
 
 
-/* change direction of the imgBoxs */
-@media (max-width: 35em){
-    .imgBoxs{
-        padding-top: 2vh;
+/* target devices is PC big screens */
+.imge-prod{
+    width: auto;
+    height: 35VH;
+}
+.imge-index{
+    width: auto;
+    height: 40VH;
+}
+
+/* target devices with small screens usually mobile devices */
+@media screen and (max-width: 479px) {
+    .imge-prod {
+        width: auto;
+        height: 20vh;
     }
-    .gameBox{
-        width: 96vw;
-        height: fit-content;
-    }
-    .gameText{
-        font-size: 12px;
-    }
-    .gameInfoBox{
-        width: 96vw;
-        font-size: 12px;
-    }
-    .gameList{
-        width: 96vw;
-        font-size: 12px;
+    .contTable{
+        font-size: x-small;
     }
 }
+
+/* CSS animation for the Messages */
+
 @keyframes notiDivAnim {
     0%{opacity: 1;}
     50%{opacity: 1; z-index: 1;}
