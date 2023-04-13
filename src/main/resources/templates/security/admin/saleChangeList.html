@@ -16,7 +16,7 @@
 
 <div class="d-flex flex-column justify-content-center gap-2 mt-5 px-5">
     <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#ModalUserAdd">Add User</button>
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModallistRedAdd">Add Sale Change</button>
 
 
     <nav aria-label="Page navigation userList">
@@ -45,17 +45,131 @@
         <tr th:each="listRed : ${listRedPage.content}">
             <th scope="row" class="text-center" th:text="${listRed.idListaRebajas}">ID</th>
             <td th:text="${listRed.productos.nombre}">nombre</td>
-            <td th:text="${listRed.productos.precioSalida}">apellido</td>
-            <td th:text="${listRed.precioRebajas}">Correo</td>
-            <td th:text="${listRed.percentageRebajas}">Cumple</td>
+            <td class="text-center" th:text="${listRed.productos.precioSalida}+'€'">apellido</td>
+            <td class="text-center" th:text="${listRed.precioRebajas}+'€'">Correo</td>
+            <td th:text="${listRed.fechaCambio}">Correo</td>
+            <td class="text-center" th:text="${listRed.percentageRebajas}+'%'">Cumple</td>
             <td th:text="${listRed.cellingwebsite.nombre}">region</td>
-            <td><button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" th:data-bs-target="'#'+${listRed.idListaRebajas} + 'ME'">Edit User</button></td>
-            <td><button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#'+${listRed.idListaRebajas}+'MD'">Delete User</button></td>
+            <td class="text-center"><button type="button" class="btn btn-warning" data-bs-toggle="modal" th:data-bs-target="'#'+${listRed.idListaRebajas} + 'ME'">Edit Sales Change</button></td>
+            <td class="text-center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#'+${listRed.idListaRebajas}+'MD'">Delete Sales Change</button></td>
         </tr>
         </tbody>
     </table>
 
 </div>
 
+<!-- Modal Add Sale-->
+<div  class="modal fade" id="ModallistRedAdd" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Sales Change</h4>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/intranet/salechangelist/add}" method="post" th:object="${entity}" class="form-data">
+                    <div class="mb-3">
+                        <span>Change Date</span>
+                        <input type="date" name="fechaCambio" class="form-control"/>
+                    </div>
+                    <div class="mb-3">
+                        <span>Sales Price</span>
+                        <input type="number" name="precioRebajas" class="form-control"/>
+                    </div>
+                    <div class="mb-3">
+                        <span>Website</span>
+                        <select name="cellingwebsite" class="form-select">
+                            <option th:each="website : ${cellWebsites}" th:value="${website.idcellingWebsite}" th:text="${website.nombre}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <span>Product</span>
+                        <select name="productos" class="form-select">
+                            <option th:each="product : ${productos}" th:value="${product.idProductos}" th:text="${product.nombre}"></option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <button type="submit" value="Register" class="btn btn-dark w-100 mt-5">Add Sales Change</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit Sale-->
+<div th:each="listRedME : ${listRedPage.content}" class="modal fade" tabindex="-1" th:id="${listRedME.idListaRebajas}+'ME'" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Sales Change</h4>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/intranet/salechangelist/edit}" method="post" th:object="${entity}" class="form-data">
+                    <div class="mb-3">
+                        <span>Change Date</span>
+                        <input type="date" name="fechaCambio" class="form-control" th:value="${listRedME.fechaCambio}"/>
+                    </div>
+                    <div class="mb-3">
+                        <span>Sales Price</span>
+                        <input type="number" name="precioRebajas" class="form-control" th:value="${listRedME.precioRebajas}"/>
+                    </div>
+                    <div class="mb-3">
+                        <span>Website</span>
+                        <select name="cellingwebsite" class="form-select">
+                            <option th:value="${listRedME.cellingwebsite.idcellingWebsite}" th:text="${listRedME.cellingwebsite.nombre}"></option>
+                            <option th:each="website : ${cellWebsites}" th:if="${listRedME.cellingwebsite.idcellingWebsite != website.idcellingWebsite}" th:value="${website.idcellingWebsite}" th:text="${website.nombre}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <span>Product</span>
+                        <select name="productos" class="form-select">
+                            <option th:value="${listRedME.productos.idProductos}" th:text="${listRedME.productos.nombre}"></option>
+                            <option th:each="product : ${productos}" th:if="${listRedME.productos.idProductos != product.idProductos}" th:value="${product.idProductos}" th:text="${product.nombre}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" value="edit" class="btn btn-dark w-100 mt-5">Save</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal  Delete Sale-->
+<div th:each="listRedMD : ${listRedPage.content}" class="modal  fade" tabindex="-1" th:id="${listRedMD.idListaRebajas}+'MD'" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Sales</h4>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/intranet/salechangelist/delete}" method="post" class="form-data">
+                    <div class="mb-3">
+                        <span>Do you really wanto to Delete this Sale of game?!</span>
+                        <span class="bg-danger" th:text="${listRedMD.productos.nombre}"></span>
+                        <input type="hidden" name="id" th:value="${listRedMD.idListaRebajas}">
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" value="Delete" class="btn btn-dark w-100 mt-5" >Delete</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

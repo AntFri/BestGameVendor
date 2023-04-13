@@ -11,9 +11,9 @@ import java.util.List;
 public interface ListSalesService {
     List<ListaRebajasproductosEntity> salesAll();
     Page<ListaRebajasproductosEntity> salesFindAllPage(Pageable pageable);
-    ListaRebajasproductosEntity salesFindByID(Long ID);
+    ListaRebajasproductosEntity salesFindByID(Long iD);
     List<ListaRebajasproductosEntity> salesFindByLimit(int offset);
     boolean salesSave(ListaRebajasproductosEntity sales);
-    boolean salesDelet(Long ID);
+    boolean salesDelet(Long iD);
     boolean salesEdit(ListaRebajasproductosEntity sales);
 }

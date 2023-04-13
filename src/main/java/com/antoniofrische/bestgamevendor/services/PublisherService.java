@@ -10,10 +10,10 @@ import java.util.List;
 public interface PublisherService {
     List<PublisherEntity> publisherAll();
     Page<PublisherEntity> publisherFindAllPage(Pageable pageable);
-    PublisherEntity publisherFindByID(Long ID);
+    PublisherEntity publisherFindByID(Long iD);
     List<PublisherEntity> publisherFindByLimit(int offset);
     boolean publisherSave(PublisherEntity publisher);
-    boolean publisherDelet(Long ID);
+    boolean publisherDelet(Long iD);
     boolean publisherEdit(PublisherEntity publisher);
 
 }

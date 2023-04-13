@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.User;
 import java.util.List;
 
 public interface ListFavService {
-    ListaFavoritosEntity favFindByID(Long ID);
+    ListaFavoritosEntity favFindByID(Long iD);
     ListaFavoritosEntity favFindByUsername(UserEntity user);
     List<ListaFavoritosEntity> favFindAll();
     void favAddProd(ProductosEntity product, UserEntity user) throws EntityNotFound;

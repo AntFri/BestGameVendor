@@ -10,10 +10,10 @@ import java.util.List;
 public interface PlatformService {
     List<PlataformasEntity> platformAll();
     Page<PlataformasEntity> platformFindAllPage(Pageable pageable);
-    ProductosEntity platformFindByID(Long ID);
+    PlataformasEntity platformFindByID(Long iD);
     List<PlataformasEntity> platformFindByLimit(int offset);
     boolean platformSave(PlataformasEntity plat);
-    boolean platformDelet(Long ID);
+    boolean platformDelet(Long iD);
     boolean platformEdit(PlataformasEntity plat);
 
 }

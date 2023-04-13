@@ -16,14 +16,134 @@
 
 <div class="d-flex flex-column justify-content-center gap-2 mt-5 px-5">
     <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#ModalUserAdd">Add User</button>
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalRegionAdd">Add Region</button>
 
 
     <nav aria-label="Page navigation userList">
-        <ul class="pagination justify-content-center color" th:if="${userPage.totalPages > 0}">
-            <li th:each="pageNumber : ${pageNumbers}" class="page-item"><a class="page-link" th:href="@{/intranet/userlist(size=${userPage.size}, page=${pageNumber})}" th:text="${pageNumber}"></a></li>
+        <ul class="pagination justify-content-center color" th:if="${listRegPage.totalPages > 0}">
+            <li th:each="pageNumber : ${pageNumbers}" class="page-item"><a class="page-link" th:href="@{/intranet/regionlist(size=${listRegPage.size}, page=${pageNumber})}" th:text="${pageNumber}"></a></li>
         </ul>
     </nav>
+</div>
+
+
+<div class="d-flex justify-content-center table-responsive mt-5 px-lg-5">
+    <table class="table  table-striped table-bordered table-hover contTable">
+        <thead class="thead-dark text-center">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Edit Region</th>
+            <th scope="col">Delete Region</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="region : ${listRegPage.content}">
+            <th scope="row" class="text-center" th:text="${region.idRegion}">ID</th>
+            <td class="text-center" th:text="${region.nombre}">nombre</td>
+            <td th:text="${region.descripcion}"></td>
+
+            <td class="text-center"><button type="button" class="btn btn-warning" data-bs-toggle="modal" th:data-bs-target="'#'+${region.idRegion} + 'ME'">Edit Region</button></td>
+            <td class="text-center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#'+${region.idRegion}+'MD'">Delete Region</button></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+
+
+<!-- Modal Add Region-->
+<div  class="modal fade" id="ModalRegionAdd" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Region</h4>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/intranet/regionlist/add}" method="post" th:object="${entity}" class="form-data">
+                    <div class="mb-3">
+                        <span>Name</span>
+                        <input type="text" name="nombre" class="form-control"/>
+                    </div>
+                    <div class="mb-3">
+                        <span>Description</span>
+                        <textarea rows="5" cols="50" type="text" name="descripcion" class="form-text"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <button type="submit" value="Register" class="btn btn-dark w-100 mt-5">Add Region</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit Region-->
+<div th:each="regionME : ${listRegPage.content}" class="modal fade" tabindex="-1" th:id="${regionME.idRegion}+'ME'" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Region</h4>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/intranet/regionlist/edit}" method="post" th:object="${entity}" class="form-data">
+                    <div class="mb-3">
+                        <input type="hidden" th:value="${regionME.idRegion}" name="idPlataformas">
+                        <div class="mb-3">
+                            <span>Name</span>
+                            <input type="text" name="nombre" class="form-control" th:value="${regionME.nombre}"/>
+                        </div>
+                        <div class="mb-3">
+                            <span>Description</span>
+                            <textarea rows="5" cols="50" type="text" name="descripcion" class="form-text" th:text="${regionME.descripcion}"></textarea>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" value="edit" class="btn btn-dark w-100 mt-5">Save</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal  Delete Region-->
+<div th:each="regionMD : ${listRegPage.content}" class="modal  fade" tabindex="-1" th:id="${regionMD.idRegion}+'MD'" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Product</h4>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/intranet/regionlist/delete}" method="post" class="form-data">
+                    <div class="mb-3">
+                        <span>Do you really wanto to Delete this Region?!</span>
+                        <span class="bg-danger" th:text="${regionMD.nombre}"></span>
+                        <input type="hidden" name="id" th:value="${regionMD.idRegion}">
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" value="Delete" class="btn btn-dark w-100 mt-5" >Delete</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

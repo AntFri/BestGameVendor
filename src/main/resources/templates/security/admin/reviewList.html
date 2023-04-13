@@ -17,12 +17,11 @@
 
 <div class="d-flex flex-column justify-content-center gap-2 mt-5 px-5">
     <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#ModalUserAdd">Add User</button>
 
 
     <nav aria-label="Page navigation userList">
-        <ul class="pagination justify-content-center color" th:if="${userPage.totalPages > 0}">
-            <li th:each="pageNumber : ${pageNumbers}" class="page-item"><a class="page-link" th:href="@{/intranet/userlist(size=${userPage.size}, page=${pageNumber})}" th:text="${pageNumber}"></a></li>
+        <ul class="pagination justify-content-center color" th:if="${listRewPage.totalPages > 0}">
+            <li th:each="pageNumber : ${pageNumbers}" class="page-item"><a class="page-link" th:href="@{/intranet/reviewlist(size=${listRewPage.size}, page=${pageNumber})}" th:text="${pageNumber}"></a></li>
         </ul>
     </nav>
 </div>
@@ -32,34 +31,58 @@
         <thead class="thead-dark text-center">
         <tr>
             <th scope="col">ID</th>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Birthday</th>
-            <th scope="col">Region</th>
-            <th scope="col">Role</th>
-            <th scope="col">Active</th>
-            <th scope="col">Edit User</th>
-            <th scope="col">Delete User</th>
+            <th scope="col">Review text</th>
+            <th scope="col">Review Rating</th>
+            <th scope="col">User Name</th>
+            <th scope="col">User Email</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Product Link</th>
+            <th scope="col">Delete Review</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="user : ${userPage.content}">
-            <th scope="row" class="text-center" th:text="${user.idUsuario}">ID</th>
-            <td th:text="${user.nombre}">nombre</td>
-            <td th:text="${user.apellido}">apellido</td>
-            <td th:text="${user.email}">Correo</td>
-            <td th:text="${user.fechaNacimiento}">Cumple</td>
-            <td th:text="${user.region.nombre}">region</td>
-            <td th:text="${user.role}">Rol</td>
-            <td class="text-center" th:if="${user.accountActive == true}"><i class="fa-solid fa-check"></i></td>
-            <td class="text-center" th:if="${user.accountActive == false}"><i class="fa-solid fa-xmark"></i></td>
-            <td><button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" th:data-bs-target="'#'+${user.idUsuario} + 'ME'">Edit User</button></td>
-            <td><button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#'+${user.idUsuario}+'MD'">Delete User</button></td>
+        <tr th:each="review : ${listRewPage.content}" >
+            <th scope="row" class="text-center" th:text="${review.idReview}">ID</th>
+            <td th:text="${review.reviewText}">nombre</td>
+            <td class="text-center" th:text="${review.reviewRating}">apellido</td>
+            <td class="text-center" th:text="${review.user.nombre}">Correo</td>
+            <td class="text-center" th:text="${review.user.email}">Cumple</td>
+            <td class="text-center" th:text="${review.product.nombre}">region</td>
+            <td class="text-center"><a th:href="@{/product/{id}(id=${review.product.idProductos})}">Link</a></td>
+            <td class="text-center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#'+${review.idReview}+'MD'">Delete Review</button></td>
         </tr>
         </tbody>
     </table>
 
+</div>
+
+
+
+<!-- Modal  Delete-->
+<div th:each="reviewMD : ${listRewPage.content}" class="modal  fade" tabindex="-1" th:id="${reviewMD.idReview}+'MD'" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Review</h4>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/intranet/reviewlist/delete}" method="post" class="form-data">
+                    <div class="mb-3">
+                        <span>Do you really wanto to Delete this Review of?! </span>
+                        <span class="bg-danger" th:text="${reviewMD.user.nombre}"></span>
+                        <input type="hidden" name="id" th:value="${reviewMD.idReview}">
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" value="Delete" class="btn btn-dark w-100 mt-5" >Delete</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>

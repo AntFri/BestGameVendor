@@ -1,14 +1,13 @@
 package com.antoniofrische.bestgamevendor.controlers;
 
+import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
+import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.exceptions.UserAgeToLow;
 import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
 import com.antoniofrische.bestgamevendor.models.*;
 import com.antoniofrische.bestgamevendor.repositorios.*;
 import com.antoniofrische.bestgamevendor.security.models.CustomUserDetails;
-import com.antoniofrische.bestgamevendor.services.ProductService;
-import com.antoniofrische.bestgamevendor.services.RegionService;
-import com.antoniofrische.bestgamevendor.services.ReviewService;
-import com.antoniofrische.bestgamevendor.services.UserService;
+import com.antoniofrische.bestgamevendor.services.*;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +33,8 @@ public class PageControler {
     @Autowired
     private IReviewRepository iReviewRepository;
 
+    @Autowired
+    private ListFavService listFavServ;
     @Autowired
     private ReviewService reviewServ;
     @Autowired
@@ -138,15 +139,13 @@ public class PageControler {
     public String removeFav(@RequestParam("idP") Long idP, RedirectAttributes redirectAttributes){
         ProductosEntity product = prodServ.prodFindByID(idP);
         UserEntity currentUser = getCurrentUser();
-
-        ListaFavoritosEntity listaFav = iListaFavoritos.findNameByUser(currentUser);
-        if(listaFav == null){
-            redirectAttributes.addFlashAttribute("Message", "No tienes lista de Favoritos!");
+        try {
+            listFavServ.favRemoveProd(product,currentUser);
+        } catch (EntityNotFound e) {
+            redirectAttributes.addFlashAttribute("Message", e.getMessage());
             return "redirect:/profile";
         }
-
-        listaFav.deleteProduct(product);
-        iListaFavoritos.save(listaFav);
+        redirectAttributes.addFlashAttribute("Message", "Product removed!");
         return "redirect:/profile";
     }
 
@@ -185,7 +184,7 @@ public class PageControler {
             userServ.processReg(user);
             redirectAttributes.addFlashAttribute("regSuccess", "Sucessfully created!");
             return "redirect:/login";
-        }catch (EntityAlreadyExists | UserAgeToLow uae){
+        }catch (EntityAlreadyExists | UserAgeToLow | FormFieldEmpty uae){
             redirectAttributes.addFlashAttribute("errorForm", uae.getMessage());
             return "redirect:/register";
         }

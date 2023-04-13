@@ -22,7 +22,7 @@ public class PlatformServiceImpl implements PlatformService {
 
     @Override
     public List<PlataformasEntity> platformAll() {
-        return null;
+        return platformRepo.findAll();
     }
 
     @Override
@@ -44,8 +44,8 @@ public class PlatformServiceImpl implements PlatformService {
     }
 
     @Override
-    public ProductosEntity platformFindByID(Long ID) {
-        return null;
+    public PlataformasEntity platformFindByID(Long iD) {
+        return platformRepo.findById(iD).orElse(null);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class PlatformServiceImpl implements PlatformService {
     }
 
     @Override
-    public boolean platformDelet(Long ID) {
+    public boolean platformDelet(Long iD) {
         return false;
     }
 

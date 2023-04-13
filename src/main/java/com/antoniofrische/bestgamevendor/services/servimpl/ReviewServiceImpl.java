@@ -44,8 +44,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public ReviewEntity reviewFindByID(Long ID) {
-        return reviewRepo.findById(ID).orElse(null);
+    public ReviewEntity reviewFindByID(Long iD) {
+        return reviewRepo.findById(iD).orElse(null);
     }
 
     @Override

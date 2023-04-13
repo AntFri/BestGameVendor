@@ -1,5 +1,6 @@
 package com.antoniofrische.bestgamevendor.services;
 
+import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.exceptions.UserAgeToLow;
 import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
 import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
@@ -14,9 +15,9 @@ public interface UserService {
     UserEntity userFindByEmail(String email);
     Boolean userAdd(UserEntity user);
     List<UserEntity> userFindAll();
-    void processReg(UserEntity user) throws EntityAlreadyExists, UserAgeToLow;
-    boolean userDelete(Long userID) throws EntityNotFound;
-    boolean userEdit(UserEntity user, Long idU) throws EntityNotFound, EntityAlreadyExists;
+    void processReg(UserEntity user) throws EntityAlreadyExists, UserAgeToLow, FormFieldEmpty;
+    void userDelete(Long userID) throws EntityNotFound;
+    void userEdit(UserEntity user, Long idU) throws EntityNotFound, EntityAlreadyExists, FormFieldEmpty;
 
     Page<UserEntity> userFindAllPage(Pageable pageable);
 

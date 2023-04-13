@@ -21,7 +21,7 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public List<GenreEntity> genreAll() {
-        return null;
+        return gerneRepo.findAll();
     }
 
     @Override
@@ -43,8 +43,8 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public GenreEntity genreFindByID(Long ID) {
-        return null;
+    public GenreEntity genreFindByID(Long iD) {
+        return gerneRepo.findById(iD).orElse(null);
     }
 
     @Override

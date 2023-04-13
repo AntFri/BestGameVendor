@@ -1,5 +1,8 @@
 package com.antoniofrische.bestgamevendor.services.servimpl;
 
+import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
+import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
+import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.models.ProductosEntity;
 import com.antoniofrische.bestgamevendor.repositorios.IProductRepository;
 import com.antoniofrische.bestgamevendor.services.ProductService;
@@ -18,18 +21,31 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private IProductRepository prodRepo;
     @Override
-    public boolean prodSave(ProductosEntity prod) {
-        return false;
+    public void prodSave(ProductosEntity prod)throws FormFieldEmpty, EntityAlreadyExists {
+        if(prod.getNombre().isEmpty() || prod.getDescripcion().isEmpty()||
+                prod.getGenre() ==null || prod.getPublisher() == null ||
+                prod.getRegion() == null || prod.getFechaSalida() == null ||
+                prod.getPrecioSalida().isNaN() || prod.getPrecioSalida() < 1 ||
+                prod.getEdadMinima() < 1 || prod.getPhotoProducto() == null ||
+                prod.getPlatformList() == null) {
+            throw new FormFieldEmpty("All fields musst be filled out!");
+        }
+
+        ProductosEntity prodDB = prodRepo.findByNombreEqualsIgnoreCase(prod.getNombre());
+        if(prodDB != null){
+            throw new EntityAlreadyExists("The peoduct with that name allready exists!");
+        }
+        prodRepo.save(prod);
     }
 
     @Override
-    public boolean prodDelet(Long prodID) {
-        return false;
+    public void prodDelet(Long prodID) {
+
     }
 
     @Override
-    public boolean prodEdit(ProductosEntity prod) {
-        return false;
+    public void prodEdit(ProductosEntity prod) {
+
     }
 
     @Override

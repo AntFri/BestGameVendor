@@ -7,7 +7,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public class CustomUserDetailService implements UserDetailsService {
+import java.io.Serializable;
+
+public class CustomUserDetailService implements UserDetailsService, Serializable {
 
     @Autowired
     private IUserRepository userRepo;

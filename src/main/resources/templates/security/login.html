@@ -8,7 +8,7 @@
 <div th:if="${regSuccess != null || param.error != null}" class="toast-container position-fixed bottom-0 end-0 p-3 notiDiv">
   <div class="container-fluid bg-primary rounded">
     <div class="toast-header">
-      <strong class="me-auto">Server Message!</strong>
+      <strong class="me-auto">Error!</strong>
     </div>
     <div class="toast-body" th:text="${regSuccess}">
       Check if all fiels are correct!
@@ -21,10 +21,9 @@
   <div class="container-fluid bg-primary rounded text-light">
     <div class="toast-header">
       <strong class="me-auto">Logout!</strong>
-      <small>11 mins ago</small>
     </div>
     <div class="toast-body">
-      Has cerrado la session!
+      Successfully logout!
     </div>
   </div>
 </div>

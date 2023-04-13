@@ -9,10 +9,10 @@ import java.util.List;
 
 public interface RegionService {
     List<RegionEntity> regionFindAll();
-    RegionEntity regionFindByID(Long id);
+    RegionEntity regionFindByID(Long iD);
     Page<RegionEntity> regionFindAllPage(Pageable pageable);
     List<RegionEntity> regionFindByLimit(int offset);
     boolean regionSave(RegionEntity region);
-    boolean regionDelet(Long ID);
+    boolean regionDelet(Long iD);
     boolean regionEdit(RegionEntity region);
 }

@@ -26,8 +26,8 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public RegionEntity regionFindByID(Long id) {
-        return regionRepo.findById(id).orElse(null);
+    public RegionEntity regionFindByID(Long iD) {
+        return regionRepo.findById(iD).orElse(null);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public boolean regionDelet(Long ID) {
+    public boolean regionDelet(Long iD) {
         return false;
     }
 

@@ -3,6 +3,7 @@ package com.antoniofrische.bestgamevendor.models;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 
@@ -18,7 +19,7 @@ public class PlataformasEntity {
     private String nombre;
     @Basic
     @Column(name = "FechaSalida", nullable = true)
-    private Timestamp fechaSalida;
+    private LocalDate fechaSalida;
     @Basic
     @Column(name = "Descripcion", nullable = true, length = 45)
     private String descripcion;
@@ -41,11 +42,11 @@ public class PlataformasEntity {
         this.nombre = nombre;
     }
 
-    public Timestamp getFechaSalida() {
+    public LocalDate getFechaSalida() {
         return fechaSalida;
     }
 
-    public void setFechaSalida(Timestamp fechaSalida) {
+    public void setFechaSalida(LocalDate fechaSalida) {
         this.fechaSalida = fechaSalida;
     }
 

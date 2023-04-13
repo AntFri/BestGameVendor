@@ -23,7 +23,7 @@ public class ListSalesServiceImpl implements ListSalesService {
 
     @Override
     public List<ListaRebajasproductosEntity> salesAll() {
-        return null;
+        return listSaleRepo.findAll();
     }
 
     @Override
@@ -45,8 +45,8 @@ public class ListSalesServiceImpl implements ListSalesService {
     }
 
     @Override
-    public ListaRebajasproductosEntity salesFindByID(Long ID) {
-        return null;
+    public ListaRebajasproductosEntity salesFindByID(Long iD) {
+        return listSaleRepo.findById(iD).orElse(null);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ListSalesServiceImpl implements ListSalesService {
     }
 
     @Override
-    public boolean salesDelet(Long ID) {
+    public boolean salesDelet(Long iD) {
         return false;
     }
 

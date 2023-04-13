@@ -16,13 +16,13 @@ public class GenreEntity {
     private String nombre;
     @Basic
     @Column(name = "Description", nullable = true, length = 45)
-    private String description;
+    private String descripcion;
 
-    public int getIdGeneroGenre() {
+    public int getIdGenre() {
         return idGenre;
     }
 
-    public void setIdGeneroGenre(int idGeneroGenre) {
+    public void setIdGenre(int idGeneroGenre) {
         this.idGenre = idGeneroGenre;
     }
 
@@ -34,12 +34,12 @@ public class GenreEntity {
         this.nombre = nombre;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescripcion(String description) {
+        this.descripcion = description;
     }
 
     @Override
@@ -47,11 +47,11 @@ public class GenreEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GenreEntity that = (GenreEntity) o;
-        return idGenre == that.idGenre && Objects.equals(nombre, that.nombre) && Objects.equals(description, that.description);
+        return idGenre == that.idGenre && Objects.equals(nombre, that.nombre) && Objects.equals(descripcion, that.descripcion);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idGenre, nombre, description);
+        return Objects.hash(idGenre, nombre, descripcion);
     }
 }

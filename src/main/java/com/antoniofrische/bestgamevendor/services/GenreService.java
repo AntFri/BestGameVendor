@@ -11,9 +11,9 @@ import java.util.List;
 public interface GenreService {
     List<GenreEntity> genreAll();
     Page<GenreEntity> genreFindAllPage(Pageable pageable);
-    GenreEntity genreFindByID(Long ID);
+    GenreEntity genreFindByID(Long iD);
     List<GenreEntity> genreFindByLimit(int offset);
     boolean genreSave(GenreEntity genre);
-    boolean genreDelet(Long ID);
+    boolean genreDelet(Long iD);
     boolean genreEdit(GenreEntity genre);
 }

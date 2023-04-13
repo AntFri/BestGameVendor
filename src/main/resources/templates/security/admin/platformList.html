@@ -16,14 +16,145 @@
 
 <div class="d-flex flex-column justify-content-center gap-2 mt-5 px-5">
     <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#ModalUserAdd">Add User</button>
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalPlatformAdd">Add Platform</button>
 
 
     <nav aria-label="Page navigation userList">
-        <ul class="pagination justify-content-center color" th:if="${userPage.totalPages > 0}">
-            <li th:each="pageNumber : ${pageNumbers}" class="page-item"><a class="page-link" th:href="@{/intranet/userlist(size=${userPage.size}, page=${pageNumber})}" th:text="${pageNumber}"></a></li>
+        <ul class="pagination justify-content-center color" th:if="${listPlatPage.totalPages > 0}">
+            <li th:each="pageNumber : ${pageNumbers}" class="page-item"><a class="page-link" th:href="@{/intranet/platformlist(size=${listPlatPage.size}, page=${pageNumber})}" th:text="${pageNumber}"></a></li>
         </ul>
     </nav>
+</div>
+
+
+
+<div class="d-flex justify-content-center table-responsive mt-5 px-lg-5">
+    <table class="table  table-striped table-bordered table-hover contTable">
+        <thead class="thead-dark text-center">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Release Date</th>
+            <th scope="col">Description</th>
+            <th scope="col">Edit platform</th>
+            <th scope="col">Delete platform</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="platform : ${listPlatPage.content}">
+            <th scope="row" class="text-center" th:text="${platform.idPlataformas}">ID</th>
+            <td class="text-center" th:text="${platform.nombre}">nombre</td>
+            <td class="text-center" th:text="${platform.fechaSalida}"></td>
+            <td th:text="${platform.descripcion}"></td>
+
+            <td class="text-center"><button type="button" class="btn btn-warning" data-bs-toggle="modal" th:data-bs-target="'#'+${platform.idPlataformas} + 'ME'">Edit platform</button></td>
+            <td class="text-center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#'+${platform.idPlataformas}+'MD'">Delete platform</button></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+
+
+<!-- Modal Add Platform-->
+<div  class="modal fade" id="ModalPlatformAdd" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Platform</h4>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/intranet/platformlist/add}" method="post" th:object="${entity}" class="form-data">
+                    <div class="mb-3">
+                        <span>Name</span>
+                        <input type="text" name="nombre" class="form-control"/>
+                    </div>
+                    <div class="mb-3">
+                        <span>Release Date</span>
+                        <input type="date" name="fechaSalida" class="form-control"/>
+                    </div>
+                    <div class="mb-3">
+                        <span>Description</span>
+                        <textarea rows="5" cols="50" type="text" name="descripcion" class="form-text"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <button type="submit" value="Register" class="btn btn-dark w-100 mt-5">Add Platform</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit Platform-->
+<div th:each="platformME : ${listPlatPage.content}" class="modal fade" tabindex="-1" th:id="${platformME.idPlataformas}+'ME'" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Platform</h4>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/intranet/platformlist/edit}" method="post" th:object="${entity}" class="form-data">
+                    <div class="mb-3">
+                        <input type="hidden" th:value="${platformME.idPlataformas}" name="idPlataformas">
+                        <div class="mb-3">
+                            <span>Name</span>
+                            <input type="text" name="nombre" class="form-control" th:value="${platformME.nombre}"/>
+                        </div>
+                        <div class="mb-3">
+                            <span>Release Date</span>
+                            <input type="date" name="fechaSalida" class="form-control" th:value="${platformME.fechaSalida}"/>
+                        </div>
+                        <div class="mb-3">
+                            <span>Description</span>
+                            <textarea rows="5" cols="50" type="text" name="descripcion" class="form-text" th:text="${platformME.descripcion}"></textarea>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" value="edit" class="btn btn-dark w-100 mt-5">Save</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal  Delete Platform-->
+<div th:each="platformMD : ${listPlatPage.content}" class="modal  fade" tabindex="-1" th:id="${platformMD.idPlataformas}+'MD'" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Platform</h4>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/intranet/platformlist/delete}" method="post" class="form-data">
+                    <div class="mb-3">
+                        <span>Do you really wanto to Delete this Platform?!</span>
+                        <span th:text="${platformMD.nombre}"></span>
+                        <input type="hidden" name="id" th:value="${platformMD.idPlataformas}">
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" value="Delete" class="btn btn-dark w-100 mt-5" >Delete</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

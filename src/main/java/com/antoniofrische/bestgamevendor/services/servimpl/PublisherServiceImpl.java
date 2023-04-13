@@ -21,7 +21,7 @@ public class PublisherServiceImpl implements PublisherService {
 
     @Override
     public List<PublisherEntity> publisherAll() {
-        return null;
+        return publisherRepo.findAll();
     }
 
     @Override
@@ -43,8 +43,8 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public PublisherEntity publisherFindByID(Long ID) {
-        return null;
+    public PublisherEntity publisherFindByID(Long iD) {
+        return publisherRepo.findById(iD).orElse(null);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public boolean publisherDelet(Long ID) {
+    public boolean publisherDelet(Long iD) {
         return false;
     }
 

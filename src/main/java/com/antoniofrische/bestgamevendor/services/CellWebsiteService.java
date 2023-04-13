@@ -1,5 +1,7 @@
 package com.antoniofrische.bestgamevendor.services;
 
+import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
+import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
 import com.antoniofrische.bestgamevendor.models.CellingWebsiteEntity;
 import com.antoniofrische.bestgamevendor.models.GenreEntity;
 import com.antoniofrische.bestgamevendor.models.ProductosEntity;
@@ -13,7 +15,7 @@ public interface CellWebsiteService {
     Page<CellingWebsiteEntity> salesWebFindAllPage(Pageable pageable);
     CellingWebsiteEntity salesWebFindByID(Long id);
     List<CellingWebsiteEntity> salesWebFindByLimit(int offset);
-    boolean salesWebSave(CellingWebsiteEntity salesWeb);
-    boolean salesWebDelet(Long prodID);
-    boolean salesWebEdit(CellingWebsiteEntity salesWeb);
+    boolean salesWebSave(CellingWebsiteEntity salesWeb) throws EntityAlreadyExists;
+    boolean salesWebDelet(Long prodID) throws EntityNotFound;
+    boolean salesWebEdit(CellingWebsiteEntity salesWeb) throws EntityNotFound;
 }

@@ -1,5 +1,8 @@
 package com.antoniofrische.bestgamevendor.controlers;
 
+import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
+import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
+import com.antoniofrische.bestgamevendor.exceptions.UserAgeToLow;
 import com.antoniofrische.bestgamevendor.models.ProductosEntity;
 import com.antoniofrische.bestgamevendor.models.RegionEntity;
 import com.antoniofrische.bestgamevendor.models.UserEntity;
@@ -56,20 +59,13 @@ public class AppControler {
         logger.info("Sending user with id: " + id);
         return Optional.ofNullable(userServ.userFindById(id));
     }
-    @PostMapping("/add")
+    @PostMapping("/user/add")
     public boolean addUser(@RequestBody UserEntity user) {
-        UserEntity currentUser = userServ.userFindByEmail(user.getEmail());
-        if(currentUser != null){
-            return false;
-        }
-        logger.info("new User registering!" + user.getEmail());
-        user.setRole("user");
-
         try {
-            return userServ.userAdd(user);
-        } catch (Exception e) {
-            logger.error("New user could not be saved!" + user.getEmail());
-            e.printStackTrace();
+            userServ.processReg(user);
+            return true;
+        }catch (EntityAlreadyExists | UserAgeToLow | FormFieldEmpty e) {
+            logger.warn(e.getMessage());
             return false;
         }
     }

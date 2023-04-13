@@ -1,9 +1,12 @@
 package com.antoniofrische.bestgamevendor.services.servimpl;
 
+import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
 import com.antoniofrische.bestgamevendor.models.CellingWebsiteEntity;
 import com.antoniofrische.bestgamevendor.models.ReviewEntity;
 import com.antoniofrische.bestgamevendor.repositorios.ICellingWebsiteRepository;
 import com.antoniofrische.bestgamevendor.services.CellWebsiteService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -16,12 +19,15 @@ import java.util.List;
 
 @Service
 public class CellWebsiteServiceImpl implements CellWebsiteService {
+
+    Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     @Autowired
     private ICellingWebsiteRepository cellingwebRepo;
 
     @Override
     public List<CellingWebsiteEntity> salesWebAll() {
-        return null;
+        return cellingwebRepo.findAll();
+
     }
 
     @Override
@@ -44,7 +50,7 @@ public class CellWebsiteServiceImpl implements CellWebsiteService {
 
     @Override
     public CellingWebsiteEntity salesWebFindByID(Long id) {
-        return null;
+        return cellingwebRepo.findById(id).orElse(null);
     }
 
     @Override
@@ -53,8 +59,14 @@ public class CellWebsiteServiceImpl implements CellWebsiteService {
     }
 
     @Override
-    public boolean salesWebSave(CellingWebsiteEntity salesWeb) {
-        return false;
+    public boolean salesWebSave(CellingWebsiteEntity salesWeb) throws EntityAlreadyExists {
+        CellingWebsiteEntity webSiteDB = cellingwebRepo.findByNombreEqualsIgnoreCase(salesWeb.getNombre());
+        if(webSiteDB != null){
+            logger.warn("Celling website already exists in database!");
+            throw  new EntityAlreadyExists("The website allready exists!");
+        }
+        cellingwebRepo.save(salesWeb);
+        return true;
     }
 
     @Override

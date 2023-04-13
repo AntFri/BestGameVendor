@@ -17,7 +17,7 @@
 
 <div class="d-flex flex-column justify-content-center gap-2 mt-5 px-5">
     <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#ModalUserAdd">Add User</button>
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalUserAdd">Add User</button>
 
 
     <nav aria-label="Page navigation userList">
@@ -44,18 +44,18 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:each="user : ${userPage.content}">
-                <th scope="row" class="text-center" th:text="${user.idUsuario}">ID</th>
+            <tr th:each="user : ${userPage.content}" class="text-center">
+                <th scope="row" th:text="${user.idUsuario}">ID</th>
                 <td th:text="${user.nombre}">nombre</td>
                 <td th:text="${user.apellido}">apellido</td>
                 <td th:text="${user.email}">Correo</td>
                 <td th:text="${user.fechaNacimiento}">Cumple</td>
                 <td th:text="${user.region.nombre}">region</td>
                 <td th:text="${user.role}">Rol</td>
-                <td class="text-center" th:if="${user.accountActive == true}"><i class="fa-solid fa-check"></i></td>
-                <td class="text-center" th:if="${user.accountActive == false}"><i class="fa-solid fa-xmark"></i></td>
-                <td><button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" th:data-bs-target="'#'+${user.idUsuario} + 'ME'">Edit User</button></td>
-                <td><button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#'+${user.idUsuario}+'MD'">Delete User</button></td>
+                <td th:if="${user.accountActive == true}"><i class="fa-solid fa-check"></i></td>
+                <td th:if="${user.accountActive == false}"><i class="fa-solid fa-xmark"></i></td>
+                <td><button type="button" class="btn btn-warning" data-bs-toggle="modal" th:data-bs-target="'#'+${user.idUsuario} + 'ME'">Edit User</button></td>
+                <td><button type="button" class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#'+${user.idUsuario}+'MD'">Delete User</button></td>
             </tr>
         </tbody>
     </table>

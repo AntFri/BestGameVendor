@@ -17,4 +17,5 @@ public interface IProductRepository extends JpaRepository<ProductosEntity, Long>
     @Query("SELECT p FROM ProductosEntity p WHERE p.nombre LIKE %:searchTerm% OR p.publisher.nombre LIKE %:searchTerm% OR p.genre.nombre LIKE %:searchTerm%")
     List<ProductosEntity> searchProducts(@Param("searchTerm") String searchTerm);
 
+    ProductosEntity findByNombreEqualsIgnoreCase(String nombre);
 }

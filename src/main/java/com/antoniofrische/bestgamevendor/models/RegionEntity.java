@@ -16,7 +16,7 @@ public class RegionEntity {
     private String nombre;
     @Basic
     @Column(name = "desciption", nullable = true, length = -1)
-    private String desciption;
+    private String descripcion;
 
     public int getIdRegion() {
         return idRegion;
@@ -34,12 +34,12 @@ public class RegionEntity {
         this.nombre = nombre;
     }
 
-    public String getDesciption() {
-        return desciption;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDesciption(String desciption) {
-        this.desciption = desciption;
+    public void setDescripcion(String desciption) {
+        this.descripcion = desciption;
     }
 
     @Override
@@ -47,11 +47,11 @@ public class RegionEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RegionEntity that = (RegionEntity) o;
-        return idRegion == that.idRegion && Objects.equals(nombre, that.nombre) && Objects.equals(desciption, that.desciption);
+        return idRegion == that.idRegion && Objects.equals(nombre, that.nombre) && Objects.equals(descripcion, that.descripcion);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idRegion, nombre, desciption);
+        return Objects.hash(idRegion, nombre, descripcion);
     }
 }

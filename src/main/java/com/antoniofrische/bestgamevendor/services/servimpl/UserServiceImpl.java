@@ -1,5 +1,6 @@
 package com.antoniofrische.bestgamevendor.services.servimpl;
 
+import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.exceptions.UserAgeToLow;
 import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
 import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
@@ -65,17 +66,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void processReg(UserEntity user) throws EntityAlreadyExists, UserAgeToLow {
+    public void processReg(UserEntity user) throws EntityAlreadyExists, UserAgeToLow, FormFieldEmpty {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
+        if(user.getNombre().isEmpty() || user.getApellido().isEmpty()||
+                user.getPassword().isEmpty() || user.getEmail().isEmpty() ||
+                user.getRegion() == null) {
+            throw new FormFieldEmpty("All fields musst be filled out!");
+        }
+
+        UserEntity userDB = userRepo.findByEmail(user.getEmail());
         user.setPassword(encodedPassword);
         user.setRole("user");
         user.setAccountActive(true);
-        UserEntity serUser = userRepo.findByEmail(user.getEmail());
 
-        if(serUser!=null)
+        if(userDB!=null)
             throw new EntityAlreadyExists("User allready exists!");
         int age = calcAge(user.getFechaNacimiento());
-        logger.info(age+ "");
         if(age < 7){
             throw new UserAgeToLow("You must be older then 6 years");
         }
@@ -83,7 +89,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean userDelete(Long userID) throws EntityNotFound {
+    public void userDelete(Long userID) throws EntityNotFound {
         UserEntity user = userRepo.findById(userID).orElse(null);
         if(user == null){
             logger.error("User not exist!");
@@ -98,11 +104,16 @@ public class UserServiceImpl implements UserService {
             reviewServ.reviewDeleteList(reviews);
         }
         userRepo.delete(user);
-        return true;
     }
 
     @Override
-    public boolean userEdit(UserEntity user, Long idU) throws EntityNotFound, EntityAlreadyExists {
+    public void userEdit(UserEntity user, Long idU) throws EntityNotFound, EntityAlreadyExists, FormFieldEmpty {
+        if(user.getNombre().isEmpty() || user.getApellido().isEmpty()||
+                user.getPassword().isEmpty() || user.getEmail().isEmpty() ||
+                user.getRegion() == null) {
+            throw new FormFieldEmpty("All fields musst be filled out!");
+        }
+
         UserEntity userDB = userRepo.findById(idU).orElse(null);
         if(userDB == null){
             logger.error("User not exist!");
@@ -115,16 +126,13 @@ public class UserServiceImpl implements UserService {
             }
             logger.info("Email");
         }
-        if(user.getPassword().length() > 0){
+        if(!user.getPassword().equals(userDB.getPassword())){
             String encodedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(encodedPassword);
             logger.info("Password");
 
         }
-
-
         userRepo.save(user);
-        return true;
     }
 
     @Override
@@ -142,8 +150,7 @@ public class UserServiceImpl implements UserService {
             list = users.subList(startItem, toIndex);
         }
 
-        Page<UserEntity> userPage = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), users.size());
-        return userPage;
+        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), users.size());
     }
 
     private int calcAge(Date fechanac){
