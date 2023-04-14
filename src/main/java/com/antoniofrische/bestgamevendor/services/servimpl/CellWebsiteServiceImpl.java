@@ -1,6 +1,8 @@
 package com.antoniofrische.bestgamevendor.services.servimpl;
 
 import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
+import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
+import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.models.CellingWebsiteEntity;
 import com.antoniofrische.bestgamevendor.models.ReviewEntity;
 import com.antoniofrische.bestgamevendor.repositorios.ICellingWebsiteRepository;
@@ -59,23 +61,37 @@ public class CellWebsiteServiceImpl implements CellWebsiteService {
     }
 
     @Override
-    public boolean salesWebSave(CellingWebsiteEntity salesWeb) throws EntityAlreadyExists {
+    public void salesWebSave(CellingWebsiteEntity salesWeb) throws EntityAlreadyExists, FormFieldEmpty {
+        if(salesWeb.getNombre().isEmpty() || salesWeb.getLink().isEmpty()){
+            throw  new FormFieldEmpty("All fields must be field out!");
+        }
+
         CellingWebsiteEntity webSiteDB = cellingwebRepo.findByNombreEqualsIgnoreCase(salesWeb.getNombre());
         if(webSiteDB != null){
             logger.warn("Celling website already exists in database!");
             throw  new EntityAlreadyExists("The website allready exists!");
         }
         cellingwebRepo.save(salesWeb);
-        return true;
     }
 
     @Override
-    public boolean salesWebDelet(Long prodID) {
-        return false;
+    public void salesWebDelet(Long id) throws EntityNotFound{
+        CellingWebsiteEntity webSiteDB = cellingwebRepo.findById(id).orElse(null);
+        if(webSiteDB == null){
+            throw  new EntityNotFound("The website doesn't exists!");
+        }
+        cellingwebRepo.delete(webSiteDB);
     }
 
     @Override
-    public boolean salesWebEdit(CellingWebsiteEntity salesWeb) {
-        return false;
+    public void salesWebEdit(CellingWebsiteEntity salesWeb) throws EntityNotFound, FormFieldEmpty{
+        if(salesWeb.getNombre().isEmpty() || salesWeb.getLink().isEmpty()){
+            throw  new FormFieldEmpty("All fields must be field out!");
+        }
+        CellingWebsiteEntity webSiteDB = cellingwebRepo.findById((long)salesWeb.getIdcellingWebsite()).orElse(null);
+        if(webSiteDB == null){
+            throw  new EntityNotFound("The website doesn't exists!");
+        }
+        cellingwebRepo.save(salesWeb);
     }
 }

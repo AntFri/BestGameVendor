@@ -97,7 +97,7 @@
             <div class="modal-body">
                 <form th:action="@{/intranet/regionlist/edit}" method="post" th:object="${entity}" class="form-data">
                     <div class="mb-3">
-                        <input type="hidden" th:value="${regionME.idRegion}" name="idPlataformas">
+                        <input type="hidden" th:value="${regionME.idRegion}" name="idRegion">
                         <div class="mb-3">
                             <span>Name</span>
                             <input type="text" name="nombre" class="form-control" th:value="${regionME.nombre}"/>

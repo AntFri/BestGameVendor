@@ -1,5 +1,8 @@
 package com.antoniofrische.bestgamevendor.services;
 
+import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
+import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
+import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.models.GenreEntity;
 import com.antoniofrische.bestgamevendor.models.ListaRebajasproductosEntity;
 import com.antoniofrische.bestgamevendor.models.ProductosEntity;
@@ -13,7 +16,7 @@ public interface GenreService {
     Page<GenreEntity> genreFindAllPage(Pageable pageable);
     GenreEntity genreFindByID(Long iD);
     List<GenreEntity> genreFindByLimit(int offset);
-    boolean genreSave(GenreEntity genre);
-    boolean genreDelet(Long iD);
-    boolean genreEdit(GenreEntity genre);
+    void genreSave(GenreEntity genre) throws EntityAlreadyExists, FormFieldEmpty;
+    void genreDelet(Long iD) throws EntityNotFound;
+    void genreEdit(GenreEntity genre) throws EntityNotFound, FormFieldEmpty;
 }

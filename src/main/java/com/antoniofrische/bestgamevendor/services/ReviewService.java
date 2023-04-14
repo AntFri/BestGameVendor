@@ -1,5 +1,8 @@
 package com.antoniofrische.bestgamevendor.services;
 
+import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
+import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
+import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.models.ProductosEntity;
 import com.antoniofrische.bestgamevendor.models.ReviewEntity;
 import com.antoniofrische.bestgamevendor.models.UserEntity;
@@ -15,7 +18,9 @@ public interface ReviewService {
     List<ReviewEntity> reviewFindAllByUser(UserEntity useer);
     List<ReviewEntity> reviewFindByProduct(ProductosEntity product);
     void reviewDeleteList(List<ReviewEntity> reviews);
-    boolean reviewSave(ReviewEntity review, UserEntity user);
-    void reviewDelete(ReviewEntity review);
-    boolean reviewEdit(ReviewEntity review);
+    void reviewSave(ReviewEntity review, UserEntity user) throws EntityAlreadyExists, EntityNotFound, FormFieldEmpty;
+    void reviewDelete(ReviewEntity review, UserEntity user) throws EntityNotFound;
+
+    void reviewAdminDelete(Long id) throws EntityNotFound;
+
 }

@@ -1,7 +1,11 @@
 package com.antoniofrische.bestgamevendor.controlers.intranet;
 
 import com.antoniofrische.bestgamevendor.controlers.PageControler;
+import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
+import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
+import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.models.GenreEntity;
+import com.antoniofrische.bestgamevendor.models.PlataformasEntity;
 import com.antoniofrische.bestgamevendor.services.GenreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +16,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +30,7 @@ import java.util.stream.IntStream;
 @PreAuthorize("hasRole('admin')")
 @RequestMapping("/intranet/gernelist")
 public class GenreControler {
-    Logger logger = LoggerFactory.getLogger(PageControler.class);
+    Logger logger = LoggerFactory.getLogger(GenreControler.class);
 
     @Autowired
     private GenreService genreServ;
@@ -44,5 +50,45 @@ public class GenreControler {
             model.addAttribute("pageNumbers", pageNumbers);
         }
         return "security/admin/gerneList";
+    }
+
+    @PostMapping("/delete")
+    public String genreDelete(@RequestParam("id") Long id, RedirectAttributes redirectAttributes){
+        try {
+            genreServ.genreDelet(id);
+            logger.info("Delete!");
+            redirectAttributes.addFlashAttribute("Message", "Genre Deleted!");
+            return "redirect:/intranet/gernelist";
+        } catch (EntityNotFound e) {
+            logger.error("Product not exist!");
+            redirectAttributes.addFlashAttribute("Message", e.getMessage());
+            return "redirect:/intranet/gernelist";
+        }
+    }
+
+    @PostMapping("/edit")
+    public String genreEdit(GenreEntity entity , RedirectAttributes redirectAttributes){
+        try {
+            genreServ.genreEdit(entity);
+            logger.info("edited!");
+            redirectAttributes.addFlashAttribute("Message", "Genre edited!");
+            return "redirect:/intranet/gernelist";
+        } catch (EntityNotFound | FormFieldEmpty e) {
+            logger.error("not worked!");
+            redirectAttributes.addFlashAttribute("Message", e.getMessage());
+            return "redirect:/intranet/gernelist";
+        }
+    }
+
+    @PostMapping("/add")
+    public String genreAdd(GenreEntity entity, RedirectAttributes redirectAttributes) {
+        try {
+            genreServ.genreSave(entity);
+            redirectAttributes.addFlashAttribute("Message", "Sucessfully created!");
+            return "redirect:/intranet/gernelist";
+        }catch (EntityAlreadyExists | FormFieldEmpty uae){
+            redirectAttributes.addFlashAttribute("Message", uae.getMessage());
+            return "redirect:/intranet/gernelist";
+        }
     }
 }

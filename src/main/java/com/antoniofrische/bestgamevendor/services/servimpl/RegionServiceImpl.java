@@ -1,5 +1,8 @@
 package com.antoniofrische.bestgamevendor.services.servimpl;
 
+import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
+import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
+import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.models.RegionEntity;
 import com.antoniofrische.bestgamevendor.models.ReviewEntity;
 import com.antoniofrische.bestgamevendor.repositorios.IRegionRepository;
@@ -54,17 +57,33 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public boolean regionSave(RegionEntity region) {
-        return false;
+    public void regionSave(RegionEntity region) throws EntityAlreadyExists, FormFieldEmpty {
+        if(region.getNombre().isEmpty() || region.getDescripcion().isEmpty()){
+            throw new FormFieldEmpty("All field must be filled out!");
+        }
+        if(regionRepo.existsById((long)region.getIdRegion())){
+            throw new EntityAlreadyExists("THis region alreday exists!");
+        }
+        regionRepo.save(region);
     }
 
     @Override
-    public boolean regionDelet(Long iD) {
-        return false;
+    public void regionDelet(Long iD) throws EntityNotFound{
+        RegionEntity regionDB = regionRepo.findById(iD).orElse(null);
+        if(regionDB == null){
+            throw new EntityNotFound("This Region doesn't exsist!");
+        }
+        regionRepo.delete(regionDB);
     }
 
     @Override
-    public boolean regionEdit(RegionEntity region) {
-        return false;
+    public void regionEdit(RegionEntity region) throws EntityNotFound, FormFieldEmpty{
+        if(region.getNombre().isEmpty() || region.getDescripcion().isEmpty()){
+            throw new FormFieldEmpty("All field must be filled out!");
+        }
+        if(!regionRepo.existsById((long)region.getIdRegion())){
+            throw new EntityNotFound("THis region alreday exists!");
+        }
+        regionRepo.save(region);
     }
 }

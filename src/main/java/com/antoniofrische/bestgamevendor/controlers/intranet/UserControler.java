@@ -32,7 +32,7 @@ import java.util.stream.IntStream;
 @PreAuthorize("hasRole('admin')")
 @RequestMapping("/intranet/userlist")
 public class UserControler {
-    Logger logger = LoggerFactory.getLogger(PageControler.class);
+    Logger logger = LoggerFactory.getLogger(UserControler.class);
     @Autowired
     private UserService userServ;
     @Autowired

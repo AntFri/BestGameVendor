@@ -13,4 +13,6 @@ public interface IReviewRepository extends JpaRepository<ReviewEntity, Long> {
     List<ReviewEntity> findByProduct(ProductosEntity product);
 
     List<ReviewEntity> findAllByUserIs(UserEntity user);
+
+    boolean existsByReviewTextIsIgnoreCase(String reviewText);
 }

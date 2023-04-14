@@ -11,8 +11,8 @@ import java.util.List;
 
 public interface ProductService {
     void prodSave(ProductosEntity prod) throws FormFieldEmpty, EntityAlreadyExists;
-    void prodDelet(Long prodID);
-    void prodEdit(ProductosEntity prod);
+    void prodDelet(Long prodID) throws EntityNotFound;
+    void prodEdit(ProductosEntity prod) throws FormFieldEmpty, EntityNotFound;
     List<ProductosEntity> prodAll();
     ProductosEntity prodFindByID(Long id);
     List<ProductosEntity> prodFindByLimit(int offset);

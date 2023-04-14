@@ -1,6 +1,10 @@
 package com.antoniofrische.bestgamevendor.controlers.intranet;
 
 import com.antoniofrische.bestgamevendor.controlers.PageControler;
+import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
+import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
+import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
+import com.antoniofrische.bestgamevendor.models.ProductosEntity;
 import com.antoniofrische.bestgamevendor.models.ReviewEntity;
 import com.antoniofrische.bestgamevendor.services.ReviewService;
 import org.slf4j.Logger;
@@ -12,8 +16,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +30,7 @@ import java.util.stream.IntStream;
 @PreAuthorize("hasRole('admin')")
 @RequestMapping("/intranet/reviewlist")
 public class ReviewControler {
-    Logger logger = LoggerFactory.getLogger(PageControler.class);
+    Logger logger = LoggerFactory.getLogger(ReviewControler.class);
 
     @Autowired
     private ReviewService reviewServ;
@@ -45,4 +51,19 @@ public class ReviewControler {
         }
         return "security/admin/reviewList";
     }
+
+    @PostMapping("/delete")
+    public String reviewDelete(@RequestParam("id") Long id, RedirectAttributes redirectAttributes){
+        try {
+            reviewServ.reviewAdminDelete(id);
+        } catch (EntityNotFound e) {
+            logger.error("Review not exist!");
+            redirectAttributes.addFlashAttribute("Message", e.getMessage());
+            return "redirect:/intranet/reviewList";
+        }
+        logger.info("Delete!");
+        redirectAttributes.addFlashAttribute("Message", "Review Deleted!");
+        return "redirect:/intranet/reviewList";
+    }
+
 }

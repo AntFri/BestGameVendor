@@ -1,5 +1,8 @@
 package com.antoniofrische.bestgamevendor.services.servimpl;
 
+import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
+import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
+import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.models.ProductosEntity;
 import com.antoniofrische.bestgamevendor.models.ReviewEntity;
 import com.antoniofrische.bestgamevendor.models.UserEntity;
@@ -64,20 +67,40 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public boolean reviewSave(ReviewEntity review, UserEntity user) {
+    public void reviewSave(ReviewEntity review, UserEntity user) throws EntityAlreadyExists, EntityNotFound, FormFieldEmpty {
+        if(user == null){
+            throw new EntityNotFound("You must be login to add a review!");
+        }
+        if(review.getReviewText().length() < 1 || Integer.parseInt(review.getReviewRating()) < 1){
+            throw new FormFieldEmpty("All fields must be filled out to add a review!");
+        }
+        if(reviewRepo.existsByReviewTextIsIgnoreCase(review.getReviewText())){
+            throw new EntityAlreadyExists("This review Text exists exactly, don't be a bot!");
+        }
         review.setUser(user);
         reviewRepo.save(review);
-        return true;
-
     }
 
     @Override
-    public void reviewDelete(ReviewEntity review) {
+    public void reviewDelete(ReviewEntity review, UserEntity user) throws EntityNotFound{
+        if(review == null){
+            throw new EntityNotFound("THe review that you want to delet doen't exist!");
+        }
+        if(user == null){
+            throw new EntityNotFound("You must be login to delete a review!");
+        }
+
         reviewRepo.delete(review);
     }
 
     @Override
-    public boolean reviewEdit(ReviewEntity review) {
-        return false;
+    public void reviewAdminDelete(Long id) throws EntityNotFound {
+        ReviewEntity reviewDB = reviewRepo.findById(id).orElse(null);
+        if(reviewDB == null){
+            throw new EntityNotFound("The review doesn't exsist and can't be eliminated!");
+        }
+        reviewRepo.delete(reviewDB);
     }
+
+
 }

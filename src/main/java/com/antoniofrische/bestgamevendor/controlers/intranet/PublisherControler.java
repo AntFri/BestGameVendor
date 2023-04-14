@@ -24,7 +24,7 @@ import java.util.stream.IntStream;
 @PreAuthorize("hasRole('admin')")
 @RequestMapping("/intranet/publisherlist")
 public class PublisherControler {
-    Logger logger = LoggerFactory.getLogger(PageControler.class);
+    Logger logger = LoggerFactory.getLogger(PublisherControler.class);
 
     @Autowired
     private PublisherService publisherServ;

@@ -32,9 +32,9 @@ public class IntranetControler {
     @Autowired
     private UserService userServ;
 
-    Logger logger = LoggerFactory.getLogger(PageControler.class);
+    Logger logger = LoggerFactory.getLogger(IntranetControler.class);
 
-    @GetMapping("/adminPanel")
+    @GetMapping({"","/adminPanel","/"})
     public String adminPanel(Model model){
         CustomUserDetails detailUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserEntity currentUser = userServ.userFindByEmail(detailUser.getUsername());

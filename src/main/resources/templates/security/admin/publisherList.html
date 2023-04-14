@@ -108,7 +108,7 @@
             <div class="modal-body">
                 <form th:action="@{/intranet/publisherlist/edit}" method="post" th:object="${entity}" class="form-data">
                     <div class="mb-3">
-                        <input type="hidden" th:value="${publisherME.idPublisher}" name="idPlataformas">
+                        <input type="hidden" th:value="${publisherME.idPublisher}" name="idPublisher">
                         <div class="mb-3">
                             <span>Name</span>
                             <input type="text" name="nombre" class="form-control" th:value="${publisherME.nombre}"/>

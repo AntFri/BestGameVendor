@@ -90,7 +90,8 @@
 
         <div class="card">
             <div class="card-header">Reviews</div>
-            <div th:each="rew :${reviews}" class="card-body border ">
+            <div th:if="${reviews.size() < 1}" class="card-body border"> <h1 class="text-center">There are no reviews to this Product!</h1></div>
+            <div th:each="rew :${reviews}" th:if="${reviews.size() >= 1}" class="card-body border ">
                 <div class="card-title">
                     <span>Nombre:</span>
                     <div th:text="${rew.user.nombre}"></div>

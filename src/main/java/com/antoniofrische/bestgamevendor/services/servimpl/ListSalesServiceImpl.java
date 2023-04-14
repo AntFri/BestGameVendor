@@ -1,5 +1,8 @@
 package com.antoniofrische.bestgamevendor.services.servimpl;
 
+import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
+import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
+import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.models.ListaRebajasproductosEntity;
 import com.antoniofrische.bestgamevendor.models.ProductosEntity;
 import com.antoniofrische.bestgamevendor.models.ReviewEntity;
@@ -55,17 +58,48 @@ public class ListSalesServiceImpl implements ListSalesService {
     }
 
     @Override
-    public boolean salesSave(ListaRebajasproductosEntity sales) {
-        return false;
+    public List<ListaRebajasproductosEntity> salesFindByProduct(ProductosEntity product) {
+        return listSaleRepo.findByProductID(product);
     }
 
     @Override
-    public boolean salesDelet(Long iD) {
-        return false;
+    public void salesSave(ListaRebajasproductosEntity sales) throws FormFieldEmpty {
+        if(sales.getFechaCambio() == null || sales.getPrecioRebajas() < 0 ||
+            sales.getCellingwebsite() == null || sales.getProductos() == null){
+            throw new FormFieldEmpty("All fields must be filled out!");
+        }
+        sales.setPercentageRebajas((int) ((int)(sales.getPrecioRebajas()*100)/sales.getProductos().getPrecioSalida()));
+        listSaleRepo.save(sales);
     }
 
     @Override
-    public boolean salesEdit(ListaRebajasproductosEntity sales) {
-        return false;
+    public void salesDelet(Long iD) throws EntityNotFound{
+        ListaRebajasproductosEntity salesDB = listSaleRepo.findById(iD).orElse(null);
+        if(salesDB == null){
+            throw new EntityNotFound("This Sales doesn't exsist, so it can't be eliminated!");
+        }
+        listSaleRepo.delete(salesDB);
+    }
+
+    @Override
+    public void salesEdit(ListaRebajasproductosEntity sales) throws EntityNotFound, FormFieldEmpty{
+        ListaRebajasproductosEntity salesDB = listSaleRepo.findById((long)sales.getIdListaRebajas()).orElse(null);
+        if(salesDB == null){
+            throw new EntityNotFound("The sales you want to edit doesn Exist!");
+        }
+
+        if(sales.getFechaCambio() == null || sales.getPrecioRebajas() < 0 ||
+                sales.getCellingwebsite() == null || sales.getProductos() == null){
+            throw new FormFieldEmpty("All fields must be filled out!");
+        }
+        sales.setPercentageRebajas(calcPerRed(sales));
+        listSaleRepo.save(sales);
+    }
+
+    private int calcPerRed(ListaRebajasproductosEntity sales){
+
+        int diference = (int) (sales.getProductos().getPrecioSalida() - sales.getPrecioRebajas());
+
+        return (int) ((diference*100)/ sales.getProductos().getPrecioSalida());
     }
 }

@@ -1,7 +1,9 @@
 package com.antoniofrische.bestgamevendor.services.servimpl;
 
+import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
+import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
+import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.models.GenreEntity;
-import com.antoniofrische.bestgamevendor.models.ReviewEntity;
 import com.antoniofrische.bestgamevendor.repositorios.IGenreRepository;
 import com.antoniofrische.bestgamevendor.services.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +19,16 @@ import java.util.List;
 @Service
 public class GenreServiceImpl implements GenreService {
     @Autowired
-    private IGenreRepository gerneRepo;
+    private IGenreRepository genreRepo;
 
     @Override
     public List<GenreEntity> genreAll() {
-        return gerneRepo.findAll();
+        return genreRepo.findAll();
     }
 
     @Override
     public Page<GenreEntity> genreFindAllPage(Pageable pageable) {
-        List<GenreEntity> genres = gerneRepo.findAll();
+        List<GenreEntity> genres = genreRepo.findAll();
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
@@ -44,7 +46,7 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public GenreEntity genreFindByID(Long iD) {
-        return gerneRepo.findById(iD).orElse(null);
+        return genreRepo.findById(iD).orElse(null);
     }
 
     @Override
@@ -53,17 +55,35 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public boolean genreSave(GenreEntity genre) {
-        return false;
+    public void genreSave(GenreEntity genre) throws EntityAlreadyExists, FormFieldEmpty {
+        if(genre.getNombre().isEmpty() || genre.getDescripcion().isEmpty()){
+            throw new FormFieldEmpty("All fields must be filled out!");
+        }
+
+        if(genreRepo.existsById((long)genre.getIdGenre())){
+            throw new EntityAlreadyExists("This Genre allready exists!");
+        }
+        genreRepo.save(genre);
     }
 
     @Override
-    public boolean genreDelet(Long ID) {
-        return false;
+    public void genreDelet(Long ID) throws EntityNotFound{
+        GenreEntity genreDB = genreRepo.findById(ID).orElse(null);
+        if(genreDB == null){
+            throw new EntityNotFound("This Genre allready exists!");
+        }
+        genreRepo.delete(genreDB);
     }
 
     @Override
-    public boolean genreEdit(GenreEntity genre) {
-        return false;
+    public void genreEdit(GenreEntity genre) throws EntityNotFound, FormFieldEmpty{
+        if(genre.getNombre().isEmpty() || genre.getDescripcion().isEmpty()){
+            throw new FormFieldEmpty("All fields must be filled out!");
+        }
+
+        if(!genreRepo.existsById((long)genre.getIdGenre())){
+            throw new EntityNotFound("This Genre allready exists!");
+        }
+        genreRepo.save(genre);
     }
 }

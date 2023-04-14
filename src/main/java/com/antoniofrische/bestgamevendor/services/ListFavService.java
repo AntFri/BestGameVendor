@@ -16,7 +16,7 @@ public interface ListFavService {
     ListaFavoritosEntity favFindByID(Long iD);
     ListaFavoritosEntity favFindByUsername(UserEntity user);
     List<ListaFavoritosEntity> favFindAll();
-    void favAddProd(ProductosEntity product, UserEntity user) throws EntityNotFound;
+    void favAddProd(ProductosEntity product, UserEntity user) throws EntityAlreadyExists, EntityNotFound;
     void favRemoveProd(ProductosEntity product, UserEntity user) throws EntityNotFound;
-    void favAdd(ListaFavoritosEntity listfav, UserEntity user) throws EntityAlreadyExists;
+    void favAdd(ListaFavoritosEntity listfav, UserEntity user) throws EntityAlreadyExists, EntityNotFound;
 }

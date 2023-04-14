@@ -1,5 +1,8 @@
 package com.antoniofrische.bestgamevendor.services.servimpl;
 
+import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
+import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
+import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.models.PlataformasEntity;
 import com.antoniofrische.bestgamevendor.models.ProductosEntity;
 import com.antoniofrische.bestgamevendor.models.ReviewEntity;
@@ -54,17 +57,35 @@ public class PlatformServiceImpl implements PlatformService {
     }
 
     @Override
-    public boolean platformSave(PlataformasEntity plat) {
-        return false;
+    public void platformSave(PlataformasEntity plat) throws EntityAlreadyExists, FormFieldEmpty{
+        if(plat.getNombre().isEmpty() || plat.getDescripcion().isEmpty() || plat.getFechaSalida() == null){
+            throw  new FormFieldEmpty("All fields must be field out!");
+        }
+
+        if(platformRepo.existsById((long)plat.getIdPlataformas())){
+           throw new EntityAlreadyExists("This platform already exists!");
+        }
+        platformRepo.save(plat);
     }
 
     @Override
-    public boolean platformDelet(Long iD) {
-        return false;
+    public void platformDelet(Long iD) throws EntityNotFound{
+        PlataformasEntity platformDB = platformRepo.findById(iD).orElse(null);
+        if(platformDB == null){
+            throw new EntityNotFound("This platform doesn't exsist!");
+        }
+        platformRepo.delete(platformDB);
     }
 
     @Override
-    public boolean platformEdit(PlataformasEntity plat) {
-        return false;
+    public void platformEdit(PlataformasEntity plat) throws EntityNotFound, FormFieldEmpty{
+        if(plat.getNombre().isEmpty() || plat.getDescripcion().isEmpty() || plat.getFechaSalida() == null){
+            throw  new FormFieldEmpty("All fields must be field out!");
+        }
+
+        if(!platformRepo.existsById((long)plat.getIdPlataformas())){
+            throw new EntityNotFound("This platform already exists!");
+        }
+        platformRepo.save(plat);
     }
 }

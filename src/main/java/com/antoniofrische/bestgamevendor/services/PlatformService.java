@@ -1,5 +1,8 @@
 package com.antoniofrische.bestgamevendor.services;
 
+import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
+import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
+import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.models.PlataformasEntity;
 import com.antoniofrische.bestgamevendor.models.ProductosEntity;
 import org.springframework.data.domain.Page;
@@ -12,8 +15,8 @@ public interface PlatformService {
     Page<PlataformasEntity> platformFindAllPage(Pageable pageable);
     PlataformasEntity platformFindByID(Long iD);
     List<PlataformasEntity> platformFindByLimit(int offset);
-    boolean platformSave(PlataformasEntity plat);
-    boolean platformDelet(Long iD);
-    boolean platformEdit(PlataformasEntity plat);
+    void platformSave(PlataformasEntity plat)throws EntityAlreadyExists, FormFieldEmpty;
+    void platformDelet(Long iD) throws EntityNotFound;
+    void platformEdit(PlataformasEntity plat)throws EntityNotFound, FormFieldEmpty;
 
 }

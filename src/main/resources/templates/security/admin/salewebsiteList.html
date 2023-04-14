@@ -16,12 +16,12 @@
 
 <div class="d-flex flex-column justify-content-center gap-2 mt-5 px-5">
     <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#ModalSalesWebsiteAdd">Add Sale Website</button>
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalSalesWebsiteAdd">Add Sale Website</button>
 
 
     <nav aria-label="Page navigation userList">
         <ul class="pagination justify-content-center color" th:if="${listSellPage.totalPages > 0}">
-            <li th:each="pageNumber : ${pageNumbers}" class="page-item"><a class="page-link" th:href="@{/intranet/salewebsitelist(size=${listSellPage.size}, page=${pageNumber})}" th:text="${pageNumber}"></a></li>
+            <li th:each="pageNumber : ${pageNumbers}" class="page-item"><a class="page-link" th:href="@{/intranet/sallingwebsitelist(size=${listSellPage.size}, page=${pageNumber})}" th:text="${pageNumber}"></a></li>
         </ul>
     </nav>
 </div>
@@ -64,7 +64,7 @@
                 <h4 class="modal-title">Add Sale Website</h4>
             </div>
             <div class="modal-body">
-                <form th:action="@{/intranet/salewebsitelist/add}" method="post" th:object="${entity}" class="form-data">
+                <form th:action="@{/intranet/sallingwebsitelist/add}" method="post" th:object="${entity}" class="form-data">
                     <div class="mb-3">
                         <span>Name</span>
                         <input type="text" name="nombre" class="form-control"/>
@@ -95,16 +95,16 @@
                 <h4 class="modal-title">Edit Sale Website</h4>
             </div>
             <div class="modal-body">
-                <form th:action="@{/intranet/salewebsitelist/edit}" method="post" th:object="${entity}" class="form-data">
+                <form th:action="@{/intranet/sallingwebsitelist/edit}" method="post" th:object="${entity}" class="form-data">
                     <div class="mb-3">
-                        <input type="hidden" th:value="${salewebsiteME.idcellingWebsite}" name="idGenre">
+                        <input type="hidden" th:value="${salewebsiteME.idcellingWebsite}" name="idcellingWebsite">
                         <div class="mb-3">
                             <span>Name</span>
                             <input type="text" name="nombre" class="form-control" th:value="${salewebsiteME.nombre}"/>
                         </div>
                         <div class="mb-3">
                             <span>Link</span>
-                            <input type="text" name="link" class="form-text" th:value="${salewebsiteME.link}" />
+                            <input type="text" name="link" class="form-control" th:value="${salewebsiteME.link}" />
                         </div>
                     </div>
                     <div class="mb-3">
@@ -128,7 +128,7 @@
                 <h4 class="modal-title">Delete Sale Website</h4>
             </div>
             <div class="modal-body">
-                <form th:action="@{/intranet/salewebsitelist/delete}" method="post" class="form-data">
+                <form th:action="@{/intranet/sallingwebsitelist/delete}" method="post" class="form-data">
                     <div class="mb-3">
                         <span>Do you really wanto to Delete this Sale Website?!</span>
                         <span class="bg-danger" th:text="${salewebsiteMD.nombre}"></span>

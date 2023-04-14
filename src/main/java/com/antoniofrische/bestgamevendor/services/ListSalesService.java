@@ -1,5 +1,8 @@
 package com.antoniofrische.bestgamevendor.services;
 
+import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
+import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
+import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.models.ListaRebajasproductosEntity;
 import com.antoniofrische.bestgamevendor.models.ProductosEntity;
 import com.antoniofrische.bestgamevendor.models.PublisherEntity;
@@ -13,7 +16,8 @@ public interface ListSalesService {
     Page<ListaRebajasproductosEntity> salesFindAllPage(Pageable pageable);
     ListaRebajasproductosEntity salesFindByID(Long iD);
     List<ListaRebajasproductosEntity> salesFindByLimit(int offset);
-    boolean salesSave(ListaRebajasproductosEntity sales);
-    boolean salesDelet(Long iD);
-    boolean salesEdit(ListaRebajasproductosEntity sales);
+    List<ListaRebajasproductosEntity> salesFindByProduct(ProductosEntity product);
+    void salesSave(ListaRebajasproductosEntity sales) throws EntityAlreadyExists, FormFieldEmpty;
+    void salesDelet(Long iD) throws EntityNotFound;
+    void salesEdit(ListaRebajasproductosEntity sales) throws EntityNotFound, FormFieldEmpty;
 }

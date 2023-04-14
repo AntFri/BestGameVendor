@@ -31,7 +31,7 @@ import java.util.stream.IntStream;
 @PreAuthorize("hasRole('admin')")
 @RequestMapping("/intranet/prodlist")
 public class ProductControler {
-    Logger logger = LoggerFactory.getLogger(PageControler.class);
+    Logger logger = LoggerFactory.getLogger(ProductControler.class);
 
     @Autowired
     private ProductService prodServ;
@@ -66,34 +66,33 @@ public class ProductControler {
         return "security/admin/prodList";
     }
 
-    /*@PostMapping("/delete")
+    @PostMapping("/delete")
     public String prodDelete(@RequestParam("id") Long id, RedirectAttributes redirectAttributes){
         try {
-            userServ.userDelete(id);
+            prodServ.prodDelet(id);
         } catch (EntityNotFound e) {
             logger.error("Product not exist!");
             redirectAttributes.addFlashAttribute("Message", e.getMessage());
             return "redirect:/intranet/prodlist";
         }
         logger.info("Delete!");
-        redirectAttributes.addFlashAttribute("Message", "User Deleted!");
+        redirectAttributes.addFlashAttribute("Message", "Product Deleted!");
         return "redirect:/intranet/prodlist";
     }
 
     @PostMapping("/edit")
     public String prodEdit(ProductosEntity entity , RedirectAttributes redirectAttributes){
         try {
-            userServ.userEdit(entity, (long) entity.getIdProductos());
-        } catch (EntityNotFound | EntityAlreadyExists e) {
+            prodServ.prodEdit(entity);
+        } catch (EntityNotFound  | FormFieldEmpty e) {
             logger.error("not worked!");
             redirectAttributes.addFlashAttribute("Message", e.getMessage());
             return "redirect:/intranet/prodlist";
         }
 
-
         logger.info("edited!");
         return "redirect:/intranet/prodlist";
-    }*/
+    }
 
     @PostMapping("/add")
     public String prodAdd(ProductosEntity entity, RedirectAttributes redirectAttributes) {

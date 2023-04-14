@@ -91,7 +91,7 @@
                     </div>
                     <div class="mb-3">
                         <span>Release Price</span>
-                        <input type="text" name="precioSalida" class="form-control"/>
+                        <input type="number" step="any" min="0"  name="precioSalida" class="form-control"/>
                     </div>
                     <div class="mb-3">
                         <span>Picture/ Cover</span>
@@ -167,11 +167,15 @@
                         </div>
                         <div class="mb-3">
                             <span>Release Price</span>
-                            <input type="text" name="precioSalida" class="form-control" th:value="${prodME.precioSalida}" />
+                            <input type="number" step="any" min="0"  name="precioSalida" class="form-control" th:value="${prodME.precioSalida}" />
+                        </div>
+                        <div class="mb-3">
+                            <span>Picture/ Cover</span>
+                            <input type="text" name="photoProducto" class="form-control" th:value="${prodME.photoProducto}"/>
                         </div>
                         <div class="mb-3">
                             <span>Description</span>
-                            <textarea rows="5" cols="50" type="text" name="descripcion" class="form-text" th:text="${prodME.descripcion}"></textarea>
+                            <textarea rows="5" cols="50" type="text" name="descripcion" class="form-text" th:value="${prodME.descripcion}" th:text="${prodME.descripcion}"></textarea>
                         </div>
 
                         <div class="mb-3">
@@ -199,11 +203,11 @@
                         </div>
                         <div class="mb-3">
                             <span>Plataformas</span>
-                            <div class="d-flex flex-column" th:each="prodPlat : ${prodME.getPlatformList().stream().toList()}">
-                                <input name="platformList" type="checkbox" th:value="${prodPlat.idPlataformas}" th:text="${prodPlat.nombre}" checked/>
-                                <div class="d-flex flex-row gap-2" th:each="platform : ${platforms}" th:if="${prodPlat.idPlataformas != platform.idPlataformas}">
-                                    <input name="platformList" type="checkbox"  th:value="${platform.idPlataformas}" th:text="${platform.nombre}" />
-                                </div>
+                            <div class="d-flex flex-column">
+                               <div class="d-flex flex-row gap-2" th:each="platform : ${platforms}">
+                                   <input name="platformList" type="checkbox" th:if="${#arrays.contains(prodME.getPlatformList().stream().toList(), platform)}" th:value="${platform.idPlataformas}" th:text="${platform.nombre}" checked/>
+                                   <input name="platformList" type="checkbox" th:if="${!#arrays.contains(prodME.getPlatformList().stream().toList(), platform)}" th:value="${platform.idPlataformas}" th:text="${platform.nombre}" />
+                               </div>
                             </div>
                         </div>
                     </div>

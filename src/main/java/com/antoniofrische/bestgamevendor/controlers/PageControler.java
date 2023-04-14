@@ -25,13 +25,9 @@ import java.util.List;
 public class PageControler {
 
     @Autowired
-    private IListaRebajasRepository iListaRebajasRepository;
+    private ListSalesService listSaleServ;
     @Autowired
     private RegionService regionServ;
-    @Autowired
-    private IListaFavoritos iListaFavoritos;
-    @Autowired
-    private IReviewRepository iReviewRepository;
 
     @Autowired
     private ListFavService listFavServ;
@@ -41,6 +37,7 @@ public class PageControler {
     private UserService userServ;
     @Autowired
     private ProductService prodServ;
+
     private UserEntity getCurrentUser(){
         CustomUserDetails detailUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userServ.userFindByEmail(detailUser.getUsername());
@@ -59,8 +56,8 @@ public class PageControler {
     @GetMapping("/product/{id}")
     public String getProductPage(@PathVariable("id") Long id, Model model) {
         ProductosEntity product = prodServ.prodFindByID(id);
-        List<ListaRebajasproductosEntity> lres = iListaRebajasRepository.findByProductID(product);
-        List<ReviewEntity> reviews = iReviewRepository.findByProduct(product);
+        List<ListaRebajasproductosEntity> lres = listSaleServ.salesFindByProduct(product);
+        List<ReviewEntity> reviews = reviewServ.reviewFindByProduct(product);
         model.addAttribute("websites",lres);
         model.addAttribute("product", product);
         model.addAttribute("reviews",reviews);
@@ -73,26 +70,30 @@ public class PageControler {
     @PostMapping("/addReview")
     public String addReview(ReviewEntity review, RedirectAttributes redirectAttributes){
         UserEntity currentUser = getCurrentUser();
-        if(currentUser == null){
-            redirectAttributes.addFlashAttribute("Message", "You have to be login to do this!");
-            return "redirect:/login";
-        } else{
+
+        try {
             reviewServ.reviewSave(review, currentUser);
-            redirectAttributes.addAttribute("id", review.getProduct().getIdProductos());
-            return  "redirect:/product/{id}";
+        } catch (EntityAlreadyExists  | FormFieldEmpty e) {
+            redirectAttributes.addFlashAttribute("Message", e.getMessage());
+
+        } catch (EntityNotFound enf){
+            redirectAttributes.addFlashAttribute("Message", enf.getMessage());
+            return "redirect:/login";
         }
+        redirectAttributes.addAttribute("id", review.getProduct().getIdProductos());
+        return  "redirect:/product/{id}";
+
     }
     @PostMapping("/removereview")
     public String removeReview(@RequestParam("idR") Long idR, RedirectAttributes redirectAttributes){
         ReviewEntity review = reviewServ.reviewFindByID(idR);
         UserEntity currentUser = getCurrentUser();
 
-        if(currentUser == null){
-            redirectAttributes.addFlashAttribute("Message", "Tienes que iniciar Session");
+        try {
+            reviewServ.reviewDelete(review,currentUser);
+        } catch (EntityNotFound e) {
+            redirectAttributes.addFlashAttribute("Message", e.getMessage());
             return "redirect:/login";
-        } else{
-            review.setUser(currentUser);
-            reviewServ.reviewDelete(review);
         }
         redirectAttributes.addAttribute("id", review.getProduct().getIdProductos());
         return "redirect:/product/{id}";
@@ -103,7 +104,7 @@ public class PageControler {
         //se saca el usuario que se ha Iniciado.
         UserEntity currentUser = getCurrentUser();
 
-        ListaFavoritosEntity favList = iListaFavoritos.findNameByUser(currentUser);
+        ListaFavoritosEntity favList = listFavServ.favFindByUsername(currentUser);
 
         model.addAttribute("user", currentUser);
         model.addAttribute("favList", favList);
@@ -116,24 +117,16 @@ public class PageControler {
     public String addFav(@RequestParam("idP") Long idP, RedirectAttributes redirectAttributes){
         ProductosEntity productDB = prodServ.prodFindByID(idP);
         UserEntity currentUser = getCurrentUser();
-        if(currentUser == null){
-            redirectAttributes.addFlashAttribute("regSuccess", "Login to add a fav!");
-            return "redirect:/login";
-        } else{
-            ListaFavoritosEntity listaFavorito = iListaFavoritos.findNameByUser(currentUser);
-            if(listaFavorito==null){
-                redirectAttributes.addFlashAttribute("Message", "Creat a Favorit list first!");
-                return "redirect:/profile";
-            }
-            boolean isExist = listaFavorito.getProductlist().contains(productDB);
-            if(isExist){
-                redirectAttributes.addFlashAttribute("Message", "is allready added to list!");
-                return "redirect:/profile";
-            }
-            listaFavorito.addProductToList(productDB);
-            iListaFavoritos.save(listaFavorito);
-            return  "redirect:/index";
+
+        try {
+            listFavServ.favAddProd(productDB,currentUser);
+        } catch (EntityAlreadyExists |EntityNotFound e) {
+            redirectAttributes.addFlashAttribute("Message", e.getMessage());
+            return "redirect:/profile";
         }
+        redirectAttributes.addFlashAttribute("Message", "Product added successfully to Favorite List!");
+        return  "redirect:/index";
+
     }
     @PostMapping("/removeFav")
     public String removeFav(@RequestParam("idP") Long idP, RedirectAttributes redirectAttributes){
@@ -152,15 +145,14 @@ public class PageControler {
     @PostMapping("/addListaFav")
     public String addListaFav(ListaFavoritosEntity listaFav, RedirectAttributes redirectAttributes){
         UserEntity currentUser = getCurrentUser();
-        listaFav.setUser(currentUser);
-        ListaFavoritosEntity searchifexist = iListaFavoritos.findNameByUser(currentUser);
 
-        if(searchifexist == null){
-            iListaFavoritos.save(listaFav);
-            redirectAttributes.addFlashAttribute("Message", "Favorit List created!");
+        try {
+            listFavServ.favAdd(listaFav,currentUser);
+        } catch (EntityAlreadyExists | EntityNotFound e) {
+            redirectAttributes.addFlashAttribute("Message", e.getMessage());
             return "redirect:/profile";
         }
-        redirectAttributes.addFlashAttribute("Message", "You have already a list, 1 List is enought!");
+        redirectAttributes.addFlashAttribute("Message", "Favorite List Created!");
         return "redirect:/profile";
     }
 

@@ -74,7 +74,7 @@
                     </div>
                     <div class="mb-3">
                         <span>Sales Price</span>
-                        <input type="number" name="precioRebajas" class="form-control"/>
+                        <input type="number" step="any" min="0" name="precioRebajas" class="form-control"/>
                     </div>
                     <div class="mb-3">
                         <span>Website</span>
@@ -111,13 +111,14 @@
             </div>
             <div class="modal-body">
                 <form th:action="@{/intranet/salechangelist/edit}" method="post" th:object="${entity}" class="form-data">
+                    <input type="hidden" th:value="${listRedME.idListaRebajas}" name="idListaRebajas">
                     <div class="mb-3">
                         <span>Change Date</span>
                         <input type="date" name="fechaCambio" class="form-control" th:value="${listRedME.fechaCambio}"/>
                     </div>
                     <div class="mb-3">
                         <span>Sales Price</span>
-                        <input type="number" name="precioRebajas" class="form-control" th:value="${listRedME.precioRebajas}"/>
+                        <input type="number" step="any" min="0"  name="precioRebajas" class="form-control" th:value="${listRedME.precioRebajas}"/>
                     </div>
                     <div class="mb-3">
                         <span>Website</span>

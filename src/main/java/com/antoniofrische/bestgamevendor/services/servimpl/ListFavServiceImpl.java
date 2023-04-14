@@ -36,18 +36,30 @@ public class ListFavServiceImpl implements ListFavService {
 
 
     @Override
-    public void favAddProd(ProductosEntity product, UserEntity user) throws EntityNotFound {
+    public void favAddProd(ProductosEntity product, UserEntity user) throws EntityAlreadyExists, EntityNotFound {
+        if(user == null){
+            throw  new EntityNotFound("Login before adding a product to your Favorite List!");
+        }
+
         ListaFavoritosEntity listFav = listFavRepo.findNameByUser(user);
         if(listFav == null){
             throw  new EntityNotFound("You don't have any favorite list!");
         }
+        if(listFav.getProductlist().contains(product)){
+            throw new EntityAlreadyExists("This product is already in your Favorite List!");
+        }
+
         listFav.addProductToList(product);
         listFavRepo.save(listFav);
     }
 
     @Override
     public void favRemoveProd(ProductosEntity product, UserEntity user) throws EntityNotFound{
+        if(user == null){
+            throw new EntityNotFound("Login before removing a product to your Favorite List!");
+        }
         ListaFavoritosEntity listFav = listFavRepo.findNameByUser(user);
+
         if(listFav == null){
             throw  new EntityNotFound("You don't have any favorite list!");
         }
@@ -56,7 +68,10 @@ public class ListFavServiceImpl implements ListFavService {
     }
 
     @Override
-    public void favAdd(ListaFavoritosEntity listfav, UserEntity user) throws EntityAlreadyExists {
+    public void favAdd(ListaFavoritosEntity listfav, UserEntity user) throws EntityAlreadyExists, EntityNotFound {
+        if(user == null){
+            throw new EntityNotFound("Login Before adding a Favorite List!");
+        }
         ListaFavoritosEntity listFavSearch = listFavRepo.findNameByUser(user);
         listfav.setUser(user);
         if(listFavSearch != null){
