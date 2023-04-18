@@ -44,7 +44,7 @@
             <th scope="row" class="text-center" th:text="${publisher.idPublisher}">ID</th>
             <td th:text="${publisher.nombre}">nombre</td>
             <td th:text="${publisher.fechaInauguracion}"></td>
-            <td th:text="${publisher.origenContry}"></td>
+            <td th:text="${publisher.origenContry.nombre}"></td>
             <td th:text="${publisher.descripcion}"></td>
 
             <td><button type="button" class="btn btn-warning" data-bs-toggle="modal" th:data-bs-target="'#'+${publisher.idPublisher} + 'ME'">Edit Publisher</button></td>
@@ -77,14 +77,15 @@
                         <input type="date" name="fechaInauguracion" class="form-control"/>
                     </div>
                     <div class="mb-3">
-                        <span>Origen Country</span>
-                        <input type="text" name="origenContry" class="form-control"/>
-                    </div>
-                    <div class="mb-3">
                         <span>Description</span>
                         <textarea rows="5" cols="50" type="text" name="descripcion" class="form-text"></textarea>
                     </div>
-
+                    <div class="mb-3">
+                        <span>Origen country</span>
+                        <select name="origenContry" class="form-select">
+                            <option th:each="regione : ${regiones}" th:value="${regione.idRegion}" th:text="${regione.nombre}"></option>
+                        </select>
+                    </div>
                     <div class="mb-3">
                         <button type="submit" value="Register" class="btn btn-dark w-100 mt-5">Add Publisher</button>
                     </div>
@@ -118,12 +119,15 @@
                             <input type="date" name="fechaInauguracion" class="form-control" th:value="${publisherME.fechaInauguracion}"/>
                         </div>
                         <div class="mb-3">
-                            <span>Origen country</span>
-                            <input type="text" name="origenContry" class="form-control" th:value="${publisherME.origenContry}"/>
-                        </div>
-                        <div class="mb-3">
                             <span>Description</span>
                             <textarea rows="5" cols="50" type="text" name="descripcion" class="form-text" th:text="${publisherME.descripcion}"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <span>Origen country</span>
+                            <select name="origenContry" class="form-select">
+                                <option th:value="${publisherME.origenContry.idRegion}" th:text="${publisherME.origenContry.nombre}"></option>
+                                <option th:each="regione : ${regiones}" th:if="${publisherME.origenContry.idRegion != regione.idRegion}" th:value="${regione.idRegion}" th:text="${regione.nombre}"></option>
+                            </select>
                         </div>
                     </div>
                     <div class="mb-3">

@@ -22,9 +22,8 @@ public class PublisherEntity {
     @Basic
     @Column(name = "Descripcion", nullable = true, length = 45)
     private String descripcion;
-    @Basic
-    @Column(name = "Origen_Contry", nullable = true, length = 45)
-    private String origenContry;
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    private RegionEntity origenContry;
 
     public int getIdPublisher() {
         return idPublisher;
@@ -58,11 +57,11 @@ public class PublisherEntity {
         this.descripcion = descripcion;
     }
 
-    public String getOrigenContry() {
+    public RegionEntity getOrigenContry() {
         return origenContry;
     }
 
-    public void setOrigenContry(String origenContry) {
+    public void setOrigenContry(RegionEntity origenContry) {
         this.origenContry = origenContry;
     }
 

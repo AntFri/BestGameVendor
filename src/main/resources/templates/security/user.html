@@ -25,11 +25,11 @@
             <table class="table ">
                 <tbody>
                 <tr>
-                    <th scope="row">User Full Name</th>
+                    <th scope="row">Full Name</th>
                     <td th:text="${user.nombre}+' '+${user.apellido}">nombre</td>
                 </tr>
                 <tr>
-                    <th scope="row">User Email</th>
+                    <th scope="row">Email</th>
                     <td th:text="${user.email}">nombre</td>
                 </tr>
                 <tr>
@@ -37,12 +37,12 @@
                     <td th:text="${user.fechaNacimiento}">nombre</td>
                 </tr>
                 <tr>
-                    <th scope="row">User Role</th>
+                    <th scope="row">Role</th>
                     <td th:text="${user.role}">nombre</td>
                 </tr>
                 <tr>
                     <th scope="row">Change Password</th>
-                    <td th:text="${user.role}">nombre</td>
+                    <td><button type="button" class="btn btn-warning" data-bs-toggle="modal" th:data-bs-target="'#'+${user.idUsuario} + 'ME'">Edit your Account!</button></td>
                 </tr>
                 </tbody>
             </table>
@@ -50,7 +50,6 @@
     </div>
 
     <div class="d-flex flex-row justify-content-center gap-3 flex-wrap ">
-        <div th:if="${favList ==null}"><h1>No tienes ninguna Lista de Favoritos!</h1></div>
 
         <div class="card" th:if="${favList!=null}">
             <div class="card-header">
@@ -62,7 +61,7 @@
                     <tr>
                         <th scope="row">Product Name</th>
                         <th scope="row">Product Link</th>
-                        <th scope="row">Remove from Favorite List</th>
+                        <th scope="row">Remove from List</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -78,21 +77,79 @@
                 </table>
             </div>
         </div>
+        <div class="card" th:if="${favList==null}">
+            <div class="card-header">
+                Add A favorite List!
+            </div>
+            <h1>No tienes ninguna Lista de Favoritos!</h1>
+            <div class="card-body">
+                <form th:action="@{/addListaFav}" method="post" th:object="${listaFav}">
+                    <input type="text" name="nombre" class="form-control"/>
+                    <button type="submit" class="btn btn-outline-dark">Add new Fav list</button>
+                </form>
+            </div>
+        </div>
     </div>
 
 </div>
-<div class="card" th:if="${favList==null}">
-    <div class="card-header">
-        Add A favorite List!
-    </div>
-    <div class="card-body">
-        <form th:action="@{/addListaFav}" method="post" th:object="${listaFav}">
-            <input type="text" name="nombre" />
-            <button type="submit" class="btn btn-outline-dark">Add new Fav list</button>
-        </form>
+<hr class="userPerfilHR">
+
+
+<div class="modal fade" tabindex="-1" th:id="${user.idUsuario}+'ME'" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit User</h4>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/profile/useredit}" method="post" th:object="${userEdit}" class="form-data">
+                    <div class="mb-3">
+                        <input type="hidden" th:value="${user.idUsuario}" name="idUsuario">
+                        <input type="hidden" th:value="${user.role}" name="role">
+                        <input type="hidden" th:value="${user.accountActive}" name="accountActive">
+                        <div class="mb-3">
+                            <span>Firstname</span>
+                            <input type="text" name="nombre" class="form-control" th:value="${user.nombre}"/>
+                        </div>
+                        <div class="mb-3">
+                            <span>Lastname</span>
+                            <input type="text" name="apellido" class="form-control" th:value="${user.apellido}"/>
+                        </div>
+                        <div class="mb-3">
+                            <span>E-mail</span>
+                            <input type="email" name="email" class="form-control" th:value="${user.email}"/>
+                        </div>
+                        <div class="mb-3">
+                            <span>Password</span>
+                            <input type="password" name="password" class="form-control" th:value="${user.password}" />
+                        </div>
+
+                        <div class="mb-3">
+                            <span>Birthday</span>
+                            <input type="date" name="fechaNacimiento" class="form-control" th:value="${user.fechaNacimiento}" />
+                        </div>
+
+                        <div class="mb-3">
+                            <span>Region</span>
+                            <select name="region" class="form-select">
+                                <option th:value="${user.region.idRegion}" th:text="${user.region.nombre}"></option>
+                                <option th:each="regione : ${regiones}" th:if="${user.region.idRegion != regione.idRegion}" th:value="${regione.idRegion}" th:text="${regione.nombre}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" value="edit" class="btn btn-dark w-100 mt-5">Save</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
-<hr class="userPerfilHR">
+
 
 </body>
 </html>

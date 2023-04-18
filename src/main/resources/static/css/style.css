@@ -4,123 +4,12 @@
     font-family: 'Nunito', "FontAwesome", sans-serif;
 }
 
-
-
-
-/* Everything of the Header and navbar */
-
-
-
-
-
-
-/* search element in NavBar */
-
-
-/* Index picture boxes/cards */
-.imgBoxs{
-    display:flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center;
-    gap: 1vh;
-    width: 100%;
-    top: 0;
-    border-radius: 5px;
-}
-.imgbox{
-    width: fit-content;
-    padding: 1vh;
-    background-color: var(--primary-turques);
-    border: 1px solid black;
-    text-align: center;
-}
-.imgbox:hover{
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-}
-
-
-/* everything for the Dropdown Menu in the Nav bar */
-
-/*Spring security Css Data*/
-.screenBox{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-    top: 0;
-}
 .userPerfilHR{
-    background-color: var(--dark-blue);
     border: 1px solid black;
     height: 0.5vh;
     width: 96%;
 }
-.userFavBoxs{
-    display:flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center;
-    gap: 1vh;
-    width: 100%;
-    top: 0;
-}
-.userFavCard{
-    width: 20%;
-    padding: 1vh;
-    background-color: var(--primary-turques);
-    border: 1px solid black;
-    text-align: center;
-}
-.userFavSubCard{
-    text-align: left;
-}
-.loginBox{
-    background-color: var(--primary-turques);
-    margin: 5vh;
-    padding: 5vh;
-    padding-top: 1vh ;
-    width: fit-content;
-    text-align: center;
-    border: 1px solid black;
-    border-radius: 24px;
-}
-.registerBox{
-    background-color: var(--primary-turques);
-    margin: 5vh;
-    padding: 5vh;
-    padding-top: 1vh ;
-    width: 25%;
-    text-align: center;
-    border: 1px solid black;
-    border-radius: 24px;
-}
 
-/* Button to add to favorit list */
-.btnFav{
-    font-size: 32px;
-    padding: 4px;
-    width: fit-content;
-    height: fit-content;
-    display: inline-block;
-    color: black;
-    cursor:pointer;
-
-}
-.btnFav:hover{
-    background-color: var(--secondary-turques);
-}
-
-/* Logout and error message Div */
-.message{
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    padding: 0px;
-    margin: 0px;
-}
 .notiDiv{
     margin: 0;
     padding: 0;
@@ -131,79 +20,9 @@
 }
 
 
-/* Div for the content od the Game site. */
-.gameScreenBox{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 2vh;
-
+.primeColor{
+    background-color: #9133af;
 }
-.gameBox{
-    width: 65vw;
-    height: fit-content;
-    background-color: var(--primary-turques);
-    display: flex;
-    justify-content: left;
-    gap: 1vh;
-}
-.gameText{
-    width: 100%;
-    display: flex;
-    justify-content: left;
-    flex-wrap: wrap;
-    word-wrap: break-word;
-
-}
-.gameInfoBox{
-    width: 65vw;
-    height: 5vh;
-    background-color: var(--primary-turques);
-    border: 1px solid black;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-direction: row;
-}
-.gameList{
-    background-color: var(--primary-turques);
-    border: 1px solid black;
-    width: 65vw;
-    height: 5vh;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-direction: row;
-}
-.gameReviewList{
-    background-color: var(--primary-turques);
-    border: 1px solid black;
-    width: 65vw;
-    height: fit-content;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: center;
-}
-.imgLogo{
-    width: auto;
-    height: 4vh;
-}
-.btnLogo{
-    display: inline;
-    padding: 8px;
-    color: white;
-    cursor:pointer;
-    text-decoration: none;
-}
-.btnLogo:hover{
-    background-color: var(--red-tone);
-    user-focus-pointer: true;
-}
-
 
 
 /* target devices is PC big screens */
@@ -228,7 +47,6 @@
 }
 
 /* CSS animation for the Messages */
-
 @keyframes notiDivAnim {
     0%{opacity: 1;}
     50%{opacity: 1; z-index: 1;}
@@ -236,13 +54,3 @@
     100% {opacity: 0; z-index: -1;}
 }
 
-:root{
-    --primary-turques:#40ffdc;
-    --secondary-turques:#00a9d4;
-    --dark-blue:#1c3166;
-    --dark-red:#240047;
-    --dark-purple:#1c0021;
-    --red-tone:#bd0d59;
-
-}
-/* Colors for the page */

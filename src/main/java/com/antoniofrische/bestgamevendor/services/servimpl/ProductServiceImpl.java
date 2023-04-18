@@ -93,6 +93,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductosEntity prodFindByNombre(ProductosEntity prod) {
+        return prodRepo.findByNombreEqualsIgnoreCase(prod.getNombre());
+    }
+
+    @Override
     public List<ProductosEntity> prodFindByLimit(int offset) {
         return prodRepo.findByProductLimit(offset);
     }

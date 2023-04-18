@@ -15,8 +15,8 @@ public interface ProductService {
     void prodEdit(ProductosEntity prod) throws FormFieldEmpty, EntityNotFound;
     List<ProductosEntity> prodAll();
     ProductosEntity prodFindByID(Long id);
+    ProductosEntity prodFindByNombre(ProductosEntity prod);
     List<ProductosEntity> prodFindByLimit(int offset);
     List<ProductosEntity> searchByKey(String key);
-
     Page<ProductosEntity> prodFindAllPage(Pageable pageable);
 }

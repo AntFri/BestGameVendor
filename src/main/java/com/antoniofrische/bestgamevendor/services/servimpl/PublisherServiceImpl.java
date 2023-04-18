@@ -1,6 +1,10 @@
 package com.antoniofrische.bestgamevendor.services.servimpl;
 
+import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
+import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
+import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.models.PublisherEntity;
+import com.antoniofrische.bestgamevendor.models.RegionEntity;
 import com.antoniofrische.bestgamevendor.models.ReviewEntity;
 import com.antoniofrische.bestgamevendor.repositorios.IPublisherRepository;
 import com.antoniofrische.bestgamevendor.services.PublisherService;
@@ -53,17 +57,37 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public boolean publisherSave(PublisherEntity publisher) {
-        return false;
+    public void publisherSave(PublisherEntity publisher) throws EntityAlreadyExists, FormFieldEmpty {
+        if(publisher.getNombre().isEmpty() || publisher.getDescripcion().isEmpty() ||
+                publisher.getFechaInauguracion() ==null || publisher.getOrigenContry() == null){
+            throw new FormFieldEmpty("All field must be filled out!");
+        }
+
+        PublisherEntity publisherDB = publisherRepo.findByNombreEqualsIgnoreCase(publisher.getNombre());
+        if(publisherDB != null){
+            throw new EntityAlreadyExists("This Publisher alreday exists!");
+        }
+        publisherRepo.save(publisher);
     }
 
     @Override
-    public boolean publisherDelet(Long iD) {
-        return false;
+    public void publisherDelet(Long iD) throws EntityNotFound{
+        PublisherEntity publisherDB = publisherRepo.findById(iD).orElse(null);
+        if(publisherDB == null){
+            throw new EntityNotFound("This Publisher doesn't exsist!");
+        }
+        publisherRepo.delete(publisherDB);
     }
 
     @Override
-    public boolean publisherEdit(PublisherEntity publisher) {
-        return false;
+    public void publisherEdit(PublisherEntity publisher) throws EntityNotFound, FormFieldEmpty{
+        if(publisher.getNombre().isEmpty() || publisher.getDescripcion().isEmpty() ||
+                publisher.getFechaInauguracion() ==null || publisher.getOrigenContry() == null){
+            throw new FormFieldEmpty("All field must be filled out!");
+        }
+        if(!publisherRepo.existsById((long)publisher.getIdPublisher())){
+            throw new EntityNotFound("This Publisher doesn't exist!");
+        }
+        publisherRepo.save(publisher);
     }
 }

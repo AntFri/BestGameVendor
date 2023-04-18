@@ -21,7 +21,8 @@ public class CustomUserDetails implements UserDetails, Serializable {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> auths = new ArrayList<>();
-        auths.add(new SimpleGrantedAuthority(user.getRole()));
+        SimpleGrantedAuthority auth = new SimpleGrantedAuthority(user.getRole());
+        auths.add(auth);
         return auths;
     }
 
@@ -53,10 +54,6 @@ public class CustomUserDetails implements UserDetails, Serializable {
     @Override
     public boolean isEnabled() {
         return user.getAccountActive();
-    }
-
-    public String getFullName() {
-        return user.getNombre() + " " + user.getApellido();
     }
 
 }

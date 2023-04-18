@@ -57,7 +57,7 @@ public class RegionControler {
         try {
             regionServ.regionDelet(id);
             logger.info("Delete!");
-            redirectAttributes.addFlashAttribute("Message", "Genre Deleted!");
+            redirectAttributes.addFlashAttribute("Message", "Region Deleted!");
             return "redirect:/intranet/regionlist";
         } catch (EntityNotFound e) {
             logger.error("Product not exist!");
@@ -71,7 +71,7 @@ public class RegionControler {
         try {
             regionServ.regionEdit(entity);
             logger.info("edited!");
-            redirectAttributes.addFlashAttribute("Message", "Genre edited!");
+            redirectAttributes.addFlashAttribute("Message", "Region edited!");
             return "redirect:/intranet/regionlist";
         } catch (EntityNotFound | FormFieldEmpty e) {
             logger.error("not worked!");

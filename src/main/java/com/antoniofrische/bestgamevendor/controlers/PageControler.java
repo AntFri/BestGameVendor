@@ -105,13 +105,27 @@ public class PageControler {
         UserEntity currentUser = getCurrentUser();
 
         ListaFavoritosEntity favList = listFavServ.favFindByUsername(currentUser);
+        List<RegionEntity> regiones = regionServ.regionFindAll();
 
         model.addAttribute("user", currentUser);
         model.addAttribute("favList", favList);
         model.addAttribute("listaFav", new ListaFavoritosEntity());
+        model.addAttribute("regiones", regiones);
         model.addAttribute("title", currentUser.getNombre()+" Profile");
         return "security/user";
     }
+    @PostMapping("/profile/useredit")
+    public String editUser(UserEntity userEdit, RedirectAttributes redirectAttributes){
+        try {
+            userServ.userEdit(userEdit,(long)userEdit.getIdUsuario());
+        } catch (EntityNotFound | FormFieldEmpty | EntityAlreadyExists e) {
+            redirectAttributes.addFlashAttribute("Message", e.getMessage());
+            return "redirect:/profile";
+        }
+        redirectAttributes.addFlashAttribute("Message", "User Data edited!");
+        return "redirect:/profile";
+    }
+
 
     @PostMapping("/addFav")
     public String addFav(@RequestParam("idP") Long idP, RedirectAttributes redirectAttributes){
@@ -186,12 +200,14 @@ public class PageControler {
     public String searchProd(@RequestParam("searchKey") String searchKey, RedirectAttributes redirectAttributes){
         List<ProductosEntity> products = prodServ.searchByKey(searchKey);
         redirectAttributes.addFlashAttribute("products", products);
-        return "redirect:/products/searchProdRec";
+        redirectAttributes.addFlashAttribute("searchKey", searchKey);
+        return "redirect:/searching";
     }
 
-    @GetMapping("/products/searchProdRec")
+    @GetMapping("/searching")
     public String searchResultProd(Model model){
         model.addAttribute("title", "product Search!");
+
         return "/products/searchProdRec";
     }
 }

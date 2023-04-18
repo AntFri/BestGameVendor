@@ -2,11 +2,12 @@ package com.antoniofrische.bestgamevendor.models;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "region", schema = "gamevendor", catalog = "")
-public class RegionEntity {
+public class RegionEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "idRegion", nullable = false)

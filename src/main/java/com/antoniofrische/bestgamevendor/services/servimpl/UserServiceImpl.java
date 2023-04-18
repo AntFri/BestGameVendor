@@ -119,7 +119,7 @@ public class UserServiceImpl implements UserService {
             logger.error("User not exist!");
             throw new EntityNotFound("Usuario no Existe!");
         }
-        if(!user.getEmail().equals(userDB.getEmail())){
+        if(!user.getEmail().equalsIgnoreCase(userDB.getEmail())){
             UserEntity emailUser = userRepo.findByEmail(user.getEmail());
             if(emailUser != null){
                 throw  new EntityAlreadyExists("El email ya esta utilizado!");

@@ -3,13 +3,10 @@ package com.antoniofrische.bestgamevendor.controlers;
 import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
 import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.exceptions.UserAgeToLow;
-import com.antoniofrische.bestgamevendor.models.ProductosEntity;
-import com.antoniofrische.bestgamevendor.models.RegionEntity;
-import com.antoniofrische.bestgamevendor.models.UserEntity;
+import com.antoniofrische.bestgamevendor.models.*;
 
 import com.antoniofrische.bestgamevendor.repositorios.IRegionRepository;
-import com.antoniofrische.bestgamevendor.services.ProductService;
-import com.antoniofrische.bestgamevendor.services.UserService;
+import com.antoniofrische.bestgamevendor.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +23,19 @@ public class AppControler {
     private ProductService prodServ;
     @Autowired
     private UserService userServ;
-
     @Autowired
-    private IRegionRepository regionRepo;
+    private ReviewService reviewServ;
+    @Autowired
+    private RegionService regionServ;
+    @Autowired
+    private ListSalesService lsServ;
 
-
-    @GetMapping("/all_product")
+    @GetMapping("/productAll")
     public List<ProductosEntity> getProductos() {
         return prodServ.prodAll();
     }
 
-    @GetMapping("/all_product/{offset}")
+    @GetMapping("/productAll/{offset}")
     public List<ProductosEntity> getProductLimit(@PathVariable("offset") Integer offset){
         logger.info("Sending list of products size: " + offset);
         return prodServ.prodFindByLimit(offset);
@@ -48,10 +47,25 @@ public class AppControler {
         return Optional.ofNullable(prodServ.prodFindByID(id));
     }
 
-    @GetMapping("/all_region")
+    @GetMapping("/regionAll")
     public List<RegionEntity> getAllRegion(){
         logger.info("Sending region list");
-        return regionRepo.findAll();
+        return regionServ.regionFindAll();
+    }
+
+    @GetMapping("/reviewProd/{id}")
+    public List<ReviewEntity> getAllReview(@PathVariable("id") Long id){
+        logger.info("Sending region list");
+        return reviewServ.reviewFindAll();
+    }
+
+    @GetMapping("/salesProdList/{id}")
+    public List<ListaRebajasproductosEntity> getSalesByProd(@PathVariable Long id){
+        ProductosEntity prodDB = prodServ.prodFindByID(id);
+        if(prodDB == null){
+            return null;
+        }
+        return lsServ.salesFindByProduct(prodDB);
     }
 
     @GetMapping(value = "/user/{id}")
@@ -59,7 +73,7 @@ public class AppControler {
         logger.info("Sending user with id: " + id);
         return Optional.ofNullable(userServ.userFindById(id));
     }
-    @PostMapping("/user/add")
+    @PostMapping("/user/signup")
     public boolean addUser(@RequestBody UserEntity user) {
         try {
             userServ.processReg(user);
@@ -70,4 +84,12 @@ public class AppControler {
         }
     }
 
+    @PostMapping("/user/signin")
+    public boolean userSingnIn(@RequestBody UserEntity user) {
+        UserEntity userDB = userServ.userFindByEmail(user.getEmail());
+        if(userDB == null){
+            return false;
+        }
+        return user.getPassword().equals(userDB.getPassword());
+    }
 }

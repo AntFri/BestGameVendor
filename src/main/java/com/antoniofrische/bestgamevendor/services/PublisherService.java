@@ -15,8 +15,8 @@ public interface PublisherService {
     Page<PublisherEntity> publisherFindAllPage(Pageable pageable);
     PublisherEntity publisherFindByID(Long iD);
     List<PublisherEntity> publisherFindByLimit(int offset);
-    boolean publisherSave(PublisherEntity publisher) throws EntityAlreadyExists, FormFieldEmpty;
-    boolean publisherDelet(Long iD);
-    boolean publisherEdit(PublisherEntity publisher) throws EntityNotFound, FormFieldEmpty;
+    void publisherSave(PublisherEntity publisher) throws EntityAlreadyExists, FormFieldEmpty;
+    void publisherDelet(Long iD) throws EntityNotFound;
+    void publisherEdit(PublisherEntity publisher) throws EntityNotFound, FormFieldEmpty;
 
 }
