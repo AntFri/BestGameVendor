@@ -11,7 +11,7 @@
     </div>
     <div th:if="${products.size > 0}" class="card text-center" th:each="product : ${products}">
         <div class="bg-image hover-overlay ripple " data-mdb-ripple-color="light">
-            <a th:href="@{/product/{id}(id=${product.idProductos})}"><img class="imge-index " th:src="${product.photoProducto}" th:alt="${product.nombre}"  src="" /></a>
+            <a th:href="@{/product/{id}(id=${product.idProductos})}"><img class="imge-index " th:src="${product.photoProducto.imgURL}" th:alt="${product.nombre}"  src="" /></a>
         </div>
         <div class="card-body">
             <h5 class="card-title" th:text="${product.nombre}">Product Name</h5>

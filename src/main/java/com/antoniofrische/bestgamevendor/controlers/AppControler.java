@@ -28,6 +28,8 @@ public class AppControler {
     @Autowired
     private RegionService regionServ;
     @Autowired
+    private PlatformService platformServ;
+    @Autowired
     private ListSalesService lsServ;
 
     @GetMapping("/productAll")
@@ -51,6 +53,11 @@ public class AppControler {
     public List<RegionEntity> getAllRegion(){
         logger.info("Sending region list");
         return regionServ.regionFindAll();
+    }
+
+    @GetMapping("/platformAll")
+    public List<PlataformasEntity> getPlatformAll(){
+        return platformServ.platformAll();
     }
 
     @GetMapping("/reviewProd/{id}")

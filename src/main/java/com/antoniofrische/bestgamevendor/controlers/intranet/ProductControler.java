@@ -5,6 +5,7 @@ import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
 import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
 import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.exceptions.UserAgeToLow;
+import com.antoniofrische.bestgamevendor.models.ProductImageEntity;
 import com.antoniofrische.bestgamevendor.models.ProductosEntity;
 import com.antoniofrische.bestgamevendor.models.UserEntity;
 import com.antoniofrische.bestgamevendor.services.*;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -43,6 +45,8 @@ public class ProductControler {
     private RegionService regionServ;
     @Autowired
     private PlatformService platformServ;
+    @Autowired
+    private ProductImageService prodImgServ;
 
     @GetMapping("")
     public String listProds(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
@@ -64,6 +68,18 @@ public class ProductControler {
         model.addAttribute("genres", genreServ.genreAll());
         model.addAttribute("platforms", platformServ.platformAll());
         return "security/admin/prodList";
+    }
+
+    @PostMapping("/images/upload")
+    public String uploadImage(RedirectAttributes redirectAttributes, @RequestParam("file") MultipartFile file, @RequestParam("imgName") String name) {
+        try {
+            prodImgServ.save(file,name);
+            redirectAttributes.addFlashAttribute("Message", "Image uploaded!");
+            return "redirect:/intranet/prodlist";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("Message", "Image could not be uploded!");
+            return "redirect:/intranet/prodlist";
+        }
     }
 
     @PostMapping("/delete")

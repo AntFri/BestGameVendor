@@ -15,8 +15,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.lang.reflect.Array;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -28,6 +33,7 @@ public class ProductServiceImpl implements ProductService {
     private IProductRepository prodRepo;
     @Autowired
     private IListaFavoritos favRepo;
+    private final Path root = Paths.get("./static/img");
 
     @Override
     public void prodSave(ProductosEntity prod)throws FormFieldEmpty, EntityAlreadyExists {
@@ -126,4 +132,5 @@ public class ProductServiceImpl implements ProductService {
 
         return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), products.size());
     }
+
 }

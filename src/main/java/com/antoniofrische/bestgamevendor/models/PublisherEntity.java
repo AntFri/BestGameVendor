@@ -25,6 +25,18 @@ public class PublisherEntity {
     @ManyToOne(cascade = CascadeType.REFRESH)
     private RegionEntity origenContry;
 
+
+    public PublisherEntity(int idPublisher, String nombre, LocalDate fechaInauguracion, String descripcion, RegionEntity origenContry) {
+        this.idPublisher = idPublisher;
+        this.nombre = nombre;
+        this.fechaInauguracion = fechaInauguracion;
+        this.descripcion = descripcion;
+        this.origenContry = origenContry;
+    }
+
+    public PublisherEntity() {
+    }
+
     public int getIdPublisher() {
         return idPublisher;
     }

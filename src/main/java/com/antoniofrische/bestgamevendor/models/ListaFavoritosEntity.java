@@ -28,6 +28,17 @@ public class ListaFavoritosEntity {
             inverseJoinColumns = @JoinColumn(name = "productos_idProductos"))
     private Set<ProductosEntity> productlist;
 
+
+    public ListaFavoritosEntity(int idFavoritos, String nombre, UserEntity user, Set<ProductosEntity> productlist) {
+        this.idFavoritos = idFavoritos;
+        this.nombre = nombre;
+        this.user = user;
+        this.productlist = productlist;
+    }
+
+    public ListaFavoritosEntity() {
+    }
+
     public int getIdFavoritos() {
         return idFavoritos;
     }

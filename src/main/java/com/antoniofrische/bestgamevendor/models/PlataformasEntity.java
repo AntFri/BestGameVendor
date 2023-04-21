@@ -23,8 +23,17 @@ public class PlataformasEntity {
     @Basic
     @Column(name = "Descripcion", nullable = true, length = 45)
     private String descripcion;
-    @ManyToMany(mappedBy = "platformList")
-    private Set<ProductosEntity> prodlist;
+
+    public PlataformasEntity(int idPlataformas, String nombre, LocalDate fechaSalida, String descripcion, Set<ProductosEntity> prodlist) {
+        this.idPlataformas = idPlataformas;
+        this.nombre = nombre;
+        this.fechaSalida = fechaSalida;
+        this.descripcion = descripcion;
+
+    }
+
+    public PlataformasEntity() {
+    }
 
     public int getIdPlataformas() {
         return idPlataformas;
@@ -58,13 +67,7 @@ public class PlataformasEntity {
         this.descripcion = descripcion;
     }
 
-    public Set<ProductosEntity> getProdlist() {
-        return prodlist;
-    }
 
-    public void setProdlist(Set<ProductosEntity> prodlist) {
-        this.prodlist = prodlist;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -77,5 +80,15 @@ public class PlataformasEntity {
     @Override
     public int hashCode() {
         return Objects.hash(idPlataformas, nombre, fechaSalida, descripcion);
+    }
+
+    @Override
+    public String toString() {
+        return "PlataformasEntity{" +
+                "idPlataformas=" + idPlataformas +
+                ", nombre='" + nombre + '\'' +
+                ", fechaSalida=" + fechaSalida +
+                ", descripcion='" + descripcion + '\'' +
+                '}';
     }
 }

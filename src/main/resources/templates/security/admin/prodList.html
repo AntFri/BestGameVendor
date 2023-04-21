@@ -17,7 +17,7 @@
 <div class="d-flex flex-column justify-content-center gap-2 mt-5 px-5">
     <!-- Trigger the modal with a button -->
     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalProdAdd">Add Product</button>
-
+    <button type="button" class="btn-outline-success" data-bs-toggle="modal" data-bs-target="#ModalProdImg">Add Image</button>
 
     <nav aria-label="Page navigation userList">
         <ul class="pagination justify-content-center color" th:if="${prodPage.totalPages > 0}">
@@ -132,6 +132,27 @@
                     <div class="mb-3">
                         <button type="submit" value="Register" class="btn btn-dark w-100 mt-5">Add Product</button>
                     </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div  class="modal fade" id="ModalProdImg" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Product Image</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" th:action="@{/intranet/prodlist/images/upload}" enctype="multipart/form-data">
+                    <input type="file" name="file" accept="image/png, image/jpeg" />
+                    <input type="text" name="imgName">
+                    <button class="btn btn-outline-success float-right" type="submit">Upload</button>
                 </form>
             </div>
             <div class="modal-footer">

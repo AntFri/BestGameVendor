@@ -19,6 +19,15 @@ public class RegionEntity implements Serializable {
     @Column(name = "desciption", nullable = true, length = -1)
     private String descripcion;
 
+    public RegionEntity(int idRegion, String nombre, String descripcion) {
+        this.idRegion = idRegion;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+    }
+
+    public RegionEntity() {
+    }
+
     public int getIdRegion() {
         return idRegion;
     }

@@ -20,9 +20,8 @@ public class ProductosEntity {
     @Basic
     @Column(name = "edadMinima", nullable = false)
     private int edadMinima;
-    @Basic
-    @Column(name = "Photo_Producto", nullable = true, length = 200)
-    private String photoProducto;
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    private ProductImageEntity photoProducto;
     @Basic
     @Column(name = "Descripcion", nullable = true, length = 400)
     private String descripcion;
@@ -38,14 +37,29 @@ public class ProductosEntity {
     private GenreEntity genre;
     @ManyToOne(cascade = CascadeType.REFRESH)
     private RegionEntity region;
-    @ManyToMany(mappedBy = "productlist")
-    private Set<ListaFavoritosEntity> listaFav;
     @ManyToMany
     @JoinTable(
             name = "prod_list_platform",
             joinColumns = @JoinColumn(name = "productos_idProductos"),
             inverseJoinColumns = @JoinColumn(name = "plataformas_idPlataformas"))
     private Set<PlataformasEntity> platformList;
+
+    public ProductosEntity(int idProductos, String nombre, int edadMinima, ProductImageEntity photoProducto, String descripcion, LocalDate fechaSalida, Double precioSalida, PublisherEntity publisher, GenreEntity genre, RegionEntity region, Set<ListaFavoritosEntity> listaFav, Set<PlataformasEntity> platformList) {
+        this.idProductos = idProductos;
+        this.nombre = nombre;
+        this.edadMinima = edadMinima;
+        this.photoProducto = photoProducto;
+        this.descripcion = descripcion;
+        this.fechaSalida = fechaSalida;
+        this.precioSalida = precioSalida;
+        this.publisher = publisher;
+        this.genre = genre;
+        this.region = region;
+        this.platformList = platformList;
+    }
+
+    public ProductosEntity() {
+    }
 
     public int getIdProductos() {
         return idProductos;
@@ -71,11 +85,11 @@ public class ProductosEntity {
         this.edadMinima = edadMinima;
     }
 
-    public String getPhotoProducto() {
+    public ProductImageEntity getPhotoProducto() {
         return photoProducto;
     }
 
-    public void setPhotoProducto(String photoProducto) {
+    public void setPhotoProducto(ProductImageEntity photoProducto) {
         this.photoProducto = photoProducto;
     }
 
@@ -127,13 +141,6 @@ public class ProductosEntity {
         this.region = fkRegion;
     }
 
-    public Set<ListaFavoritosEntity> getListaFav() {
-        return listaFav;
-    }
-
-    public void setListaFav(Set<ListaFavoritosEntity> listaFav) {
-        this.listaFav = listaFav;
-    }
 
     public Set<PlataformasEntity> getPlatformList() {
         return platformList;
@@ -154,5 +161,22 @@ public class ProductosEntity {
     @Override
     public int hashCode() {
         return Objects.hash(idProductos, nombre, edadMinima, photoProducto, descripcion, fechaSalida, precioSalida, publisher, genre, region);
+    }
+
+    @Override
+    public String toString() {
+        return "ProductosEntity{" +
+                "idProductos=" + idProductos +
+                ", nombre='" + nombre + '\'' +
+                ", edadMinima=" + edadMinima +
+                ", photoProducto='" + photoProducto + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", fechaSalida=" + fechaSalida +
+                ", precioSalida=" + precioSalida +
+                ", publisher=" + publisher +
+                ", genre=" + genre +
+                ", region=" + region +
+                ", Platform="+platformList.toString()+
+                '}';
     }
 }

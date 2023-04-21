@@ -18,6 +18,15 @@ public class GenreEntity {
     @Column(name = "Description", nullable = true, length = 45)
     private String descripcion;
 
+    public GenreEntity(int idGenre, String nombre, String descripcion) {
+        this.idGenre = idGenre;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+    }
+
+    public GenreEntity() {
+    }
+
     public int getIdGenre() {
         return idGenre;
     }
