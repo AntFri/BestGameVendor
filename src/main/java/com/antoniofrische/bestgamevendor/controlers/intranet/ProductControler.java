@@ -67,6 +67,7 @@ public class ProductControler {
         model.addAttribute("publishers", publisherServ.publisherAll());
         model.addAttribute("genres", genreServ.genreAll());
         model.addAttribute("platforms", platformServ.platformAll());
+        model.addAttribute("photos", prodImgServ.imageFindAll());
         return "security/admin/prodList";
     }
 
@@ -77,6 +78,7 @@ public class ProductControler {
             redirectAttributes.addFlashAttribute("Message", "Image uploaded!");
             return "redirect:/intranet/prodlist";
         } catch (Exception e) {
+            System.out.println("error: "+ e.getMessage());
             redirectAttributes.addFlashAttribute("Message", "Image could not be uploded!");
             return "redirect:/intranet/prodlist";
         }

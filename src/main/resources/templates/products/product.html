@@ -12,7 +12,7 @@
             <div class="card-header" th:text="${product.nombre}">
             </div>
             <div class="card-img d-flex flex-row">
-                <img class="imge-prod border border-dark border-2 rounded mt-2 mx-2" th:src="${product.photoProducto.imgURL}" th:alt="'Games Name: '+ ${product.nombre}">
+                <img class="imge-prod border border-dark border-2 rounded mt-2 mx-2" th:src="${product.productimage.imgURL}" th:alt="'Games Name: '+ ${product.nombre}">
                 <div class="text-wrap" th:text="${product.descripcion}">
                     PRODUCT TEXT!
                 </div>

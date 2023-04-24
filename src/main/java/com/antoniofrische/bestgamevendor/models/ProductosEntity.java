@@ -21,7 +21,7 @@ public class ProductosEntity {
     @Column(name = "edadMinima", nullable = false)
     private int edadMinima;
     @ManyToOne(cascade = CascadeType.REFRESH)
-    private ProductImageEntity photoProducto;
+    private ProductImageEntity productimage;
     @Basic
     @Column(name = "Descripcion", nullable = true, length = 400)
     private String descripcion;
@@ -48,7 +48,7 @@ public class ProductosEntity {
         this.idProductos = idProductos;
         this.nombre = nombre;
         this.edadMinima = edadMinima;
-        this.photoProducto = photoProducto;
+        this.productimage = photoProducto;
         this.descripcion = descripcion;
         this.fechaSalida = fechaSalida;
         this.precioSalida = precioSalida;
@@ -85,12 +85,12 @@ public class ProductosEntity {
         this.edadMinima = edadMinima;
     }
 
-    public ProductImageEntity getPhotoProducto() {
-        return photoProducto;
+    public ProductImageEntity getProductimage() {
+        return productimage;
     }
 
-    public void setPhotoProducto(ProductImageEntity photoProducto) {
-        this.photoProducto = photoProducto;
+    public void setProductimage(ProductImageEntity photoProducto) {
+        this.productimage = photoProducto;
     }
 
     public String getDescripcion() {
@@ -155,12 +155,12 @@ public class ProductosEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductosEntity that = (ProductosEntity) o;
-        return idProductos == that.idProductos && edadMinima == that.edadMinima && publisher == that.publisher && genre == that.genre && region == that.region && Objects.equals(nombre, that.nombre) && Objects.equals(photoProducto, that.photoProducto) && Objects.equals(descripcion, that.descripcion) && Objects.equals(fechaSalida, that.fechaSalida) && Objects.equals(precioSalida, that.precioSalida);
+        return idProductos == that.idProductos && edadMinima == that.edadMinima && publisher == that.publisher && genre == that.genre && region == that.region && Objects.equals(nombre, that.nombre) && Objects.equals(productimage, that.productimage) && Objects.equals(descripcion, that.descripcion) && Objects.equals(fechaSalida, that.fechaSalida) && Objects.equals(precioSalida, that.precioSalida);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idProductos, nombre, edadMinima, photoProducto, descripcion, fechaSalida, precioSalida, publisher, genre, region);
+        return Objects.hash(idProductos, nombre, edadMinima, productimage, descripcion, fechaSalida, precioSalida, publisher, genre, region);
     }
 
     @Override
@@ -169,7 +169,7 @@ public class ProductosEntity {
                 "idProductos=" + idProductos +
                 ", nombre='" + nombre + '\'' +
                 ", edadMinima=" + edadMinima +
-                ", photoProducto='" + photoProducto + '\'' +
+                ", photoProducto='" + productimage + '\'' +
                 ", descripcion='" + descripcion + '\'' +
                 ", fechaSalida=" + fechaSalida +
                 ", precioSalida=" + precioSalida +

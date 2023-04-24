@@ -95,7 +95,9 @@
                     </div>
                     <div class="mb-3">
                         <span>Picture/ Cover</span>
-                        <input type="text" name="photoProducto" class="form-control"/>
+                        <select name="productimage" class="form-select">
+                            <option th:each="photo : ${photos}" th:value="${photo.id}" th:text="${photo.name} +  ' | ' + ${photo.imgURL}"></option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <span>Description</span>
@@ -192,7 +194,10 @@
                         </div>
                         <div class="mb-3">
                             <span>Picture/ Cover</span>
-                            <input type="text" name="photoProducto" class="form-control" th:value="${prodME.photoProducto}"/>
+                            <select name="productimage" class="form-select">
+                                <option th:value="${prodME.productimage.id}" th:text="${prodME.productimage.name} + ' | ' + ${prodME.productimage.imgURL}"></option>
+                                <option th:each="photo : ${photos}" th:if="${prodME.productimage.id != photo.id}" th:value="${photo.id}" th:text="${photo.name}  +  ' | ' +${photo.imgURL}"></option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <span>Description</span>

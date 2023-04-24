@@ -5,7 +5,6 @@ import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
 import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.models.ListaFavoritosEntity;
 import com.antoniofrische.bestgamevendor.models.ProductosEntity;
-import com.antoniofrische.bestgamevendor.models.UserEntity;
 import com.antoniofrische.bestgamevendor.repositorios.IListaFavoritos;
 import com.antoniofrische.bestgamevendor.repositorios.IProductRepository;
 import com.antoniofrische.bestgamevendor.services.ProductService;
@@ -15,17 +14,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.lang.reflect.Array;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -41,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
                 prod.getGenre() ==null || prod.getPublisher() == null ||
                 prod.getRegion() == null || prod.getFechaSalida() == null ||
                 prod.getPrecioSalida().isNaN() || prod.getPrecioSalida() < 1 ||
-                prod.getEdadMinima() < 1 || prod.getPhotoProducto() == null ||
+                prod.getEdadMinima() < 1 || prod.getProductimage() == null ||
                 prod.getPlatformList() == null) {
             throw new FormFieldEmpty("All fields musst be filled out!");
         }
@@ -75,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
                 prod.getGenre() ==null || prod.getPublisher() == null ||
                 prod.getRegion() == null || prod.getFechaSalida() == null ||
                 prod.getPrecioSalida() < 1 || prod.getEdadMinima() < 1 ||
-                prod.getPhotoProducto() == null || prod.getPlatformList() == null) {
+                prod.getProductimage() == null || prod.getPlatformList() == null) {
             System.out.println(Arrays.toString(prod.getPlatformList().toArray()));
             throw new FormFieldEmpty("All fields musst be filled out!");
         }
