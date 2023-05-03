@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "lista_rebajasproductos", schema = "gamevendor", catalog = "")
-public class ListaRebajasproductosEntity {
+public class ListaRebajasproductosEntity implements Comparable<ListaRebajasproductosEntity> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "idListaRebajas", nullable = false)
@@ -22,7 +22,7 @@ public class ListaRebajasproductosEntity {
     @Column(name = "PercRebajas", nullable = true)
     private int percentageRebajas;
     @ManyToOne(cascade = CascadeType.REFRESH)
-    private CellingWebsiteEntity cellingwebsite;
+    private SellingWebsiteEntity cellingwebsite;
     @ManyToOne(cascade = CascadeType.REFRESH)
     private ProductosEntity productos;
 
@@ -58,11 +58,11 @@ public class ListaRebajasproductosEntity {
         this.percentageRebajas = percentageRebajas;
     }
 
-    public CellingWebsiteEntity getCellingwebsite() {
+    public SellingWebsiteEntity getCellingwebsite() {
         return cellingwebsite;
     }
 
-    public void setCellingwebsite(CellingWebsiteEntity fkWebsite) {
+    public void setCellingwebsite(SellingWebsiteEntity fkWebsite) {
         this.cellingwebsite = fkWebsite;
     }
 
@@ -73,6 +73,7 @@ public class ListaRebajasproductosEntity {
     public void setProductos(ProductosEntity fkProduct) {
         this.productos = fkProduct;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -85,5 +86,10 @@ public class ListaRebajasproductosEntity {
     @Override
     public int hashCode() {
         return Objects.hash(idListaRebajas, fechaCambio, precioRebajas, cellingwebsite, productos);
+    }
+
+    @Override
+    public int compareTo(ListaRebajasproductosEntity o) {
+        return precioRebajas.compareTo(o.getPrecioRebajas());
     }
 }

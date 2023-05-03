@@ -36,11 +36,12 @@ public class ReviewControler {
     private ReviewService reviewServ;
 
     @GetMapping("")
-    public String listReview(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+    public String listReview(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size, @RequestParam("searchKey") Optional<String> searchKey) {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
+        String search = searchKey.orElse(null);
 
-        Page<ReviewEntity> Page = reviewServ.reviewFindAllPage(PageRequest.of(currentPage - 1, pageSize));
+        Page<ReviewEntity> Page = reviewServ.reviewFindAllPageSearch(PageRequest.of(currentPage - 1, pageSize), search);
 
         model.addAttribute("listRewPage", Page);
 
@@ -49,6 +50,7 @@ public class ReviewControler {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
         }
+        model.addAttribute("searchKey", search);
         return "security/admin/reviewList";
     }
 

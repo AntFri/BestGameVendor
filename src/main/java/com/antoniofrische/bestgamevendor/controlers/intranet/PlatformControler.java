@@ -36,11 +36,12 @@ public class PlatformControler {
     private PlatformService platformServ;
 
     @GetMapping("")
-    public String listPlatform(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+    public String listPlatform(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size, @RequestParam("searchKey") Optional<String> searchKey) {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
+        String search = searchKey.orElse(null);
 
-        Page<PlataformasEntity> Page = platformServ.platformFindAllPage(PageRequest.of(currentPage - 1, pageSize));
+        Page<PlataformasEntity> Page = platformServ.platformFindAllPageSearch(PageRequest.of(currentPage - 1, pageSize), search);
 
         model.addAttribute("listPlatPage", Page);
 
@@ -49,6 +50,7 @@ public class PlatformControler {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
         }
+        model.addAttribute("searchKey", search);
         return "security/admin/platformList";
     }
 

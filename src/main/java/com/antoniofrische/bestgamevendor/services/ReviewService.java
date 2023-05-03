@@ -14,6 +14,7 @@ import java.util.List;
 public interface ReviewService {
     List<ReviewEntity> reviewFindAll();
     Page<ReviewEntity> reviewFindAllPage(Pageable pageable);
+    Page<ReviewEntity> reviewFindAllPageSearch(Pageable pageable, String search);
     ReviewEntity reviewFindByID(Long iD);
     List<ReviewEntity> reviewFindAllByUser(UserEntity useer);
     List<ReviewEntity> reviewFindByProduct(ProductosEntity product);

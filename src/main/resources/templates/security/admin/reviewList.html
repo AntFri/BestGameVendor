@@ -16,14 +16,15 @@
 </div>
 
 <div class="d-flex flex-column justify-content-center gap-2 mt-5 px-5">
-    <!-- Trigger the modal with a button -->
+    <div class="d-flex flex-row justify-content-end">
+        <form method="get" class="form-data" th:action="@{/intranet/reviewlist}">
+            <input type="hidden" th:value="5" name="size">
+            <input type="hidden" th:value="1" name="page">
+            <input class="form-control me-2" type="search" placeholder="Search" name="searchKey" th:value="${searchKey}">
+            <button class="btn btn-outline-dark" type="submit"><i class="fas fa-search"></i></button>
+        </form>
+    </div>
 
-
-    <nav aria-label="Page navigation userList">
-        <ul class="pagination justify-content-center color" th:if="${listRewPage.totalPages > 0}">
-            <li th:each="pageNumber : ${pageNumbers}" class="page-item"><a class="page-link" th:href="@{/intranet/reviewlist(size=${listRewPage.size}, page=${pageNumber})}" th:text="${pageNumber}"></a></li>
-        </ul>
-    </nav>
 </div>
 
 <div class="d-flex justify-content-center table-responsive mt-5 px-lg-5">
@@ -49,13 +50,20 @@
             <td class="text-center" th:text="${review.user.email}">Cumple</td>
             <td class="text-center" th:text="${review.product.nombre}">region</td>
             <td class="text-center"><a th:href="@{/product/{id}(id=${review.product.idProductos})}">Link</a></td>
-            <td class="text-center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#'+${review.idReview}+'MD'">Delete Review</button></td>
+            <td class="text-center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#'+${review.idReview}+'MD'"><i class="fa-regular fa-trash-can"></i></button></td>
         </tr>
         </tbody>
     </table>
-
 </div>
+<div class="d-flex flex-row justify-content-end gap-2  px-5">
 
+
+    <nav aria-label="Page navigation userList">
+        <ul class="pagination justify-content-center color" th:if="${listRewPage.totalPages > 0}">
+            <li th:each="pageNumber : ${pageNumbers}" class="page-item"><a class="page-link" th:href="@{/intranet/reviewlist(size=${listRewPage.size}, page=${pageNumber}, searchKey=${searchKey})}" th:text="${pageNumber}"></a></li>
+        </ul>
+    </nav>
+</div>
 
 
 <!-- Modal  Delete-->

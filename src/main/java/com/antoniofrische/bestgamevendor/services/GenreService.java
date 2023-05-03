@@ -14,6 +14,7 @@ import java.util.List;
 public interface GenreService {
     List<GenreEntity> genreAll();
     Page<GenreEntity> genreFindAllPage(Pageable pageable);
+    Page<GenreEntity> genreFindAllPageSearch(Pageable pageable, String search);
     GenreEntity genreFindByID(Long iD);
     List<GenreEntity> genreFindByLimit(int offset);
     void genreSave(GenreEntity genre) throws EntityAlreadyExists, FormFieldEmpty;

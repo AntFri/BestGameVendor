@@ -48,12 +48,13 @@ public class ProductControler {
     @Autowired
     private ProductImageService prodImgServ;
 
-    @GetMapping("")
-    public String listProds(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+    @GetMapping({"", "/"})
+    public String listProds(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size,@RequestParam("searchKey") Optional<String> searchKey) {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
+        String search = searchKey.orElse(null);
 
-        Page<ProductosEntity> prodPage = prodServ.prodFindAllPage(PageRequest.of(currentPage - 1, pageSize));
+        Page<ProductosEntity> prodPage = prodServ.prodFindAllPageSearch(PageRequest.of(currentPage - 1, pageSize), search);
 
         model.addAttribute("prodPage", prodPage);
 
@@ -63,6 +64,7 @@ public class ProductControler {
             model.addAttribute("pageNumbers", pageNumbers);
         }
 
+        model.addAttribute("searchKey", search);
         model.addAttribute("regiones", regionServ.regionFindAll());
         model.addAttribute("publishers", publisherServ.publisherAll());
         model.addAttribute("genres", genreServ.genreAll());

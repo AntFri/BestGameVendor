@@ -10,6 +10,7 @@ import com.antoniofrische.bestgamevendor.security.models.CustomUserDetails;
 import com.antoniofrische.bestgamevendor.services.*;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
+import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,7 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class PageControler {
@@ -58,6 +61,7 @@ public class PageControler {
         ProductosEntity product = prodServ.prodFindByID(id);
         List<ListaRebajasproductosEntity> lres = listSaleServ.salesFindByProduct(product);
         List<ReviewEntity> reviews = reviewServ.reviewFindByProduct(product);
+        Collections.sort(lres);
         model.addAttribute("websites",lres);
         model.addAttribute("product", product);
         model.addAttribute("reviews",reviews);
@@ -197,17 +201,20 @@ public class PageControler {
     }
 
     @PostMapping("/search")
-    public String searchProd(@RequestParam("searchKey") String searchKey, RedirectAttributes redirectAttributes){
-        List<ProductosEntity> products = prodServ.searchByKey(searchKey);
+    public String searchProd(@RequestParam("searchKey") Optional<String> searchKey, @RequestParam("order") String order, RedirectAttributes redirectAttributes){
+        String search = searchKey.orElse(null);
+
+        List<ProductosEntity> products = prodServ.searchByKey(search);
+        switch (order){
+            case "pas":
+                Collections.sort(products);
+                break;
+            case "pde":
+                Collections.sort(products,Collections.reverseOrder());
+                break;
+        }
         redirectAttributes.addFlashAttribute("products", products);
         redirectAttributes.addFlashAttribute("searchKey", searchKey);
         return "redirect:/searching";
-    }
-
-    @GetMapping("/searching")
-    public String searchResultProd(Model model){
-        model.addAttribute("title", "product Search!");
-
-        return "/products/searchProdRec";
     }
 }

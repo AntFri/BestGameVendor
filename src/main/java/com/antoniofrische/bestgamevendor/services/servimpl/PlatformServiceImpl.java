@@ -47,6 +47,29 @@ public class PlatformServiceImpl implements PlatformService {
     }
 
     @Override
+    public Page<PlataformasEntity> platformFindAllPageSearch(Pageable pageable, String search) {
+        List<PlataformasEntity> platforms;
+        if(search != null){
+            platforms = platformRepo.searchPlatform(search);
+        }else {
+            platforms  = platformRepo.findAll();
+        }
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<PlataformasEntity> list;
+
+        if (platforms.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, platforms.size());
+            list = platforms.subList(startItem, toIndex);
+        }
+
+        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), platforms.size());
+    }
+
+    @Override
     public PlataformasEntity platformFindByID(Long iD) {
         return platformRepo.findById(iD).orElse(null);
     }

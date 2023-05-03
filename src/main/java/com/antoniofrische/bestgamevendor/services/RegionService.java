@@ -14,6 +14,7 @@ public interface RegionService {
     List<RegionEntity> regionFindAll();
     RegionEntity regionFindByID(Long iD);
     Page<RegionEntity> regionFindAllPage(Pageable pageable);
+    Page<RegionEntity> regionFindAllPageSearch(Pageable pageable,String search);
     List<RegionEntity> regionFindByLimit(int offset);
     void regionSave(RegionEntity region) throws EntityAlreadyExists, FormFieldEmpty;
     void regionDelet(Long iD) throws EntityNotFound;

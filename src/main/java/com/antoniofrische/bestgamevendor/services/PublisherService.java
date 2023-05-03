@@ -13,6 +13,7 @@ import java.util.List;
 public interface PublisherService {
     List<PublisherEntity> publisherAll();
     Page<PublisherEntity> publisherFindAllPage(Pageable pageable);
+    Page<PublisherEntity> publisherFindAllPageSearch(Pageable pageable, String search);
     PublisherEntity publisherFindByID(Long iD);
     List<PublisherEntity> publisherFindByLimit(int offset);
     void publisherSave(PublisherEntity publisher) throws EntityAlreadyExists, FormFieldEmpty;

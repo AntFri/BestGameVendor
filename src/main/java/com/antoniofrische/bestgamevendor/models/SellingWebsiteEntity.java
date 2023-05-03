@@ -6,7 +6,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "cellingwebsite", schema = "gamevendor", catalog = "")
-public class CellingWebsiteEntity {
+public class SellingWebsiteEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "idWebsite", nullable = false)
@@ -46,7 +46,7 @@ public class CellingWebsiteEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CellingWebsiteEntity that = (CellingWebsiteEntity) o;
+        SellingWebsiteEntity that = (SellingWebsiteEntity) o;
         return idcellingWebsite == that.idcellingWebsite && Objects.equals(nombre, that.nombre) && Objects.equals(link, that.link);
     }
 

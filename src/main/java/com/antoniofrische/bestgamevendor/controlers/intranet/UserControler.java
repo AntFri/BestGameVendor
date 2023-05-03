@@ -39,11 +39,12 @@ public class UserControler {
     private RegionService regionServ;
 
     @GetMapping("")
-    public String listUsers(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+    public String listUsers(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size,@RequestParam("searchKey") Optional<String> searchKey) {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
+        String search = searchKey.orElse(null);
 
-        Page<UserEntity> userPage = userServ.userFindAllPage(PageRequest.of(currentPage-1,pageSize));
+        Page<UserEntity> userPage = userServ.userFindAllPageSearch(PageRequest.of(currentPage-1,pageSize), search);
 
         model.addAttribute("userPage", userPage);
 
@@ -53,6 +54,7 @@ public class UserControler {
             model.addAttribute("pageNumbers", pageNumbers);
         }
 
+        model.addAttribute("searchKey", search);
         List<RegionEntity> regiones = regionServ.regionFindAll();
         UserEntity userObj = new UserEntity();
         model.addAttribute("regiones", regiones);

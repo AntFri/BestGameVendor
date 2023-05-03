@@ -14,6 +14,7 @@ import java.util.List;
 public interface ListSalesService {
     List<ListaRebajasproductosEntity> salesAll();
     Page<ListaRebajasproductosEntity> salesFindAllPage(Pageable pageable);
+    Page<ListaRebajasproductosEntity> salesFindAllPageSearch(Pageable pageable, String search);
     ListaRebajasproductosEntity salesFindByID(Long iD);
     List<ListaRebajasproductosEntity> salesFindByLimit(int offset);
     List<ListaRebajasproductosEntity> salesFindByProduct(ProductosEntity product);

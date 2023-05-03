@@ -153,6 +153,29 @@ public class UserServiceImpl implements UserService {
         return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), users.size());
     }
 
+    @Override
+    public Page<UserEntity> userFindAllPageSearch(Pageable pageable, String search) {
+        List<UserEntity> users;
+        if( search != null){
+            users = userRepo.search(search);
+        }else {
+            users = userRepo.findAll();
+        }
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<UserEntity> list;
+
+        if (users.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, users.size());
+            list = users.subList(startItem, toIndex);
+        }
+
+        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), users.size());
+    }
+
     private int calcAge(Date fechanac){
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate birthdate = LocalDate.parse(fechanac.toString(),fmt);

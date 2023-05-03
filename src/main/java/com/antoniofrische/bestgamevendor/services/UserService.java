@@ -20,5 +20,6 @@ public interface UserService {
     void userEdit(UserEntity user, Long idU) throws EntityNotFound, EntityAlreadyExists, FormFieldEmpty;
 
     Page<UserEntity> userFindAllPage(Pageable pageable);
+    Page<UserEntity> userFindAllPageSearch(Pageable pageable, String search);
 
 }

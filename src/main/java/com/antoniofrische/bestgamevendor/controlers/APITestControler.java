@@ -25,7 +25,7 @@ public class APITestControler {
     @Autowired
     private IPlataformaRepository iPlataformaRepository;
     @Autowired
-    private ICellingWebsiteRepository iCellingWebsiteRepository;
+    private ISellingWebsiteRepository iSellingWebsiteRepository;
     @Autowired
     private IListaRebajasRepository iListaRebajasRepository;
     @Autowired
@@ -57,8 +57,8 @@ public class APITestControler {
         return iPlataformaRepository.findAll();
     }
     @GetMapping("/cellingweb_All")
-    public List<CellingWebsiteEntity> allCellingWeb (){
-        return iCellingWebsiteRepository.findAll();
+    public List<SellingWebsiteEntity> allCellingWeb (){
+        return iSellingWebsiteRepository.findAll();
     }
     @GetMapping("/listrebaja_All")
     public List<ListaRebajasproductosEntity> allListarebajas (){

@@ -5,6 +5,25 @@
 </head>
 <body>
 <nav th:replace="~{/fragments/header/nav/navOne}"></nav>
+
+<div class="d-flex justify-content-end gap-2 px-5">
+    <form method="post" class="form-data" th:action="@{/search}">
+        <input type="hidden" name="searchKey" th:value="${searchKey}">
+        <div class="d-flex flex-row gap-2">
+            <div class="mb-3 d-flex flex-column">
+                <span>Sorting</span>
+                <select name="order" class="form-select w-100">
+                    <option value="pas">Price ascending</option>
+                    <option value="pde">Price Descending</option>
+                </select>
+            </div>
+            <div class="d-flex justify-content-center align-items-center">
+                <button class="btn btn-outline-dark" type="submit">change</button>
+            </div>
+        </div>
+    </form>
+</div>
+
 <div class="d-flex flex-row flex-wrap justify-content-center mt-4 gap-4">
     <div th:if="${products == null || products.size < 1}">
         <h1>NO product found!!</h1>

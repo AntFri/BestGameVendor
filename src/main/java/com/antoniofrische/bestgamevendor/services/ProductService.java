@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductService {
     void prodSave(ProductosEntity prod) throws FormFieldEmpty, EntityAlreadyExists;
@@ -21,4 +22,5 @@ public interface ProductService {
     List<ProductosEntity> searchByKey(String key);
     Page<ProductosEntity> prodFindAllPage(Pageable pageable);
 
+    Page<ProductosEntity> prodFindAllPageSearch(Pageable pageable, String search);
 }

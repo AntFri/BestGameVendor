@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "productos", schema = "gamevendor", catalog = "")
-public class ProductosEntity {
+public class ProductosEntity implements Comparable<ProductosEntity>{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "idProductos", nullable = false)
@@ -178,5 +178,11 @@ public class ProductosEntity {
                 ", region=" + region +
                 ", Platform="+platformList.toString()+
                 '}';
+    }
+
+
+    @Override
+    public int compareTo(ProductosEntity o) {
+        return precioSalida.compareTo(o.precioSalida);
     }
 }

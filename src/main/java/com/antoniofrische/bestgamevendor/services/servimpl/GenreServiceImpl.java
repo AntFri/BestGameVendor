@@ -45,6 +45,29 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
+    public Page<GenreEntity> genreFindAllPageSearch(Pageable pageable, String search) {
+        List<GenreEntity> genres;
+        if(search!= null){
+            genres = genreRepo.searchGenre(search);
+        } else {
+            genres = genreRepo.findAll();
+        }
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<GenreEntity> list;
+
+        if (genres.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, genres.size());
+            list = genres.subList(startItem, toIndex);
+        }
+
+        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), genres.size());
+    }
+
+    @Override
     public GenreEntity genreFindByID(Long iD) {
         return genreRepo.findById(iD).orElse(null);
     }

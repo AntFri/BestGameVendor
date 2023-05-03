@@ -47,6 +47,29 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
+    public Page<PublisherEntity> publisherFindAllPageSearch(Pageable pageable, String search) {
+        List<PublisherEntity> publisher;
+        if( search != null){
+            publisher = publisherRepo.searchPublisher(search);
+        }else{
+            publisher = publisherRepo.findAll();
+        }
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<PublisherEntity> list;
+
+        if (publisher.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, publisher.size());
+            list = publisher.subList(startItem, toIndex);
+        }
+
+        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), publisher.size());
+    }
+
+    @Override
     public PublisherEntity publisherFindByID(Long iD) {
         return publisherRepo.findById(iD).orElse(null);
     }

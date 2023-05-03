@@ -38,11 +38,12 @@ public class PublisherControler {
     private RegionService regionServ;
 
     @GetMapping("")
-    public String listPublisher(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+    public String listPublisher(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size,@RequestParam("searchKey") Optional<String> searchKey) {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
+        String search = searchKey.orElse(null);
 
-        Page<PublisherEntity> Page = publisherServ.publisherFindAllPage(PageRequest.of(currentPage - 1, pageSize));
+        Page<PublisherEntity> Page = publisherServ.publisherFindAllPageSearch(PageRequest.of(currentPage - 1, pageSize), search);
 
         model.addAttribute("listPubPage", Page);
 
@@ -51,6 +52,7 @@ public class PublisherControler {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
         }
+        model.addAttribute("searchKey", search);
         model.addAttribute("regiones", regionServ.regionFindAll());
         return "security/admin/publisherList";
     }

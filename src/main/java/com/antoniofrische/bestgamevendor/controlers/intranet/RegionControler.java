@@ -36,11 +36,12 @@ public class RegionControler {
     private RegionService regionServ;
 
     @GetMapping("")
-    public String listRegion(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+    public String listRegion(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size,@RequestParam("searchKey") Optional<String> searchKey) {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
+        String search = searchKey.orElse(null);
 
-        Page<RegionEntity> Page = regionServ.regionFindAllPage(PageRequest.of(currentPage - 1, pageSize));
+        Page<RegionEntity> Page = regionServ.regionFindAllPageSearch(PageRequest.of(currentPage - 1, pageSize), search);
 
         model.addAttribute("listRegPage", Page);
 
@@ -49,6 +50,7 @@ public class RegionControler {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
         }
+        model.addAttribute("searchKey", search);
         return "security/admin/regionList";
     }
 

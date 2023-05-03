@@ -31,20 +31,43 @@ public class ListSalesServiceImpl implements ListSalesService {
 
     @Override
     public Page<ListaRebajasproductosEntity> salesFindAllPage(Pageable pageable) {
-        List<ListaRebajasproductosEntity> reviews = listSaleRepo.findAll();
+        List<ListaRebajasproductosEntity> sales = listSaleRepo.findAll();
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
         List<ListaRebajasproductosEntity> list;
 
-        if (reviews.size() < startItem) {
+        if (sales.size() < startItem) {
             list = Collections.emptyList();
         } else {
-            int toIndex = Math.min(startItem + pageSize, reviews.size());
-            list = reviews.subList(startItem, toIndex);
+            int toIndex = Math.min(startItem + pageSize, sales.size());
+            list = sales.subList(startItem, toIndex);
         }
 
-        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), reviews.size());
+        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), sales.size());
+    }
+
+    @Override
+    public Page<ListaRebajasproductosEntity> salesFindAllPageSearch(Pageable pageable, String search) {
+        List<ListaRebajasproductosEntity> sales;
+        if(search != null){
+            sales = listSaleRepo.searchSales(search);
+        }else {
+            sales = listSaleRepo.findAll();
+        }
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<ListaRebajasproductosEntity> list;
+
+        if (sales.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, sales.size());
+            list = sales.subList(startItem, toIndex);
+        }
+
+        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), sales.size());
     }
 
     @Override

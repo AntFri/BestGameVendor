@@ -52,6 +52,29 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
+    public Page<RegionEntity> regionFindAllPageSearch(Pageable pageable, String search) {
+        List<RegionEntity> regions;
+        if(search != null){
+            regions = regionRepo.searchRegion(search);
+        }else {
+            regions = regionRepo.findAll();
+        }
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<RegionEntity> list;
+
+        if (regions.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, regions.size());
+            list = regions.subList(startItem, toIndex);
+        }
+
+        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), regions.size());
+    }
+
+    @Override
     public List<RegionEntity> regionFindByLimit(int offset) {
         return null;
     }

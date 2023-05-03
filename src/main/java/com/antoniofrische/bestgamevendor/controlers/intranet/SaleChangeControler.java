@@ -1,12 +1,10 @@
 package com.antoniofrische.bestgamevendor.controlers.intranet;
 
-import com.antoniofrische.bestgamevendor.controlers.PageControler;
 import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
 import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
 import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.models.ListaRebajasproductosEntity;
-import com.antoniofrische.bestgamevendor.models.ProductosEntity;
-import com.antoniofrische.bestgamevendor.services.CellWebsiteService;
+import com.antoniofrische.bestgamevendor.services.SellWebsiteService;
 import com.antoniofrische.bestgamevendor.services.ListSalesService;
 import com.antoniofrische.bestgamevendor.services.ProductService;
 import org.slf4j.Logger;
@@ -37,16 +35,17 @@ public class SaleChangeControler {
     @Autowired
     private ListSalesService salesServ;
     @Autowired
-    private CellWebsiteService cellWebsiteServ;
+    private SellWebsiteService cellWebsiteServ;
     @Autowired
     private ProductService prodServ;
 
     @GetMapping("")
-    public String listSaleChange(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+    public String listSaleChange(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size, @RequestParam("searchKey") Optional<String> searchKey) {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
+        String search = searchKey.orElse(null);
 
-        Page<ListaRebajasproductosEntity> Page = salesServ.salesFindAllPage(PageRequest.of(currentPage - 1, pageSize));
+        Page<ListaRebajasproductosEntity> Page = salesServ.salesFindAllPageSearch(PageRequest.of(currentPage - 1, pageSize), search);
 
         model.addAttribute("listRedPage", Page);
 
@@ -55,6 +54,7 @@ public class SaleChangeControler {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
         }
+        model.addAttribute("searchKey", search);
         model.addAttribute("cellWebsites", cellWebsiteServ.salesWebAll());
         model.addAttribute("productos", prodServ.prodAll());
         return "security/admin/salechangelist";

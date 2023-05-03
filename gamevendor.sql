@@ -37,7 +37,7 @@ CREATE TABLE `cellingwebsite` (
 -- Daten für Tabelle `cellingwebsite`
 --
 
-INSERT INTO `cellingwebsite` (`idWebsite`, `nombre`, `link`) VALUES
+INSERT INTO Sellingwebsite (`idWebsite`, `nombre`, `link`) VALUES
 (1, 'MMOGA', 'https://www.mmoga.es/?gclid=CjwKCAiA85efBhBbEiwAD7oLQJbJmTO1ZtVTDFDRNmJPZwL6aAa2AZDuifAm0WMheHsao1hzi1nVMxoC4-kQAvD_BwE'),
 (2, 'Instant Gaming', 'https://www.instant-gaming.com/de/?igr=gamer-cb871fb&gclid=CjwKCAiA85efBhBbEiwAD7oLQDmWP9mDnmk4X8cdQw0CTlX1UYXQfmtBAZv0Q3lXgi5xfYyvjwwPNxoCzOQQAvD_BwE'),
 (3, 'Steam', 'https://store.steampowered.com/'),
@@ -264,7 +264,7 @@ INSERT INTO `usuario` (`idUsuario`, `Nombre`, `Apellido`, `Email`, `FechaNacimie
 --
 -- Indizes für die Tabelle `cellingwebsite`
 --
-ALTER TABLE `cellingwebsite`
+ALTER TABLE Sellingwebsite
   ADD PRIMARY KEY (`idWebsite`);
 
 --
@@ -346,7 +346,7 @@ ALTER TABLE `usuario`
 --
 -- AUTO_INCREMENT für Tabelle `cellingwebsite`
 --
-ALTER TABLE `cellingwebsite`
+ALTER TABLE Sellingwebsite
   MODIFY `idWebsite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
@@ -419,7 +419,7 @@ ALTER TABLE `lista_favoritos`
 --
 ALTER TABLE `lista_rebajasproductos`
   ADD CONSTRAINT `fk_Lista_preciosBajos_Productos(videojuagos)1` FOREIGN KEY (`productos_idProductos`) REFERENCES `productos` (`idProductos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_Lista_preciosBajos_celling_Website1` FOREIGN KEY (`cellingwebsite_idWebsite`) REFERENCES `cellingwebsite` (`idWebsite`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_Lista_preciosBajos_celling_Website1` FOREIGN KEY (`cellingwebsite_idWebsite`) REFERENCES Sellingwebsite (`idWebsite`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints der Tabelle `plataformas_has_productos`

@@ -47,6 +47,29 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public Page<ReviewEntity> reviewFindAllPageSearch(Pageable pageable, String search) {
+        List<ReviewEntity> reviews;
+        if(search != null){
+            reviews = reviewRepo.searchReview(search);
+        }else {
+            reviews = reviewRepo.findAll();
+        }
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<ReviewEntity> list;
+
+        if (reviews.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, reviews.size());
+            list = reviews.subList(startItem, toIndex);
+        }
+
+        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), reviews.size());
+    }
+
+    @Override
     public ReviewEntity reviewFindByID(Long iD) {
         return reviewRepo.findById(iD).orElse(null);
     }

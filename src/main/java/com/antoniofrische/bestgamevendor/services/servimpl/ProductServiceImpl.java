@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -112,6 +113,29 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<ProductosEntity> prodFindAllPage(Pageable pageable) {
         List<ProductosEntity> products = prodRepo.findAll();
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<ProductosEntity> list;
+
+        if (products.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, products.size());
+            list = products.subList(startItem, toIndex);
+        }
+
+        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), products.size());
+    }
+
+    @Override
+    public Page<ProductosEntity> prodFindAllPageSearch(Pageable pageable, String search) {
+        List<ProductosEntity> products;
+        if(search != null){
+            products = prodRepo.searchProducts(search);
+        }else {
+            products = prodRepo.findAll();
+        }
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;

@@ -13,6 +13,7 @@ import java.util.List;
 public interface PlatformService {
     List<PlataformasEntity> platformAll();
     Page<PlataformasEntity> platformFindAllPage(Pageable pageable);
+    Page<PlataformasEntity> platformFindAllPageSearch(Pageable pageable, String search);
     PlataformasEntity platformFindByID(Long iD);
     List<PlataformasEntity> platformFindByLimit(int offset);
     void platformSave(PlataformasEntity plat)throws EntityAlreadyExists, FormFieldEmpty;
