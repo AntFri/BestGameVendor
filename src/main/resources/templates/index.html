@@ -18,22 +18,59 @@
     </div>
 </div>
 
-    <div class="d-flex flex-row flex-wrap justify-content-center mt-4 gap-4">
-        <div class="card text-center" th:each="product : ${products}">
-            <div class="bg-image hover-overlay ripple " data-mdb-ripple-color="light">
-                <a th:href="@{/product/{id}(id=${product.idProductos})}"><img class="imge-index border rounded" th:src="${product.productimage.imgURL}" th:alt="${product.nombre}" src="" /></a>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title  text-wrap" th:text="${product.nombre}">Product Name</h5>
-                <p class="card-text" th:text="${product.precioSalida}"></p>
-                <form th:action="@{/addFav}" method="post" sec:authorize="isAuthenticated()" class="d-flex align-items-end justify-content-center">
-                    <input type="hidden" th:value="${product.idProductos}" name="idP">
-                    <button class="btn btn-outline-dark py-lg-3 px-lg-3" type="submit"><i class="fa-sharp fa-solid fa-heart-circle-plus"></i></button>
-                </form>
-            </div>
+<div class="d-flex flex-row flex-wrap justify-content-center mt-4 gap-4">
+    <div class="card text-center" th:each="product : ${products}">
+        <div class="bg-image hover-overlay ripple " data-mdb-ripple-color="light">
+            <a th:href="@{/product/{id}(id=${product.idProductos})}"><img class="imge-index border rounded" th:src="${product.productimage.imgURL}" th:alt="${product.nombre}" src="" /></a>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title  text-wrap" th:text="${product.nombre}">Product Name</h5>
+            <p class="card-text" th:text="${product.precioSalida}"></p>
+            <form th:action="@{/addFav}" method="post" sec:authorize="isAuthenticated()" class="d-flex align-items-end justify-content-center">
+                <input type="hidden" th:value="${product.idProductos}" name="idP">
+                <button class="btn btn-outline-dark py-lg-3 px-lg-3" type="submit"><i class="fa-regular fa-bookmark"></i></button>
+            </form>
         </div>
     </div>
+</div>
 
+<hr class="userPerfilHR justify-content-center">
+
+<div class="d-flex flex-column justify-content-center mt-5 gap-4">
+    <div class="d-flex justify-content-center">
+        <h3>All Available Products</h3>
+    </div>
+    <a th:each="prod : ${prodPage.content}" th:href="@{/product/{id}(id=${prod.idProductos})}" class="text-decoration-none text-black">
+    <div class="d-flex flex-row justify-content-around gap-2 border border-1 border-dark">
+        <div class="d-flex flex-column">
+            <div> <img class="imge-index-mini border rounded" th:src="${prod.productimage.imgURL}" th:alt="${prod.nombre}" src="" /> </div>
+        </div>
+        <div class="d-flex flex-column">
+            <span>Name</span>
+            <div th:text="${prod.nombre}"></div>
+        </div>
+        <div class="d-flex flex-column">
+            <span>min Age</span>
+            <div th:text="${prod.edadMinima}"></div>
+        </div>
+        <div class="d-flex flex-column">
+            <span>Publisher</span>
+            <div th:text="${prod.publisher.nombre}"></div>
+        </div>
+        <div class="d-flex flex-column">
+            <span>genre</span>
+            <div th:text="${prod.genre.nombre}"></div>
+        </div>
+    </div>
+    </a>
+</div>
+<div class="d-flex flex-row justify-content-end mt-3 gap-2 px-5">
+    <nav aria-label="Page navigation userList">
+        <ul class="pagination justify-content-center color" th:if="${prodPage.totalPages > 0}">
+            <li th:each="pageNumber : ${pageNumbers}" class="page-item"><a class="page-link" th:href="@{/index(size=${prodPage.size}, page=${pageNumber})}" th:text="${pageNumber}"></a></li>
+        </ul>
+    </nav>
+</div>
 
 </body>
 <footer th:replace="~{/fragments/footer/footerOne}"></footer>

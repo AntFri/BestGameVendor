@@ -23,7 +23,9 @@
 .primeColor{
     background-color: #9133af;
 }
-
+.primeColor-FG{
+    color: #9133af;
+}
 
 /* target devices is PC big screens */
 .imge-prod{
@@ -33,6 +35,10 @@
 .imge-index{
     width: auto;
     height: 40VH;
+}
+.imge-index-mini{
+    width: auto;
+    height: 6VH;
 }
 
 /* target devices with small screens usually mobile devices */

@@ -16,46 +16,39 @@
     <div class="d-flex align-items-center gap-2">
       <a th:href="@{/profile}" class="btn btn-outline-dark"><i class="fa-sharp fa-solid fa-user"></i></a>
       <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
-        <button class="btn btn-outline-dark" type="submit"><i class="fa-sharp fa-solid fa-xmark"></i></button>
+        <button class="btn btn-outline-dark" type="submit"><i class="fa-solid fa-right-from-bracket"></i></button>
       </form>
     </div>
   </div>
-
-  <div>
-    <form class="d-flex" th:action="@{/search}" method="post">
-
-      <input class="form-control me-2" type="search" placeholder="Search" name="searchKey" th:value="${searchKey}">
-      <button class="btn btn-outline-dark" type="submit"><i class="fas fa-search"></i></button>
-    </form>
-  </div>
-
-
-  <div  class="modal fade" id="ModalSearch" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Add Region</h4>
-        </div>
-        <div class="modal-body">
-          <form th:action="@{/intranet/regionlist/add}" method="post" th:object="${entity}" class="form-data">
-            <div class="mb-3">
-              <span>Search</span>
-              <input class="form-control me-2" type="search" placeholder="Search" name="searchKey" th:value="${searchKey}">
-            </div>
-            <div class="mb-3">
-              <span>Description</span>
-
-            </div>
-            <div class="mb-3">
-              <button type="submit" value="Register" class="btn btn-dark w-100 mt-5">Add Region</button>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
-        </div>
+</nav>
+<div  class="modal fade" id="ModalSearch" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Search</h4>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/search}" method="post" class="form-data">
+          <div class="mb-3">
+            <span>Search</span>
+            <input class="form-control me-2" type="search" placeholder="Search" name="searchKey" th:value="${searchKey}">
+          </div>
+          <div class="mb-3">
+            <span>Sorting</span>
+            <select name="order" class="form-select">
+              <option th:value="pas"> Lowest Price First</option>
+              <option th:value="pde"> Highest Price First</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <button type="submit" value="Register" class="btn btn-dark w-100 mt-5">Search</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
-</nav>
+</div>

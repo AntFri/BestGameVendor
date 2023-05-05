@@ -1,11 +1,9 @@
 package com.antoniofrische.bestgamevendor.services.servimpl;
 
-import com.antoniofrische.bestgamevendor.exceptions.EntityAlreadyExists;
 import com.antoniofrische.bestgamevendor.exceptions.EntityNotFound;
 import com.antoniofrische.bestgamevendor.exceptions.FormFieldEmpty;
 import com.antoniofrische.bestgamevendor.models.ListaRebajasproductosEntity;
 import com.antoniofrische.bestgamevendor.models.ProductosEntity;
-import com.antoniofrische.bestgamevendor.models.ReviewEntity;
 import com.antoniofrische.bestgamevendor.repositorios.IListaRebajasRepository;
 import com.antoniofrische.bestgamevendor.services.ListSalesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +86,7 @@ public class ListSalesServiceImpl implements ListSalesService {
     @Override
     public void salesSave(ListaRebajasproductosEntity sales) throws FormFieldEmpty {
         if(sales.getFechaCambio() == null || sales.getPrecioRebajas() < 0 ||
-            sales.getCellingwebsite() == null || sales.getProductos() == null){
+            sales.getSellingwebsite() == null || sales.getProductos() == null){
             throw new FormFieldEmpty("All fields must be filled out!");
         }
         sales.setPercentageRebajas((int) ((int)(sales.getPrecioRebajas()*100)/sales.getProductos().getPrecioSalida()));
@@ -112,7 +110,7 @@ public class ListSalesServiceImpl implements ListSalesService {
         }
 
         if(sales.getFechaCambio() == null || sales.getPrecioRebajas() < 0 ||
-                sales.getCellingwebsite() == null || sales.getProductos() == null){
+                sales.getSellingwebsite() == null || sales.getProductos() == null){
             throw new FormFieldEmpty("All fields must be filled out!");
         }
         sales.setPercentageRebajas(calcPerRed(sales));

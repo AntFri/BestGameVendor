@@ -16,8 +16,8 @@
 
 <div class="d-flex flex-column justify-content-center gap-2 mt-5 px-5">
     <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalProdAdd">Add Product</button>
-    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#ModalProdImg">Add Image</button>
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalProdAdd">Add Product <i class="fa-solid fa-folder-plus"></i></button>
+    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#ModalProdImg">Add Image <i class="fa-solid fa-upload"></i></button>
     <div class="d-flex flex-row justify-content-end">
         <form method="get" class="form-data" th:action="@{/intranet/prodlist}">
             <input type="hidden" th:value="5" name="size">
@@ -170,7 +170,7 @@
                         <span>Name of File</span>
                         <input type="text" name="imgName" class="form-control">
                     </div>
-                    <button class="btn btn-outline-success float-right" type="submit">Upload</button>
+                    <button class="btn btn-outline-success float-right" type="submit"><i class="fa-solid fa-upload"></i></button>
                 </form>
             </div>
             <div class="modal-footer">

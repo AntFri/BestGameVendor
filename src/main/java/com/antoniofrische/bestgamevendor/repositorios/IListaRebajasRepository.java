@@ -12,7 +12,7 @@ public interface IListaRebajasRepository extends JpaRepository<ListaRebajasprodu
     @Query("SELECT lrp FROM ListaRebajasproductosEntity lrp WHERE lrp.productos = ?1")
     public List<ListaRebajasproductosEntity> findByProductID(ProductosEntity idProducto);
 
-    @Query("SELECT lrp FROM ListaRebajasproductosEntity lrp WHERE lrp.productos.nombre LIKE %:searchTerm% OR lrp.cellingwebsite.nombre LIKE %:searchTerm%")
+    @Query("SELECT lrp FROM ListaRebajasproductosEntity lrp WHERE lrp.productos.nombre LIKE %:searchTerm% OR lrp.sellingwebsite.nombre LIKE %:searchTerm%")
     List<ListaRebajasproductosEntity> searchSales(@Param("searchTerm") String searchTerm);
 
 }

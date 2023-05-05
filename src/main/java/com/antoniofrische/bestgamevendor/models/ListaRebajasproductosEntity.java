@@ -22,7 +22,7 @@ public class ListaRebajasproductosEntity implements Comparable<ListaRebajasprodu
     @Column(name = "PercRebajas", nullable = true)
     private int percentageRebajas;
     @ManyToOne(cascade = CascadeType.REFRESH)
-    private SellingWebsiteEntity cellingwebsite;
+    private SellingWebsiteEntity sellingwebsite;
     @ManyToOne(cascade = CascadeType.REFRESH)
     private ProductosEntity productos;
 
@@ -58,12 +58,12 @@ public class ListaRebajasproductosEntity implements Comparable<ListaRebajasprodu
         this.percentageRebajas = percentageRebajas;
     }
 
-    public SellingWebsiteEntity getCellingwebsite() {
-        return cellingwebsite;
+    public SellingWebsiteEntity getSellingwebsite() {
+        return sellingwebsite;
     }
 
-    public void setCellingwebsite(SellingWebsiteEntity fkWebsite) {
-        this.cellingwebsite = fkWebsite;
+    public void setSellingwebsite(SellingWebsiteEntity fkWebsite) {
+        this.sellingwebsite = fkWebsite;
     }
 
     public ProductosEntity getProductos() {
@@ -80,12 +80,12 @@ public class ListaRebajasproductosEntity implements Comparable<ListaRebajasprodu
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ListaRebajasproductosEntity that = (ListaRebajasproductosEntity) o;
-        return idListaRebajas == that.idListaRebajas && cellingwebsite == that.cellingwebsite && productos == that.productos && Objects.equals(fechaCambio, that.fechaCambio) && Objects.equals(precioRebajas, that.precioRebajas);
+        return idListaRebajas == that.idListaRebajas && sellingwebsite == that.sellingwebsite && productos == that.productos && Objects.equals(fechaCambio, that.fechaCambio) && Objects.equals(precioRebajas, that.precioRebajas);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idListaRebajas, fechaCambio, precioRebajas, cellingwebsite, productos);
+        return Objects.hash(idListaRebajas, fechaCambio, precioRebajas, sellingwebsite, productos);
     }
 
     @Override

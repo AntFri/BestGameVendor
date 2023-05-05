@@ -4,12 +4,13 @@ import jakarta.persistence.*;
 
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "productos", schema = "gamevendor", catalog = "")
-public class ProductosEntity implements Comparable<ProductosEntity>{
+public class ProductosEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "idProductos", nullable = false)
@@ -181,8 +182,7 @@ public class ProductosEntity implements Comparable<ProductosEntity>{
     }
 
 
-    @Override
-    public int compareTo(ProductosEntity o) {
-        return precioSalida.compareTo(o.precioSalida);
-    }
+
+
+
 }

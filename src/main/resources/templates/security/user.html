@@ -72,7 +72,7 @@
                             <td><a class="btn btn-outline-dark" th:href="@{/product/{id}(id=${product.idProductos})}"> To the product</a><td>
                                 <form th:action="@{/removeFav}" method="post" class="text-center">
                                     <input type="hidden" name="idP" th:value="${product.idProductos}">
-                                    <button class="btn btn-outline-dark" type="submit"><i class="fa-sharp fa-solid fa-xmark"></i></button>
+                                    <button class="btn btn-outline-dark" type="submit"><i class="fa-solid fa-heart-crack"></i></button>
                                 </form>
                         </tr>
                     </tbody>

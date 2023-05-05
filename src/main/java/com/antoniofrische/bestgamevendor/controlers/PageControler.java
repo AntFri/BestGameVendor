@@ -13,6 +13,8 @@ import com.antoniofrische.bestgamevendor.services.*;
 import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 public class PageControler {
@@ -49,9 +53,24 @@ public class PageControler {
     //Logger logger = LoggerFactory.getLogger(PageControler.class);
 
     @GetMapping({"","/","/inicio","/index"})
-    public String goToIndex(Model model) {
-        model.addAttribute("title","Inicio");
-        List<ProductosEntity> products = prodServ.prodAll();
+    public String goToIndex(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+        List<ProductosEntity> products = prodServ.prodFindByLimit(0);
+
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(5);
+
+
+        Page<ProductosEntity> prodPage = prodServ.prodFindAllPage(PageRequest.of(currentPage - 1, pageSize));
+
+        model.addAttribute("prodPage", prodPage);
+
+        int totalPages = prodPage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        model.addAttribute("title","Home of Games");
         model.addAttribute("products", products);
         return "index";
     }
@@ -201,20 +220,21 @@ public class PageControler {
     }
 
     @PostMapping("/search")
-    public String searchProd(@RequestParam("searchKey") Optional<String> searchKey, @RequestParam("order") String order, RedirectAttributes redirectAttributes){
+    public String searchProd(@RequestParam("searchKey") Optional<String> searchKey, @RequestParam("order") Optional<String> orderKey, Model model){
         String search = searchKey.orElse(null);
+        String order =orderKey.orElse("pas");
 
         List<ProductosEntity> products = prodServ.searchByKey(search);
         switch (order){
             case "pas":
-                Collections.sort(products);
+                products.sort(new ProdRePriceComp());
                 break;
             case "pde":
-                Collections.sort(products,Collections.reverseOrder());
+                products.sort(new ProdRePriceComp().reversed());
                 break;
         }
-        redirectAttributes.addFlashAttribute("products", products);
-        redirectAttributes.addFlashAttribute("searchKey", searchKey);
-        return "redirect:/searching";
+        model.addAttribute("products", products);
+        model.addAttribute("searchKey", search);
+        return "products/searchProdRec";
     }
 }
