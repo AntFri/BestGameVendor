@@ -110,7 +110,7 @@ public class SellWebsiteServiceImpl implements SellWebsiteService {
         if(salesWeb.getNombre().isEmpty() || salesWeb.getLink().isEmpty()){
             throw  new FormFieldEmpty("All fields must be field out!");
         }
-        SellingWebsiteEntity webSiteDB = sellingwebRepo.findById((long)salesWeb.getIdcellingWebsite()).orElse(null);
+        SellingWebsiteEntity webSiteDB = sellingwebRepo.findById((long)salesWeb.getIdsellingWebsite()).orElse(null);
         if(webSiteDB == null){
             throw  new EntityNotFound("The website doesn't exists!");
         }

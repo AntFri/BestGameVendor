@@ -52,7 +52,7 @@
             <td class="text-center" th:text="${listRed.precioRebajas}+'€'">Correo</td>
             <td th:text="${listRed.fechaCambio}">Correo</td>
             <td class="text-center" th:text="${listRed.percentageRebajas}+'%'">Cumple</td>
-            <td th:text="${listRed.cellingwebsite.nombre}">region</td>
+            <td th:text="${listRed.sellingwebsite.nombre}">region</td>
             <td class="text-center"><button type="button" class="btn btn-warning" data-bs-toggle="modal" th:data-bs-target="'#'+${listRed.idListaRebajas} + 'ME'"><i class="fa-solid fa-pen-to-square"></i></button></td>
             <td class="text-center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#'+${listRed.idListaRebajas}+'MD'"><i class="fa-regular fa-trash-can"></i></button></td>
         </tr>
@@ -91,7 +91,7 @@
                     <div class="mb-3">
                         <span>Website</span>
                         <select name="cellingwebsite" class="form-select">
-                            <option th:each="website : ${cellWebsites}" th:value="${website.idcellingWebsite}" th:text="${website.nombre}"></option>
+                            <option th:each="website : ${cellWebsites}" th:value="${website.idsellingWebsite}" th:text="${website.nombre}"></option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -135,8 +135,8 @@
                     <div class="mb-3">
                         <span>Website</span>
                         <select name="cellingwebsite" class="form-select">
-                            <option th:value="${listRedME.cellingwebsite.idcellingWebsite}" th:text="${listRedME.cellingwebsite.nombre}"></option>
-                            <option th:each="website : ${cellWebsites}" th:if="${listRedME.cellingwebsite.idcellingWebsite != website.idcellingWebsite}" th:value="${website.idcellingWebsite}" th:text="${website.nombre}"></option>
+                            <option th:value="${listRedME.sellingwebsite.idsellingWebsite}" th:text="${listRedME.sellingwebsite.nombre}"></option>
+                            <option th:each="website : ${cellWebsites}" th:if="${listRedME.sellingwebsite.idsellingWebsite != website.idsellingWebsite}" th:value="${website.idsellingWebsite}" th:text="${website.nombre}"></option>
                         </select>
                     </div>
                     <div class="mb-3">

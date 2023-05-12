@@ -31,7 +31,7 @@ public class SellingWebsiteControler {
     Logger logger = LoggerFactory.getLogger(SellingWebsiteControler.class);
 
     @Autowired
-    private SellWebsiteService cellWebsiteServ;
+    private SellWebsiteService sellWebsiteServ;
 
     @GetMapping("")
     public String listSaleWebsite(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size, @RequestParam("searchKey") Optional<String> searchKey) {
@@ -39,7 +39,7 @@ public class SellingWebsiteControler {
         int pageSize = size.orElse(5);
         String search = searchKey.orElse(null);
 
-        Page<SellingWebsiteEntity> Page = cellWebsiteServ.salesWebFindAllPageSearch(PageRequest.of(currentPage - 1, pageSize), search);
+        Page<SellingWebsiteEntity> Page = sellWebsiteServ.salesWebFindAllPageSearch(PageRequest.of(currentPage - 1, pageSize), search);
 
         model.addAttribute("listSellPage", Page);
 
@@ -55,7 +55,7 @@ public class SellingWebsiteControler {
     @PostMapping("/delete")
     public String sellingDelete(@RequestParam("id") Long id, RedirectAttributes redirectAttributes){
         try {
-            cellWebsiteServ.salesWebDelet(id);
+            sellWebsiteServ.salesWebDelet(id);
             logger.info("Delete!");
             redirectAttributes.addFlashAttribute("Message", "Selling Website Deleted!");
             return "redirect:/intranet/sallingwebsitelist";
@@ -69,7 +69,7 @@ public class SellingWebsiteControler {
     @PostMapping("/edit")
     public String sellingEdit(SellingWebsiteEntity entity , RedirectAttributes redirectAttributes){
         try {
-            cellWebsiteServ.salesWebEdit(entity);
+            sellWebsiteServ.salesWebEdit(entity);
             logger.info("edited!");
             redirectAttributes.addFlashAttribute("Message", "Selling Website Edited!");
             return "redirect:/intranet/sallingwebsitelist";
@@ -84,7 +84,7 @@ public class SellingWebsiteControler {
     @PostMapping("/add")
     public String sellingAdd(SellingWebsiteEntity entity, RedirectAttributes redirectAttributes) {
         try {
-            cellWebsiteServ.salesWebSave(entity);
+            sellWebsiteServ.salesWebSave(entity);
             redirectAttributes.addFlashAttribute("Message", "Sucessfully created!");
             return "redirect:/intranet/sallingwebsitelist";
         }catch (EntityAlreadyExists | FormFieldEmpty uae){
