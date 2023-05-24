@@ -6,6 +6,7 @@ import com.antoniofrische.bestgamevendor.repositorios.IProductImageRepository;
 import com.antoniofrische.bestgamevendor.services.ProductImageService;
 import com.antoniofrische.bestgamevendor.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,8 +22,8 @@ public class ProductImageServiceImpl implements ProductImageService {
 
     @Autowired
     private IProductImageRepository prodImgRepo;
-
-    private final Path root = Paths.get("D:\\Programacion\\Acesso_datos\\intelliJ\\BestGameVendor\\src\\main\\resources\\static\\img\\");
+    @Value("#{${imgFolder}}")
+    private final Path root = null;
 
     @Override
     public void changePath() {
