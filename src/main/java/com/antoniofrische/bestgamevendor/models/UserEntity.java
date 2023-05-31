@@ -25,7 +25,7 @@ public class UserEntity implements Serializable {
     @Column(name = "FechaNacimiento", nullable = true)
     private Date fechaNacimiento;
     @Basic
-    @Column(name = "Password", nullable = true, length = 45)
+    @Column(name = "Password", nullable = true, length = 120)
     private String password;
     @Basic
     @Column(name = "role", length = 10)

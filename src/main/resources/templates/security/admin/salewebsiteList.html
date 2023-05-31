@@ -42,12 +42,12 @@
         </thead>
         <tbody>
         <tr th:each="salewebsite : ${listSellPage.content}" class="text-center">
-            <th scope="row" class="text-center" th:text="${salewebsite.idcellingWebsite}">ID</th>
+            <th scope="row" class="text-center" th:text="${salewebsite.idsellingWebsite}">ID</th>
             <td th:text="${salewebsite.nombre}">nombre</td>
             <td><a target="_blank" th:href="${salewebsite.link}"><i class="fa-sharp fa-solid fa-arrow-up-right-from-square"></i></a></td>
 
-            <td><button type="button" class="btn btn-warning" data-bs-toggle="modal" th:data-bs-target="'#'+${salewebsite.idcellingWebsite} + 'ME'"><i class="fa-solid fa-pen-to-square"></i></button></td>
-            <td><button type="button" class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#'+${salewebsite.idcellingWebsite}+'MD'"><i class="fa-regular fa-trash-can"></i></button></td>
+            <td><button type="button" class="btn btn-warning" data-bs-toggle="modal" th:data-bs-target="'#'+${salewebsite.idsellingWebsite} + 'ME'"><i class="fa-solid fa-pen-to-square"></i></button></td>
+            <td><button type="button" class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#'+${salewebsite.idsellingWebsite}+'MD'"><i class="fa-regular fa-trash-can"></i></button></td>
         </tr>
         </tbody>
     </table>
@@ -96,7 +96,7 @@
 </div>
 
 <!-- Modal Edit Sale Website-->
-<div th:each="salewebsiteME : ${listSellPage.content}" class="modal fade" tabindex="-1" th:id="${salewebsiteME.idcellingWebsite}+'ME'" role="dialog">
+<div th:each="salewebsiteME : ${listSellPage.content}" class="modal fade" tabindex="-1" th:id="${salewebsiteME.idsellingWebsite}+'ME'" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <!-- Modal content-->
         <div class="modal-content">
@@ -106,7 +106,7 @@
             <div class="modal-body">
                 <form th:action="@{/intranet/sallingwebsitelist/edit}" method="post" th:object="${entity}" class="form-data">
                     <div class="mb-3">
-                        <input type="hidden" th:value="${salewebsiteME.idcellingWebsite}" name="idcellingWebsite">
+                        <input type="hidden" th:value="${salewebsiteME.idsellingWebsite}" name="idsellingWebsite">
                         <div class="mb-3">
                             <span>Name</span>
                             <input type="text" name="nombre" class="form-control" th:value="${salewebsiteME.nombre}"/>
@@ -129,7 +129,7 @@
 </div>
 
 <!-- Modal  Delete Sale Website-->
-<div th:each="salewebsiteMD : ${listSellPage.content}" class="modal  fade" tabindex="-1" th:id="${salewebsiteMD.idcellingWebsite}+'MD'" role="dialog">
+<div th:each="salewebsiteMD : ${listSellPage.content}" class="modal  fade" tabindex="-1" th:id="${salewebsiteMD.idsellingWebsite}+'MD'" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <!-- Modal content-->
         <div class="modal-content">
@@ -141,7 +141,7 @@
                     <div class="mb-3">
                         <span>Do you really wanto to Delete this Sale Website?!</span>
                         <span class="bg-danger" th:text="${salewebsiteMD.nombre}"></span>
-                        <input type="hidden" name="id" th:value="${salewebsiteMD.idcellingWebsite}">
+                        <input type="hidden" name="id" th:value="${salewebsiteMD.idsellingWebsite}">
                     </div>
                     <div class="mb-3">
                         <button type="submit" value="Delete" class="btn btn-dark w-100 mt-5" >Delete</button>
